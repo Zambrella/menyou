@@ -1,0 +1,12 @@
+# melos_managed_dependency_overrides: analytics_core,auth_core,data_privacy,error_logging_core,purchases_core
+dependency_overrides:
+  analytics_core:
+    path: ../../packages/analytics_core
+  auth_core:
+    path: ../../packages/auth_core
+  data_privacy:
+    path: ../../packages/data_privacy
+  error_logging_core:
+    path: ../../packages/error_logging_core
+  purchases_core:
+    path: ../../packages/purchases_core
