@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:men_you/authentication/presentation/pages/login_page.dart';
 import 'package:men_you/authentication/presentation/pages/register_page.dart';
 import 'package:men_you/authentication/providers/authentication_providers.dart';
 import 'package:men_you/home/presentation/home_page.dart';
+import 'package:men_you/menu/domain/restaurant_menu.dart';
+import 'package:men_you/menu/presentation/pages/menu_page.dart';
 import 'package:men_you/routing/go_router_refresh_stream.dart';
 import 'package:men_you/routing/not_found_screen.dart';
-import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -17,7 +19,7 @@ enum AppRoute {
   login,
   register,
   home,
-  details,
+  menu,
 }
 
 @Riverpod(keepAlive: true)
@@ -79,14 +81,20 @@ GoRouter goRouter(GoRouterRef ref) {
         ),
         routes: [
           GoRoute(
-            path: 'details',
-            name: AppRoute.details.name,
+            path: 'menus/:menuId',
+            name: AppRoute.menu.name,
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
-                child: Scaffold(
-                  body: Center(
-                    child: Text('Details Page'),
-                  ),
+              final menuId = state.pathParameters['menuId'];
+              if (menuId == null) {
+                return const NoTransitionPage(
+                  child: NotFoundScreen(),
+                );
+              }
+              final restaurantMenu = state.extra as RestaurantMenu?;
+              return MaterialPage(
+                child: MenuPage(
+                  menuId: menuId,
+                  restaurantMenu: restaurantMenu,
                 ),
               );
             },

@@ -1,0 +1,25 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:men_you/menu/domain/menu_item.dart';
+import 'package:uuid/uuid.dart';
+
+part 'restaurant_menu.g.dart';
+part 'restaurant_menu.freezed.dart';
+
+@freezed
+class RestaurantMenu with _$RestaurantMenu {
+  const factory RestaurantMenu({
+    required String id,
+    List<MenuItem>? menuItems,
+    String? name,
+  }) = _RestaurantMenu;
+
+  factory RestaurantMenu.empty() {
+    return RestaurantMenu(
+      id: const Uuid().v4(),
+    );
+  }
+
+  const RestaurantMenu._();
+
+  factory RestaurantMenu.fromJson(Map<String, dynamic> json) => _$RestaurantMenuFromJson(json);
+}

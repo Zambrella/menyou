@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:men_you/routing/app_router.dart';
 import 'package:go_router/go_router.dart';
+import 'package:men_you/routing/app_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
