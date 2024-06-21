@@ -1,26 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'menu_items_provider.dart';
+part of 'menu_repository_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentMenuItemsHash() => r'54aeae2bca9efbfe3af910974846ade6190011ff';
+String _$menuRepositoryHash() => r'8dd48c925a6a9b0b34b0233710d400d8232d1129';
 
-/// See also [CurrentMenuItems].
-@ProviderFor(CurrentMenuItems)
-final currentMenuItemsProvider =
-    AutoDisposeNotifierProvider<CurrentMenuItems, List<MenuItem>?>.internal(
-  CurrentMenuItems.new,
-  name: r'currentMenuItemsProvider',
+/// See also [menuRepository].
+@ProviderFor(menuRepository)
+final menuRepositoryProvider = AutoDisposeProvider<MenuRepository>.internal(
+  menuRepository,
+  name: r'menuRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentMenuItemsHash,
+      : _$menuRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentMenuItems = AutoDisposeNotifier<List<MenuItem>?>;
+typedef MenuRepositoryRef = AutoDisposeProviderRef<MenuRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

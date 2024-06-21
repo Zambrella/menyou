@@ -16,6 +16,23 @@ class MenuItemCard extends ConsumerStatefulWidget {
 
 class _MenuItemCardState extends ConsumerState<MenuItemCard> {
   @override
+  void initState() {
+    super.initState();
+    if (widget.menuItem is UnprocessedMenuItem) {
+      // Start the loading animation
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant MenuItemCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.menuItem is ProcessedMenuItem && oldWidget.menuItem is UnprocessedMenuItem) {
+      // Stop the loading animation
+      // Transform into a different style of card? (this could be handled implicitly by the widget itself though)
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Text(widget.menuItem.toString());
   }

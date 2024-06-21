@@ -7,7 +7,7 @@ part of 'photo_analyser_controller.dart';
 // **************************************************************************
 
 String _$photoAnalyserControllerHash() =>
-    r'5381155b0cb63bf04c6c254153e6dbdf57e07260';
+    r'df0b9741778bd2cb541d975fb0064a5376de8e7d';
 
 /// Copied from Dart SDK
 class _SystemHash {

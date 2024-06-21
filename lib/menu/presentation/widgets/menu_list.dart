@@ -28,7 +28,7 @@ class _MenuListState extends ConsumerState<MenuList> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.menuItems != null) {
-        ref.read(currentMenuItemsProvider.notifier).addMenuItems(widget.menuItems!);
+        ref.read(currentMenuItemsProvider.notifier).addNewMenuItems(widget.menuItems!);
       }
     });
   }
@@ -78,7 +78,11 @@ class _MenuListState extends ConsumerState<MenuList> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (final menuItem in ref.watch(currentMenuItemsProvider) ?? <MenuItem>[]) MenuItemCard(menuItem: menuItem),
+          for (final menuItem in ref.watch(currentMenuItemsProvider) ?? <MenuItem>[])
+            MenuItemCard(
+              key: ValueKey(menuItem.id),
+              menuItem: menuItem,
+            ),
           ElevatedButton(
             onPressed: ref.watch(getPhotoControllerProvider).isLoading
                 ? null

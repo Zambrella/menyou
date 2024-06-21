@@ -27,7 +27,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> {
       (prev, state) {
         state.whenOrNull(
           data: (data) {
-            ref.read(currentMenuItemsProvider.notifier).addMenuItems(data);
+            ref.read(currentMenuItemsProvider.notifier).addNewMenuItems(data);
             widget.onDismiss();
           },
           error: (e, _) {
@@ -41,6 +41,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> {
         );
       },
     );
+
     return Padding(
       padding: EdgeInsets.all(context.theme.appSpacing.large),
       child: Stack(

@@ -7,7 +7,7 @@ part of 'menu_page_controller.dart';
 // **************************************************************************
 
 String _$menuPageControllerHash() =>
-    r'8462a5e0bcc618b1d8e699a7ebfd644a9653923c';
+    r'18c10113d2dac54f68cbe1f35cf94b1f93304932';
 
 /// Copied from Dart SDK
 class _SystemHash {
