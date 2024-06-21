@@ -7,7 +7,7 @@ part of 'menu_items_processing_controller.dart';
 // **************************************************************************
 
 String _$menuItemsProcessingControllerHash() =>
-    r'00801428851458cd9a7499aab739a6ff21058342';
+    r'b1c62af354e3749e3b4327e31a2dd438d6196738';
 
 /// A controller that processes menu items.
 /// The state holds a list of menu items that are being processed.

@@ -34,6 +34,13 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(widget.menuItem.toString());
+    return ListTile(
+      title: Text(widget.menuItem.title),
+      subtitle: Text(widget.menuItem.description),
+      trailing: widget.menuItem.when(
+        unprocessed: (_, __, ___) => const CircularProgressIndicator(),
+        processed: (_, __, ___) => null,
+      ),
+    );
   }
 }

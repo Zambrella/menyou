@@ -106,6 +106,10 @@ class FakeMenuRepository implements MenuRepository {
   Future<MenuItem> processMenuItem(MenuItem menuItem) async {
     // Wait for a random amount of time between 2 and 7 seconds
     await Future<void>.delayed(Duration(seconds: Random().nextInt(5) + 2));
-    return menuItem.copyWith(title: 'Processed ${menuItem.title}');
+    return MenuItem.processed(
+      id: menuItem.id,
+      title: 'Processed ${menuItem.title}',
+      description: menuItem.description,
+    );
   }
 }

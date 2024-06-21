@@ -78,7 +78,7 @@ class _MenuListState extends ConsumerState<MenuList> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (final menuItem in ref.watch(currentMenuItemsProvider) ?? <MenuItem>[])
+          for (final menuItem in ref.watch(currentMenuItemsProvider))
             MenuItemCard(
               key: ValueKey(menuItem.id),
               menuItem: menuItem,
