@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'menu_repository_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 MenuRepository menuRepository(MenuRepositoryRef ref) {
   return const FakeMenuRepository();
 }
