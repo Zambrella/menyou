@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui show Image;
+import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/photo_analyser_controller.dart';
 import 'package:men_you/photos/domain/photo.dart';
 import 'package:men_you/theme/theme_extensions.dart';
+
+/// key: index of the point, value: list of indices of points to connect to.
+typedef PointPairings = Map<int, List<int>>;
 
 class PhotoOverlay extends ConsumerStatefulWidget {
   const PhotoOverlay({
@@ -24,13 +27,26 @@ class PhotoOverlay extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PhotoOverlayState();
 }
 
-class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
+class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProviderStateMixin {
+  //* Constants
+  static const _numberOfPoints = 25;
+  static const _numberOfPairings = 2;
+  static const _pointDuration = Duration(milliseconds: 2500);
+  static const _flashDuration = Duration(milliseconds: 1000);
+  static const _movementFactor = 0.20;
+
+  //* Variables
+  late final AnimationController _pointAnimationController;
+  late final AnimationController _brightnessAnimationController;
   late final Animation<double> _animation;
+  late final Animation<double> _brightnessAnimation;
   late List<Offset> _points;
-  late List<Tween<Offset>> _tweens;
-  late final Timer _timer;
+  late List<Tween<Offset>> _offsetTweens;
+  late List<int> _flashingPoints;
+  late final Timer _pointsTimer;
+  late final Timer _flashTimer;
   late final Random _random;
+  late final PointPairings _pairings;
 
   Photo get photo => widget.photo;
 
@@ -38,26 +54,64 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
   void initState() {
     super.initState();
     _random = Random();
-    _animationController = AnimationController(
+    _pointAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3000),
+      duration: _pointDuration,
+    );
+    _brightnessAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
     );
     _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.linear,
+      parent: _pointAnimationController,
+      curve: Curves.easeOutBack,
     );
-    _animationController.forward();
-    _timer = Timer.periodic(
-      const Duration(milliseconds: 3000),
+    _brightnessAnimation = CurvedAnimation(
+      parent: _brightnessAnimationController,
+      curve: Curves.easeInOut,
+    );
+    _pointAnimationController.forward();
+    _brightnessAnimationController.repeat(reverse: true);
+    _pointsTimer = Timer.periodic(
+      _pointDuration,
       (_) {
-        _tweens = _generateTweens();
-        _animationController
+        _offsetTweens = _generateTweens();
+        _pointAnimationController
           ..reset()
           ..forward();
       },
     );
+    _flashTimer = Timer.periodic(
+      // Flash duration is just for the forward part of the animation so we need to double it.
+      _flashDuration * 2,
+      (_) {
+        _flashingPoints = _generateFlashingPoints();
+      },
+    );
     _points = _generateInitialRandomPoints();
-    _tweens = _generateTweens();
+    _offsetTweens = _generateTweens();
+    _pairings = _generatePairings();
+    _flashingPoints = _generateFlashingPoints();
+  }
+
+  List<int> _generateFlashingPoints() {
+    return List<int>.generate(
+      3,
+      (_) => _random.nextInt(_numberOfPoints),
+      growable: false,
+    );
+  }
+
+  PointPairings _generatePairings() {
+    final pairings = <int, List<int>>{};
+
+    for (var i = 0; i < _numberOfPoints; i++) {
+      pairings[i] = [
+        for (var j = 0; j < _numberOfPairings; j++) _random.nextInt(_numberOfPoints),
+      ];
+    }
+
+    return pairings;
   }
 
   /// Generate a list of tweens to animate the points.
@@ -90,8 +144,8 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
       ySign = _random.nextBool() ? 1 : -1;
     }
     final nextPoint = Offset(
-      clampDouble(currentPoint.dx + _random.nextDouble() * 0.2 * xSign, 0, 1),
-      clampDouble(currentPoint.dy + _random.nextDouble() * 0.2 * ySign, 0, 1),
+      clampDouble(currentPoint.dx + _random.nextDouble() * _movementFactor * xSign, 0, 1),
+      clampDouble(currentPoint.dy + _random.nextDouble() * _movementFactor * ySign, 0, 1),
     );
     return nextPoint;
   }
@@ -99,10 +153,9 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
   /// Generate a list of random points within a unit square.
   List<Offset> _generateInitialRandomPoints() {
     final generatedPoints = <Offset>[];
-    const numberOfPoints = 40;
 
     // Generate points within a unit square (0,0) to (1,1)
-    for (var i = 0; i < numberOfPoints; i++) {
+    for (var i = 0; i < _numberOfPoints; i++) {
       final x = _random.nextDouble();
       final y = _random.nextDouble();
       generatedPoints.add(Offset(x, y));
@@ -113,8 +166,10 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
 
   @override
   void dispose() {
-    _timer.cancel();
-    _animationController.dispose();
+    _pointsTimer.cancel();
+    _flashTimer.cancel();
+    _pointAnimationController.dispose();
+    _brightnessAnimationController.dispose();
     super.dispose();
   }
 
@@ -156,13 +211,15 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
                           child: CircularProgressIndicator(),
                         )
                       : AnimatedBuilder(
-                          animation: _animationController,
+                          animation: _pointAnimationController,
                           builder: (context, _) {
                             return CustomPaint(
                               painter: ImageProcessingPainter(
-                                snapshot.data!,
-                                _animation.value,
-                                _tweens.map((tween) => tween.evaluate(_animation)).toList(),
+                                image: snapshot.data!,
+                                points: _offsetTweens.map((tween) => tween.evaluate(_animation)).toList(),
+                                pairings: _pairings,
+                                brightnessValue: _brightnessAnimation.value,
+                                idxsToFlash: _flashingPoints,
                               ),
                               child: const SizedBox.expand(),
                             );
@@ -170,6 +227,18 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
                         ),
                 );
               },
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  'Analysing...',
+                  style: context.theme.textTheme.bodyLarge!.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -179,15 +248,21 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with SingleTickerPr
 }
 
 class ImageProcessingPainter extends CustomPainter {
-  ImageProcessingPainter(
-    this.image,
-    this.animationValue,
-    this.points,
-  );
+  ImageProcessingPainter({
+    required this.image,
+    required this.points,
+    required this.pairings,
+    required this.brightnessValue,
+    required this.idxsToFlash,
+  });
 
   final ui.Image image;
-  final double animationValue;
   final List<Offset> points;
+  final PointPairings pairings;
+  final double brightnessValue;
+  final List<int> idxsToFlash;
+
+  final gridSize = 20;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -207,30 +282,99 @@ class ImageProcessingPainter extends CustomPainter {
 
     final dstRect = Rect.fromLTWH(offsetX, offsetY, scaledWidth, scaledHeight);
 
-    // Draw the image on the canvas
+    // Draw the image on the canvas with a blur effect.
+    canvas.saveLayer(
+      dstRect,
+      Paint()..imageFilter = ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+    );
     paintImage(
       canvas: canvas,
       rect: dstRect,
       image: image,
       fit: BoxFit.contain,
     );
+    canvas.restore();
+
+    //* Grid
+    // final gridPaint = Paint()
+    //   ..color = Colors.grey
+    //   ..strokeWidth = 0.2;
+
+    // // Draw vertical lines
+    // for (var x = 0.0; x <= size.width; x += gridSize) {
+    //   canvas.drawLine(Offset(x, 0), Offset(x, size.height), gridPaint);
+    // }
+
+    // // Draw horizontal lines
+    // for (var y = 0.0; y <= size.height; y += gridSize) {
+    //   canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+    // }
 
     // Draw a rectangle around the edge of the canvas
-    final Paint rectPaint = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4.0;
+    // final Paint rectPaint = Paint()
+    //   ..color = Colors.red
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 4.0;
 
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), rectPaint);
-    canvas.drawRect(dstRect, rectPaint..color = Colors.green);
+    // canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), rectPaint);
+    // canvas.drawRect(dstRect, rectPaint..color = Colors.green);
 
-    final Paint pointPaint = Paint()..color = Colors.blue;
+    final linePaint = Paint()
+      ..color = Colors.white60
+      ..strokeWidth = 0.5;
 
-    // Adjust the points to fit within the scaled image bounds
-    for (final point in points) {
+    // Draw the connecting lines
+    for (final pairing in pairings.entries) {
+      for (final index in pairing.value) {
+        final point1 = points[pairing.key];
+        final point2 = points[index];
+        final adjustedX1 = point1.dx * scaledWidth + offsetX;
+        final adjustedY1 = point1.dy * scaledHeight + offsetY;
+        final adjustedX2 = point2.dx * scaledWidth + offsetX;
+        final adjustedY2 = point2.dy * scaledHeight + offsetY;
+        final point1Offset = Offset(adjustedX1, adjustedY1);
+        final point2Offset = Offset(adjustedX2, adjustedY2);
+        canvas.drawLine(point1Offset, point2Offset, linePaint);
+        if (idxsToFlash.contains(pairing.key)) {
+          final flashLinePaint = Paint()
+            ..color = Colors.white
+            ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
+            ..strokeWidth = 1;
+          if (brightnessValue < 0.5) {
+            canvas.drawLine(
+              point1Offset,
+              interpolate(point1Offset, point2Offset, brightnessValue * 2),
+              flashLinePaint,
+            );
+          } else {
+            canvas.drawLine(
+              interpolate(point1Offset, point2Offset, (brightnessValue - 0.5) * 2),
+              point2Offset,
+              flashLinePaint,
+            );
+          }
+        }
+      }
+    }
+
+    // Adjust the points to fit within the scaled image bounds and draw.
+    for (var i = 0; i < points.length; i++) {
+      final point = points[i];
       final adjustedX = point.dx * scaledWidth + offsetX;
       final adjustedY = point.dy * scaledHeight + offsetY;
-      canvas.drawCircle(Offset(adjustedX, adjustedY), 4, pointPaint);
+      final pointOffset = Offset(adjustedX, adjustedY);
+
+      if (idxsToFlash.contains(i)) {
+        final flashPaint = Paint()
+          ..color = Colors.blueAccent
+          ..maskFilter = MaskFilter.blur(BlurStyle.solid, brightnessValue * 5 + 5);
+        canvas.drawCircle(pointOffset, brightnessValue * 4 + 4, flashPaint);
+      } else {
+        final pointPaint = Paint()
+          ..color = Colors.blueAccent
+          ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5);
+        canvas.drawCircle(pointOffset, 4, pointPaint);
+      }
     }
   }
 
@@ -238,4 +382,11 @@ class ImageProcessingPainter extends CustomPainter {
   bool shouldRepaint(covariant ImageProcessingPainter oldDelegate) {
     return true;
   }
+}
+
+Offset interpolate(Offset start, Offset end, double percentage) {
+  assert(percentage >= 0.0 && percentage <= 1, 'Percentage must be between 0 and 1');
+  final dx = start.dx + (end.dx - start.dx) * percentage;
+  final dy = start.dy + (end.dy - start.dy) * percentage;
+  return Offset(dx, dy);
 }

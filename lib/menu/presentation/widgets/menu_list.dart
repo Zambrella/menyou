@@ -70,7 +70,6 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final screenHeight = MediaQuery.of(context).size.height;
   }
 
   Future<void> removePhotoOverlay() async {
