@@ -16,7 +16,7 @@ class FakeMenuRepository implements MenuRepository {
 
   @override
   Future<List<MenuItem>> analysePhoto(Uint8List photo) async {
-    await Future<void>.delayed(const Duration(seconds: 500));
+    await Future<void>.delayed(const Duration(seconds: 3));
     return const [
       MenuItem.unprocessed(
         id: '1',
@@ -105,7 +105,7 @@ class FakeMenuRepository implements MenuRepository {
   @override
   Future<MenuItem> processMenuItem(MenuItem menuItem) async {
     // Wait for a random amount of time between 2 and 7 seconds
-    await Future<void>.delayed(Duration(milliseconds: Random().nextInt(5000) + 2000));
+    await Future<void>.delayed(Duration(milliseconds: Random().nextInt(5000) + 20000));
     return MenuItem.processed(
       id: menuItem.id,
       title: 'Processed ${menuItem.title}',
