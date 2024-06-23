@@ -32,14 +32,18 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
   static const _numberOfPoints = 25;
   static const _numberOfPairings = 2;
   static const _pointDuration = Duration(milliseconds: 2500);
+  static const _brightnessDuration = Duration(milliseconds: 1000);
   static const _flashDuration = Duration(milliseconds: 1000);
+  static const _unblurDuration = Duration(milliseconds: 10000);
   static const _movementFactor = 0.20;
 
   //* Variables
   late final AnimationController _pointAnimationController;
   late final AnimationController _brightnessAnimationController;
-  late final Animation<double> _animation;
+  late final AnimationController _unblurController;
+  late final Animation<double> _pointAnimation;
   late final Animation<double> _brightnessAnimation;
+  late final Animation<double> _unblurAnimation;
   late List<Offset> _points;
   late List<Tween<Offset>> _offsetTweens;
   late List<int> _flashingPoints;
@@ -60,15 +64,26 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
     );
     _brightnessAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: _brightnessDuration,
     );
-    _animation = CurvedAnimation(
+    _unblurController = AnimationController(
+      vsync: this,
+      duration: _unblurDuration,
+    );
+
+    _pointAnimation = CurvedAnimation(
       parent: _pointAnimationController,
       curve: Curves.easeOutBack,
     );
     _brightnessAnimation = CurvedAnimation(
       parent: _brightnessAnimationController,
       curve: Curves.easeInOut,
+    );
+    _unblurAnimation = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(
+        parent: _unblurController,
+        curve: Curves.linear,
+      ),
     );
     _pointAnimationController.forward();
     _brightnessAnimationController.repeat(reverse: true);
@@ -92,6 +107,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
     _offsetTweens = _generateTweens();
     _pairings = _generatePairings();
     _flashingPoints = _generateFlashingPoints();
+    _unblurController.forward();
   }
 
   List<int> _generateFlashingPoints() {
@@ -170,6 +186,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
     _flashTimer.cancel();
     _pointAnimationController.dispose();
     _brightnessAnimationController.dispose();
+    _unblurController.dispose();
     super.dispose();
   }
 
@@ -198,7 +215,8 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
     return ColoredBox(
       color: Colors.black.withOpacity(0.8),
       child: Padding(
-        padding: EdgeInsets.all(context.theme.appSpacing.large),
+        // padding: EdgeInsets.all(context.theme.appSpacing.large),
+        padding: EdgeInsets.zero,
         child: Stack(
           children: [
             FutureBuilder<ui.Image>(
@@ -216,10 +234,11 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
                             return CustomPaint(
                               painter: ImageProcessingPainter(
                                 image: snapshot.data!,
-                                points: _offsetTweens.map((tween) => tween.evaluate(_animation)).toList(),
+                                points: _offsetTweens.map((tween) => tween.evaluate(_pointAnimation)).toList(),
                                 pairings: _pairings,
                                 brightnessValue: _brightnessAnimation.value,
                                 idxsToFlash: _flashingPoints,
+                                blurValue: _unblurAnimation.value,
                               ),
                               child: const SizedBox.expand(),
                             );
@@ -230,14 +249,24 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Material(
-                type: MaterialType.transparency,
-                child: Text(
-                  'Analysing...',
-                  style: context.theme.textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: context.theme.appSpacing.large + MediaQuery.of(context).padding.bottom),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(
+                    'Analysing menu...',
+                    style: context.theme.textTheme.bodyLarge!.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.all(context.theme.appSpacing.small + MediaQuery.of(context).padding.bottom),
+                child: const LinearProgressIndicator(),
               ),
             ),
           ],
@@ -254,6 +283,7 @@ class ImageProcessingPainter extends CustomPainter {
     required this.pairings,
     required this.brightnessValue,
     required this.idxsToFlash,
+    required this.blurValue,
   });
 
   final ui.Image image;
@@ -261,6 +291,7 @@ class ImageProcessingPainter extends CustomPainter {
   final PointPairings pairings;
   final double brightnessValue;
   final List<int> idxsToFlash;
+  final double blurValue;
 
   final gridSize = 20;
 
@@ -285,7 +316,7 @@ class ImageProcessingPainter extends CustomPainter {
     // Draw the image on the canvas with a blur effect.
     canvas.saveLayer(
       dstRect,
-      Paint()..imageFilter = ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+      Paint()..imageFilter = ImageFilter.blur(sigmaX: blurValue * 4, sigmaY: blurValue * 4),
     );
     paintImage(
       canvas: canvas,
