@@ -31,25 +31,30 @@ MenuItem _$MenuItemFromJson(Map<String, dynamic> json) {
 mixin _$MenuItem {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get subtitle => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle)
         unprocessed,
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)
         processed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String title, String description)? unprocessed,
-    TResult? Function(String id, String title, String description)? processed,
+    TResult? Function(String id, String title, String? subtitle)? unprocessed,
+    TResult? Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String title, String description)? unprocessed,
-    TResult Function(String id, String title, String description)? processed,
+    TResult Function(String id, String title, String? subtitle)? unprocessed,
+    TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -83,7 +88,7 @@ abstract class $MenuItemCopyWith<$Res> {
   factory $MenuItemCopyWith(MenuItem value, $Res Function(MenuItem) then) =
       _$MenuItemCopyWithImpl<$Res, MenuItem>;
   @useResult
-  $Res call({String id, String title, String description});
+  $Res call({String id, String title, String? subtitle});
 }
 
 /// @nodoc
@@ -101,7 +106,7 @@ class _$MenuItemCopyWithImpl<$Res, $Val extends MenuItem>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = null,
+    Object? subtitle = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -112,10 +117,10 @@ class _$MenuItemCopyWithImpl<$Res, $Val extends MenuItem>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
+      subtitle: freezed == subtitle
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -128,7 +133,7 @@ abstract class _$$UnprocessedMenuItemImplCopyWith<$Res>
       __$$UnprocessedMenuItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String description});
+  $Res call({String id, String title, String? subtitle});
 }
 
 /// @nodoc
@@ -144,7 +149,7 @@ class __$$UnprocessedMenuItemImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = null,
+    Object? subtitle = freezed,
   }) {
     return _then(_$UnprocessedMenuItemImpl(
       id: null == id
@@ -155,10 +160,10 @@ class __$$UnprocessedMenuItemImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
+      subtitle: freezed == subtitle
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -169,7 +174,7 @@ class _$UnprocessedMenuItemImpl implements UnprocessedMenuItem {
   const _$UnprocessedMenuItemImpl(
       {required this.id,
       required this.title,
-      required this.description,
+      required this.subtitle,
       final String? $type})
       : $type = $type ?? 'unprocessed';
 
@@ -181,14 +186,14 @@ class _$UnprocessedMenuItemImpl implements UnprocessedMenuItem {
   @override
   final String title;
   @override
-  final String description;
+  final String? subtitle;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'MenuItem.unprocessed(id: $id, title: $title, description: $description)';
+    return 'MenuItem.unprocessed(id: $id, title: $title, subtitle: $subtitle)';
   }
 
   @override
@@ -198,13 +203,13 @@ class _$UnprocessedMenuItemImpl implements UnprocessedMenuItem {
             other is _$UnprocessedMenuItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description));
+            (identical(other.subtitle, subtitle) ||
+                other.subtitle == subtitle));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description);
+  int get hashCode => Object.hash(runtimeType, id, title, subtitle);
 
   @JsonKey(ignore: true)
   @override
@@ -216,32 +221,37 @@ class _$UnprocessedMenuItemImpl implements UnprocessedMenuItem {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle)
         unprocessed,
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)
         processed,
   }) {
-    return unprocessed(id, title, description);
+    return unprocessed(id, title, subtitle);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String title, String description)? unprocessed,
-    TResult? Function(String id, String title, String description)? processed,
+    TResult? Function(String id, String title, String? subtitle)? unprocessed,
+    TResult? Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
   }) {
-    return unprocessed?.call(id, title, description);
+    return unprocessed?.call(id, title, subtitle);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String title, String description)? unprocessed,
-    TResult Function(String id, String title, String description)? processed,
+    TResult Function(String id, String title, String? subtitle)? unprocessed,
+    TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
     required TResult orElse(),
   }) {
     if (unprocessed != null) {
-      return unprocessed(id, title, description);
+      return unprocessed(id, title, subtitle);
     }
     return orElse();
   }
@@ -289,7 +299,7 @@ abstract class UnprocessedMenuItem implements MenuItem {
   const factory UnprocessedMenuItem(
       {required final String id,
       required final String title,
-      required final String description}) = _$UnprocessedMenuItemImpl;
+      required final String? subtitle}) = _$UnprocessedMenuItemImpl;
 
   factory UnprocessedMenuItem.fromJson(Map<String, dynamic> json) =
       _$UnprocessedMenuItemImpl.fromJson;
@@ -299,7 +309,7 @@ abstract class UnprocessedMenuItem implements MenuItem {
   @override
   String get title;
   @override
-  String get description;
+  String? get subtitle;
   @override
   @JsonKey(ignore: true)
   _$$UnprocessedMenuItemImplCopyWith<_$UnprocessedMenuItemImpl> get copyWith =>
@@ -314,7 +324,12 @@ abstract class _$$ProcessedMenuItemImplCopyWith<$Res>
       __$$ProcessedMenuItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String description});
+  $Res call(
+      {String id,
+      String title,
+      String? subtitle,
+      String description,
+      List<String> allergens});
 }
 
 /// @nodoc
@@ -330,7 +345,9 @@ class __$$ProcessedMenuItemImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? subtitle = freezed,
     Object? description = null,
+    Object? allergens = null,
   }) {
     return _then(_$ProcessedMenuItemImpl(
       id: null == id
@@ -341,10 +358,18 @@ class __$$ProcessedMenuItemImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      subtitle: freezed == subtitle
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      allergens: null == allergens
+          ? _value._allergens
+          : allergens // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -355,9 +380,12 @@ class _$ProcessedMenuItemImpl implements ProcessedMenuItem {
   const _$ProcessedMenuItemImpl(
       {required this.id,
       required this.title,
+      required this.subtitle,
       required this.description,
+      required final List<String> allergens,
       final String? $type})
-      : $type = $type ?? 'processed';
+      : _allergens = allergens,
+        $type = $type ?? 'processed';
 
   factory _$ProcessedMenuItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProcessedMenuItemImplFromJson(json);
@@ -367,14 +395,23 @@ class _$ProcessedMenuItemImpl implements ProcessedMenuItem {
   @override
   final String title;
   @override
+  final String? subtitle;
+  @override
   final String description;
+  final List<String> _allergens;
+  @override
+  List<String> get allergens {
+    if (_allergens is EqualUnmodifiableListView) return _allergens;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allergens);
+  }
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'MenuItem.processed(id: $id, title: $title, description: $description)';
+    return 'MenuItem.processed(id: $id, title: $title, subtitle: $subtitle, description: $description, allergens: $allergens)';
   }
 
   @override
@@ -384,13 +421,18 @@ class _$ProcessedMenuItemImpl implements ProcessedMenuItem {
             other is _$ProcessedMenuItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.subtitle, subtitle) ||
+                other.subtitle == subtitle) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            const DeepCollectionEquality()
+                .equals(other._allergens, _allergens));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description);
+  int get hashCode => Object.hash(runtimeType, id, title, subtitle, description,
+      const DeepCollectionEquality().hash(_allergens));
 
   @JsonKey(ignore: true)
   @override
@@ -402,32 +444,37 @@ class _$ProcessedMenuItemImpl implements ProcessedMenuItem {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle)
         unprocessed,
-    required TResult Function(String id, String title, String description)
+    required TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)
         processed,
   }) {
-    return processed(id, title, description);
+    return processed(id, title, subtitle, description, allergens);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String title, String description)? unprocessed,
-    TResult? Function(String id, String title, String description)? processed,
+    TResult? Function(String id, String title, String? subtitle)? unprocessed,
+    TResult? Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
   }) {
-    return processed?.call(id, title, description);
+    return processed?.call(id, title, subtitle, description, allergens);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String title, String description)? unprocessed,
-    TResult Function(String id, String title, String description)? processed,
+    TResult Function(String id, String title, String? subtitle)? unprocessed,
+    TResult Function(String id, String title, String? subtitle,
+            String description, List<String> allergens)?
+        processed,
     required TResult orElse(),
   }) {
     if (processed != null) {
-      return processed(id, title, description);
+      return processed(id, title, subtitle, description, allergens);
     }
     return orElse();
   }
@@ -475,7 +522,9 @@ abstract class ProcessedMenuItem implements MenuItem {
   const factory ProcessedMenuItem(
       {required final String id,
       required final String title,
-      required final String description}) = _$ProcessedMenuItemImpl;
+      required final String? subtitle,
+      required final String description,
+      required final List<String> allergens}) = _$ProcessedMenuItemImpl;
 
   factory ProcessedMenuItem.fromJson(Map<String, dynamic> json) =
       _$ProcessedMenuItemImpl.fromJson;
@@ -485,7 +534,9 @@ abstract class ProcessedMenuItem implements MenuItem {
   @override
   String get title;
   @override
+  String? get subtitle;
   String get description;
+  List<String> get allergens;
   @override
   @JsonKey(ignore: true)
   _$$ProcessedMenuItemImplCopyWith<_$ProcessedMenuItemImpl> get copyWith =>

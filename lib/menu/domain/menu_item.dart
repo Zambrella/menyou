@@ -8,13 +8,15 @@ class MenuItem with _$MenuItem {
   const factory MenuItem.unprocessed({
     required String id,
     required String title,
-    required String description,
+    required String? subtitle,
   }) = UnprocessedMenuItem;
 
   const factory MenuItem.processed({
     required String id,
     required String title,
+    required String? subtitle,
     required String description,
+    required List<String> allergens,
   }) = ProcessedMenuItem;
 
   factory MenuItem.fromJson(Map<String, dynamic> json) => _$MenuItemFromJson(json);

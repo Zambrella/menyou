@@ -11,7 +11,7 @@ _$UnprocessedMenuItemImpl _$$UnprocessedMenuItemImplFromJson(
     _$UnprocessedMenuItemImpl(
       id: json['id'] as String,
       title: json['title'] as String,
-      description: json['description'] as String,
+      subtitle: json['subtitle'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
@@ -20,7 +20,7 @@ Map<String, dynamic> _$$UnprocessedMenuItemImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'description': instance.description,
+      'subtitle': instance.subtitle,
       'runtimeType': instance.$type,
     };
 
@@ -29,7 +29,10 @@ _$ProcessedMenuItemImpl _$$ProcessedMenuItemImplFromJson(
     _$ProcessedMenuItemImpl(
       id: json['id'] as String,
       title: json['title'] as String,
+      subtitle: json['subtitle'] as String?,
       description: json['description'] as String,
+      allergens:
+          (json['allergens'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -38,6 +41,8 @@ Map<String, dynamic> _$$ProcessedMenuItemImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'subtitle': instance.subtitle,
       'description': instance.description,
+      'allergens': instance.allergens,
       'runtimeType': instance.$type,
     };

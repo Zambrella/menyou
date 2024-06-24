@@ -21,17 +21,17 @@ class FakeMenuRepository implements MenuRepository {
       MenuItem.unprocessed(
         id: '1',
         title: 'Spaghetti Carbonara',
-        description: 'Spaghetti with bacon, eggs, and cheese',
+        subtitle: 'Spaghetti with bacon, eggs, and cheese',
       ),
       MenuItem.unprocessed(
         id: '2',
         title: 'Spaghetti Bolognese',
-        description: 'Spaghetti with meat sauce',
+        subtitle: 'Spaghetti with meat sauce',
       ),
       MenuItem.unprocessed(
         id: '3',
         title: 'Spaghetti Aglio e Olio',
-        description: 'Spaghetti with garlic and olive oil',
+        subtitle: 'Spaghetti with garlic and olive oil',
       ),
     ];
   }
@@ -53,17 +53,17 @@ class FakeMenuRepository implements MenuRepository {
           MenuItem.unprocessed(
             id: '1',
             title: 'Spaghetti Carbonara',
-            description: 'Spaghetti with bacon, eggs, and cheese',
+            subtitle: 'Spaghetti with bacon, eggs, and cheese',
           ),
           MenuItem.unprocessed(
             id: '2',
             title: 'Spaghetti Bolognese',
-            description: 'Spaghetti with meat sauce',
+            subtitle: 'Spaghetti with meat sauce',
           ),
           MenuItem.unprocessed(
             id: '3',
             title: 'Spaghetti Aglio e Olio',
-            description: 'Spaghetti with garlic and olive oil',
+            subtitle: 'Spaghetti with garlic and olive oil',
           ),
         ],
       ),
@@ -80,17 +80,17 @@ class FakeMenuRepository implements MenuRepository {
         MenuItem.unprocessed(
           id: '1',
           title: 'Spaghetti Carbonara',
-          description: 'Spaghetti with bacon, eggs, and cheese',
+          subtitle: 'Spaghetti with bacon, eggs, and cheese',
         ),
         MenuItem.unprocessed(
           id: '2',
           title: 'Spaghetti Bolognese',
-          description: 'Spaghetti with meat sauce',
+          subtitle: 'Spaghetti with meat sauce',
         ),
         MenuItem.unprocessed(
           id: '3',
           title: 'Spaghetti Aglio e Olio',
-          description: 'Spaghetti with garlic and olive oil',
+          subtitle: 'Spaghetti with garlic and olive oil',
         ),
       ],
     );
@@ -105,11 +105,14 @@ class FakeMenuRepository implements MenuRepository {
   @override
   Future<MenuItem> processMenuItem(MenuItem menuItem) async {
     // Wait for a random amount of time between 2 and 7 seconds
-    await Future<void>.delayed(Duration(milliseconds: Random().nextInt(5000) + 20000));
+    await Future<void>.delayed(Duration(milliseconds: Random().nextInt(5000) + 10000));
     return MenuItem.processed(
       id: menuItem.id,
       title: 'Processed ${menuItem.title}',
-      description: menuItem.description,
+      subtitle: menuItem.subtitle,
+      description:
+          'Spaghetti Carbonara is a classic Italian pasta dish from Rome, renowned for its rich and creamy texture. It traditionally consists of spaghetti tossed with a savory sauce made from beaten eggs, grated Pecorino Romano cheese, crispy guanciale (cured pork cheek), and freshly ground black pepper.',
+      allergens: ['Allergen 1', 'Allergen 2', 'Allergen 3', 'Allergen 4', 'Allergen 5'],
     );
   }
 }
