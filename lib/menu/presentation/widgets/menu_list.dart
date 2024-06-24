@@ -9,6 +9,7 @@ import 'package:men_you/menu/presentation/widgets/photo_overlay.dart';
 import 'package:men_you/menu/presentation/widgets/processing_loading_overlay.dart';
 import 'package:men_you/photos/domain/photo.dart';
 import 'package:men_you/photos/presentation/controllers/get_photo_controller.dart';
+import 'package:men_you/theme/theme_extensions.dart';
 
 class MenuList extends ConsumerStatefulWidget {
   const MenuList({
@@ -169,28 +170,39 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
 
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (final menuItem in ref.watch(currentMenuItemsProvider))
             MenuItemCard(
               key: ValueKey(menuItem.id),
               menuItem: menuItem,
             ),
-          ElevatedButton(
-            onPressed: ref.watch(getPhotoControllerProvider).isLoading
-                ? null
-                : () {
-                    ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.camera);
-                  },
-            child: const Text('Take Photo'),
+          SizedBox(height: context.theme.appSpacing.small),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.theme.appSpacing.small),
+            child: OutlinedButton.icon(
+              onPressed: ref.watch(getPhotoControllerProvider).isLoading
+                  ? null
+                  : () {
+                      ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.camera);
+                    },
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Take Photo'),
+            ),
           ),
-          ElevatedButton(
-            onPressed: ref.watch(getPhotoControllerProvider).isLoading
-                ? null
-                : () {
-                    ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.gallery);
-                  },
-            child: const Text('Select Photo'),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.theme.appSpacing.small),
+            child: OutlinedButton.icon(
+              onPressed: ref.watch(getPhotoControllerProvider).isLoading
+                  ? null
+                  : () {
+                      ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.gallery);
+                    },
+              icon: const Icon(Icons.photo),
+              label: const Text('Select Photo'),
+            ),
           ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
     );

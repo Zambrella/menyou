@@ -76,107 +76,121 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: AnimatedBuilder(
-              animation: _loadingAnimation,
-              builder: (context, _) {
-                return AnimatedBuilder(
-                  animation: _loadingCompleteAnimation,
-                  builder: (context, _) {
-                    return Opacity(
-                      opacity: (_loadingCompleteAnimation.value - 1).abs(),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          gradient: LinearGradient(
-                            colors: const [
-                              Colors.blue,
-                              Colors.green,
-                              Colors.yellow,
-                              Colors.red,
-                            ],
-                            stops: const [0.0, 0.25, 0.5, 1.0],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            transform: GradientRotation(_loadingAnimation.value * pi),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
+    return ChipTheme(
+      data: ChipThemeData(
+        backgroundColor: context.theme.colorScheme.secondaryContainer,
+        brightness: context.theme.brightness,
+        labelStyle: context.theme.textTheme.bodySmall?.copyWith(
+          color: context.theme.colorScheme.onSecondaryContainer,
         ),
-        Positioned.fill(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
-              child: Container(color: Colors.transparent),
-            ),
-          ),
-        ),
-        AnimatedSize(
-          duration: _animatedSizeDuration,
-          child: Card(
-            margin: const EdgeInsets.all(8),
+      ),
+      child: Stack(
+        children: [
+          Positioned.fill(
             child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    widget.menuItem.title,
-                    style: context.theme.textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  if (widget.menuItem.subtitle != null)
-                    Text(
-                      widget.menuItem.subtitle!,
-                      style: context.theme.textTheme.titleSmall,
-                      textAlign: TextAlign.center,
-                    ),
-                  if (widget.menuItem is ProcessedMenuItem) ...[
-                    SizedBox(height: context.theme.appSpacing.small),
-                    Text(
-                      (widget.menuItem as ProcessedMenuItem).description,
-                      style: context.theme.textTheme.bodySmall,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: context.theme.appSpacing.small),
-                    const Divider(),
-                    const Text(
-                      'Allergens',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    Wrap(
-                      spacing: context.theme.appSpacing.small,
-                      // runSpacing: context.theme.appSpacing.small,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        for (final allergen in (widget.menuItem as ProcessedMenuItem).allergens)
-                          Chip(
-                            label: Text(
-                              allergen,
-                              style: context.theme.textTheme.bodySmall,
+              padding: const EdgeInsets.all(6),
+              child: AnimatedBuilder(
+                animation: _loadingAnimation,
+                builder: (context, _) {
+                  return AnimatedBuilder(
+                    animation: _loadingCompleteAnimation,
+                    builder: (context, _) {
+                      return Opacity(
+                        opacity: (_loadingCompleteAnimation.value - 1).abs(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(
+                              colors: const [
+                                Colors.blue,
+                                Colors.green,
+                                Colors.yellow,
+                                Colors.red,
+                              ],
+                              stops: const [0.0, 0.25, 0.5, 1.0],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              transform: GradientRotation(_loadingAnimation.value * pi),
                             ),
                           ),
-                      ],
-                    ),
-                  ],
-                ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ),
-        ),
-      ],
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+          ),
+          AnimatedSize(
+            duration: _animatedSizeDuration,
+            child: Card(
+              margin: const EdgeInsets.all(8),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      widget.menuItem.title,
+                      style: context.theme.textTheme.titleLarge?.copyWith(
+                        color: context.theme.colorScheme.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    if (widget.menuItem.subtitle != null)
+                      Text(
+                        widget.menuItem.subtitle!,
+                        style: context.theme.textTheme.titleSmall?.copyWith(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    if (widget.menuItem is ProcessedMenuItem) ...[
+                      SizedBox(height: context.theme.appSpacing.small),
+                      Text(
+                        (widget.menuItem as ProcessedMenuItem).description,
+                        style: context.theme.textTheme.bodySmall?.copyWith(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: context.theme.appSpacing.small),
+                      const Divider(),
+                      Text(
+                        'Allergens',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: context.theme.colorScheme.onSurface),
+                        textAlign: TextAlign.center,
+                      ),
+                      Wrap(
+                        spacing: context.theme.appSpacing.small,
+                        // runSpacing: context.theme.appSpacing.small,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          for (final allergen in (widget.menuItem as ProcessedMenuItem).allergens)
+                            Chip(
+                              label: Text(
+                                allergen,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
