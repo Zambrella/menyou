@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746821459309",
+    "project_id": "menyou-2b066",
+    "storage_bucket": "menyou-2b066.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746821459309:android:6a624be6588ff342c18e64",
+        "android_client_info": {
+          "package_name": "com.hugetoothstudios.menyou"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlYAfw0oi8hAxxQNJbTO0_8qcnq0R09Tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

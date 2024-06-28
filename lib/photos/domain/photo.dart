@@ -8,5 +8,6 @@ class Photo with _$Photo {
   const factory Photo({
     required String photoName,
     required Uint8List photoData,
+    @Default('image/png') String mimeType,
   }) = _Photo;
 }

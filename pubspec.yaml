@@ -14,15 +14,19 @@ dependencies:
   #   path: ../../packages/analytics_firebase
   auth_core:
     path: ../../packages/auth_core
+  auth_firebase:
+    path: ../../packages/auth_firebase
   # error_logging_crashlytics:
   #   path: ../../packages/error_logging_crashlytics
+  cloud_firestore: ^4.17.5
   data_privacy:
     path: ../../packages/data_privacy
   device_info_plus: ^10.1.0
-  # auth_firebase:
-  #   path: ../../packages/auth_firebase
   error_logging_core:
     path: ../../packages/error_logging_core
+  firebase_auth: ^4.20.0
+  firebase_core: ^2.32.0
+  firebase_vertexai: ^0.1.1
   flutter:
     sdk: flutter
   flutter_displaymode: ^0.6.0

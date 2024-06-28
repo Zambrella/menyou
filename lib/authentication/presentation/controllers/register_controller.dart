@@ -16,10 +16,7 @@ class RegisterController extends _$RegisterController {
   Future<void> register() async {
     state = const AsyncLoading();
     try {
-      final _ = await ref.read(authRepositoryProvider).signUp(
-            email: '1234@test.com',
-            password: '123456',
-          );
+      final _ = await ref.read(authRepositoryProvider).signUpAnonymously();
       // At this point, the app will have navigated to the login page.
       await ref.read(analyticsRepositoryProvider).logCustomEvent(
             RegisterCustomEvent(email: '1234@test.com'),

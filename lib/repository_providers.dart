@@ -1,8 +1,10 @@
 import 'package:analytics_core/analytics_core.dart';
-import 'package:auth_core/auth_core.dart';
+import 'package:auth_firebase/auth_firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_privacy/data_privacy.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:men_you/app_dependencies.dart';
-import 'package:men_you/authentication/repository/fake_auth_repository.dart';
 import 'package:purchases_core/purchases_core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,8 +18,8 @@ SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
 }
 
 @Riverpod(keepAlive: true)
-AuthRepository authRepository(AuthRepositoryRef ref) {
-  return FakeAuthRepository();
+FirebaseAuthRepository authRepository(AuthRepositoryRef ref) {
+  return FirebaseAuthRepository(ref.watch(firebaseAuthProvider));
 }
 
 @Riverpod(keepAlive: true)
@@ -33,4 +35,22 @@ PurchasesRepository purchasesRepository(PurchasesRepositoryRef ref) {
 @Riverpod(keepAlive: true)
 DataPrivacyRepository dataPrivacyRepository(DataPrivacyRepositoryRef ref) {
   return DataPrivacyRepository(ref.watch(sharedPreferencesProvider));
+}
+
+@Riverpod(keepAlive: true)
+GenerativeModel aiModel(AiModelRef ref) {
+  return FirebaseVertexAI.instanceFor(location: 'europe-west2').generativeModel(
+    model: 'gemini-1.5-pro',
+    generationConfig: GenerationConfig(),
+  );
+}
+
+@Riverpod(keepAlive: true)
+FirebaseFirestore firestore(FirestoreRef ref) {
+  return FirebaseFirestore.instance;
+}
+
+@Riverpod(keepAlive: true)
+FirebaseAuth firebaseAuth(FirebaseAuthRef ref) {
+  return FirebaseAuth.instance;
 }

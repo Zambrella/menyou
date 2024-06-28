@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
+import 'package:men_you/photos/domain/photo.dart';
 
 abstract class MenuRepository {
   Future<List<RestaurantMenu>> getAllMenus();
@@ -8,7 +8,6 @@ abstract class MenuRepository {
   Future<void> addMenu(RestaurantMenu menu);
   Future<void> updateMenu(RestaurantMenu menu);
   Future<void> deleteMenu(RestaurantMenu id);
-
-  Future<List<MenuItem>> analysePhoto(Uint8List photo);
+  Future<List<MenuItem>> analysePhoto(Photo photo);
   Future<MenuItem> processMenuItem(MenuItem menuItem);
 }

@@ -24,7 +24,11 @@ class GetPhotoController extends _$GetPhotoController {
         return;
       } else {
         final photoData = await file.readAsBytes();
-        final photo = Photo(photoData: photoData, photoName: file.name);
+        final photo = Photo(
+          photoData: photoData,
+          photoName: file.name,
+          mimeType: file.mimeType ?? 'image/png',
+        );
         ref.read(loggerProvider).d('Photo generated: $photo');
         state = AsyncData(photo);
       }

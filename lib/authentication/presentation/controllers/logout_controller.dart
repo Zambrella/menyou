@@ -6,7 +6,7 @@ part 'logout_controller.g.dart';
 @riverpod
 class LogoutController extends _$LogoutController {
   @override
-  FutureOr<void> build() {
+  FutureOr<void> build() async {
     return null;
   }
 

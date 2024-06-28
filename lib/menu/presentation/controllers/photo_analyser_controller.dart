@@ -7,5 +7,5 @@ part 'photo_analyser_controller.g.dart';
 
 @riverpod
 FutureOr<List<MenuItem>> photoAnalyserController(PhotoAnalyserControllerRef ref, Photo photo) async {
-  return ref.read(menuRepositoryProvider).analysePhoto(photo.photoData);
+  return ref.read(menuRepositoryProvider).analysePhoto(photo);
 }

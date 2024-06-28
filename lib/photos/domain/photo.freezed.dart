@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Photo {
   String get photoName => throw _privateConstructorUsedError;
   Uint8List get photoData => throw _privateConstructorUsedError;
+  String get mimeType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PhotoCopyWith<Photo> get copyWith => throw _privateConstructorUsedError;
@@ -28,7 +29,7 @@ abstract class $PhotoCopyWith<$Res> {
   factory $PhotoCopyWith(Photo value, $Res Function(Photo) then) =
       _$PhotoCopyWithImpl<$Res, Photo>;
   @useResult
-  $Res call({String photoName, Uint8List photoData});
+  $Res call({String photoName, Uint8List photoData, String mimeType});
 }
 
 /// @nodoc
@@ -46,6 +47,7 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
   $Res call({
     Object? photoName = null,
     Object? photoData = null,
+    Object? mimeType = null,
   }) {
     return _then(_value.copyWith(
       photoName: null == photoName
@@ -56,6 +58,10 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
           ? _value.photoData
           : photoData // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -67,7 +73,7 @@ abstract class _$$PhotoImplCopyWith<$Res> implements $PhotoCopyWith<$Res> {
       __$$PhotoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String photoName, Uint8List photoData});
+  $Res call({String photoName, Uint8List photoData, String mimeType});
 }
 
 /// @nodoc
@@ -83,6 +89,7 @@ class __$$PhotoImplCopyWithImpl<$Res>
   $Res call({
     Object? photoName = null,
     Object? photoData = null,
+    Object? mimeType = null,
   }) {
     return _then(_$PhotoImpl(
       photoName: null == photoName
@@ -93,6 +100,10 @@ class __$$PhotoImplCopyWithImpl<$Res>
           ? _value.photoData
           : photoData // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -100,16 +111,22 @@ class __$$PhotoImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
-  const _$PhotoImpl({required this.photoName, required this.photoData});
+  const _$PhotoImpl(
+      {required this.photoName,
+      required this.photoData,
+      this.mimeType = 'image/png'});
 
   @override
   final String photoName;
   @override
   final Uint8List photoData;
+  @override
+  @JsonKey()
+  final String mimeType;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Photo(photoName: $photoName, photoData: $photoData)';
+    return 'Photo(photoName: $photoName, photoData: $photoData, mimeType: $mimeType)';
   }
 
   @override
@@ -118,7 +135,8 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
     properties
       ..add(DiagnosticsProperty('type', 'Photo'))
       ..add(DiagnosticsProperty('photoName', photoName))
-      ..add(DiagnosticsProperty('photoData', photoData));
+      ..add(DiagnosticsProperty('photoData', photoData))
+      ..add(DiagnosticsProperty('mimeType', mimeType));
   }
 
   @override
@@ -128,12 +146,14 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
             other is _$PhotoImpl &&
             (identical(other.photoName, photoName) ||
                 other.photoName == photoName) &&
-            const DeepCollectionEquality().equals(other.photoData, photoData));
+            const DeepCollectionEquality().equals(other.photoData, photoData) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, photoName, const DeepCollectionEquality().hash(photoData));
+  int get hashCode => Object.hash(runtimeType, photoName,
+      const DeepCollectionEquality().hash(photoData), mimeType);
 
   @JsonKey(ignore: true)
   @override
@@ -145,12 +165,15 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
 abstract class _Photo implements Photo {
   const factory _Photo(
       {required final String photoName,
-      required final Uint8List photoData}) = _$PhotoImpl;
+      required final Uint8List photoData,
+      final String mimeType}) = _$PhotoImpl;
 
   @override
   String get photoName;
   @override
   Uint8List get photoData;
+  @override
+  String get mimeType;
   @override
   @JsonKey(ignore: true)
   _$$PhotoImplCopyWith<_$PhotoImpl> get copyWith =>

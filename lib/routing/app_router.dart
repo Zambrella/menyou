@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:men_you/authentication/presentation/pages/login_page.dart';
-import 'package:men_you/authentication/presentation/pages/register_page.dart';
 import 'package:men_you/authentication/providers/authentication_providers.dart';
 import 'package:men_you/home/presentation/home_page.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/pages/menu_page.dart';
 import 'package:men_you/routing/go_router_refresh_stream.dart';
 import 'package:men_you/routing/not_found_screen.dart';
+import 'package:men_you/welcome/presentation/pages/welcome_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -16,8 +15,7 @@ part 'app_router.g.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
 
 enum AppRoute {
-  login,
-  register,
+  welcome,
   home,
   menu,
 }
@@ -35,17 +33,17 @@ GoRouter goRouter(GoRouterRef ref) {
 
       // Redirect to home page if navigating to login pages while logged in
       if (isLoggedIn) {
-        if (path.startsWith('/login') || path.startsWith('/register')) {
+        if (path.startsWith('/welcome')) {
           return '/home';
         }
       }
 
       // Redirect to login page if navigating to protected pages while not logged in
       if (!isLoggedIn) {
-        if (path.startsWith('/login') || path.startsWith('/register')) {
+        if (path.startsWith('/welcome')) {
           return null;
         } else {
-          return '/login';
+          return '/welcome';
         }
       }
 
@@ -60,23 +58,17 @@ GoRouter goRouter(GoRouterRef ref) {
         },
       ),
       GoRoute(
-        path: '/login',
-        name: AppRoute.login.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: LoginPage(),
-        ),
-      ),
-      GoRoute(
-        path: '/register',
-        name: AppRoute.register.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
-          child: RegisterPage(),
+        path: '/welcome',
+        name: AppRoute.welcome.name,
+        pageBuilder: (context, state) => MaterialPage<void>(
+          key: state.pageKey,
+          child: const WelcomePage(),
         ),
       ),
       GoRoute(
         path: '/home',
         name: AppRoute.home.name,
-        pageBuilder: (context, state) => const NoTransitionPage(
+        pageBuilder: (context, state) => const MaterialPage<void>(
           child: HomePage(),
         ),
         routes: [
@@ -91,7 +83,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 );
               }
               final restaurantMenu = state.extra as RestaurantMenu?;
-              return MaterialPage(
+              return MaterialPage<void>(
                 child: MenuPage(
                   menuId: menuId,
                   restaurantMenu: restaurantMenu,

@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/domain/menu_repository.abs.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
+import 'package:men_you/photos/domain/photo.dart';
 
 class FakeMenuRepository implements MenuRepository {
   const FakeMenuRepository();
@@ -15,7 +15,7 @@ class FakeMenuRepository implements MenuRepository {
   }
 
   @override
-  Future<List<MenuItem>> analysePhoto(Uint8List photo) async {
+  Future<List<MenuItem>> analysePhoto(Photo photo) async {
     await Future<void>.delayed(const Duration(seconds: 3));
     return const [
       MenuItem.unprocessed(
