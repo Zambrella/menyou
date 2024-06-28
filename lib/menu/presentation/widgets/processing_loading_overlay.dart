@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/common/widgets/multi_colored_progress_indicator.dart';
 
 class ProcessingLoadingOverlay extends ConsumerStatefulWidget {
   const ProcessingLoadingOverlay({super.key});
@@ -11,17 +12,17 @@ class ProcessingLoadingOverlay extends ConsumerStatefulWidget {
 class _ProcessingLoadingOverlayState extends ConsumerState<ProcessingLoadingOverlay> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Material(
         type: MaterialType.card,
         elevation: 4,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: const Row(
+          padding: EdgeInsets.all(16),
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
+              MultiColoredProgressIndicator.circular(),
               SizedBox(width: 10),
               Text('Processing...'),
             ],

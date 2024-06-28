@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/common/widgets/multi_colored_progress_indicator.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/photo_analyser_controller.dart';
 import 'package:men_you/photos/domain/photo.dart';
@@ -36,6 +37,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
   static const _flashDuration = Duration(milliseconds: 1000);
   static const _unblurDuration = Duration(milliseconds: 10000);
   static const _movementFactor = 0.20;
+  static const _potentialColors = [Colors.blue, Colors.green, Colors.yellow, Colors.red];
 
   //* Variables
   late final AnimationController _pointAnimationController;
@@ -51,6 +53,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
   late final Timer _flashTimer;
   late final Random _random;
   late final PointPairings _pairings;
+  late final List<Color> _pointColors;
 
   Photo get photo => widget.photo;
 
@@ -108,6 +111,11 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
     _pairings = _generatePairings();
     _flashingPoints = _generateFlashingPoints();
     _unblurController.forward();
+    _pointColors = List<Color>.generate(
+      _numberOfPoints,
+      (i) => _potentialColors[i % _potentialColors.length],
+      growable: false,
+    );
   }
 
   List<int> _generateFlashingPoints() {
@@ -239,6 +247,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
                                 brightnessValue: _brightnessAnimation.value,
                                 idxsToFlash: _flashingPoints,
                                 blurValue: _unblurAnimation.value,
+                                pointColors: _pointColors,
                               ),
                               child: const SizedBox.expand(),
                             );
@@ -266,7 +275,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: EdgeInsets.all(context.theme.appSpacing.small + MediaQuery.of(context).padding.bottom),
-                child: const LinearProgressIndicator(),
+                child: const MultiColoredProgressIndicator.linear(),
               ),
             ),
           ],
@@ -284,6 +293,7 @@ class ImageProcessingPainter extends CustomPainter {
     required this.brightnessValue,
     required this.idxsToFlash,
     required this.blurValue,
+    required this.pointColors,
   });
 
   final ui.Image image;
@@ -292,8 +302,7 @@ class ImageProcessingPainter extends CustomPainter {
   final double brightnessValue;
   final List<int> idxsToFlash;
   final double blurValue;
-
-  final gridSize = 20;
+  final List<Color> pointColors;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -325,30 +334,6 @@ class ImageProcessingPainter extends CustomPainter {
       fit: BoxFit.contain,
     );
     canvas.restore();
-
-    //* Grid
-    // final gridPaint = Paint()
-    //   ..color = Colors.grey
-    //   ..strokeWidth = 0.2;
-
-    // // Draw vertical lines
-    // for (var x = 0.0; x <= size.width; x += gridSize) {
-    //   canvas.drawLine(Offset(x, 0), Offset(x, size.height), gridPaint);
-    // }
-
-    // // Draw horizontal lines
-    // for (var y = 0.0; y <= size.height; y += gridSize) {
-    //   canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
-    // }
-
-    // Draw a rectangle around the edge of the canvas
-    // final Paint rectPaint = Paint()
-    //   ..color = Colors.red
-    //   ..style = PaintingStyle.stroke
-    //   ..strokeWidth = 4.0;
-
-    // canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), rectPaint);
-    // canvas.drawRect(dstRect, rectPaint..color = Colors.green);
 
     final linePaint = Paint()
       ..color = Colors.white60
@@ -397,12 +382,12 @@ class ImageProcessingPainter extends CustomPainter {
 
       if (idxsToFlash.contains(i)) {
         final flashPaint = Paint()
-          ..color = Colors.blueAccent
+          ..color = pointColors[i]
           ..maskFilter = MaskFilter.blur(BlurStyle.solid, brightnessValue * 5 + 5);
         canvas.drawCircle(pointOffset, brightnessValue * 4 + 4, flashPaint);
       } else {
         final pointPaint = Paint()
-          ..color = Colors.blueAccent
+          ..color = pointColors[i]
           ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5);
         canvas.drawCircle(pointOffset, 4, pointPaint);
       }
