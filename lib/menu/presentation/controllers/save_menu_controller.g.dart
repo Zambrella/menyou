@@ -7,7 +7,7 @@ part of 'save_menu_controller.dart';
 // **************************************************************************
 
 String _$saveMenuControllerHash() =>
-    r'f569891f417808c29bfb9c13de2a13e409cbc968';
+    r'57e271d5f8b276d9767efb6a6c12184997b878bd';
 
 /// See also [SaveMenuController].
 @ProviderFor(SaveMenuController)

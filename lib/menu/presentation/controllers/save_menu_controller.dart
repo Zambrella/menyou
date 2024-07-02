@@ -7,8 +7,8 @@ part 'save_menu_controller.g.dart';
 @riverpod
 class SaveMenuController extends _$SaveMenuController {
   @override
-  FutureOr<void> build() async {
-    return null;
+  FutureOr<void> build() {
+    // Do nothing
   }
 
   Future<void> saveMenu(RestaurantMenu restaurantMenu) async {

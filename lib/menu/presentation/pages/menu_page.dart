@@ -37,6 +37,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(colorScheme);
     ref.listen(getPhotoControllerProvider, (prev, state) {
       state.whenOrNull(
         data: (data) async {
@@ -69,7 +70,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
             content: Text('Error saving menu: ${state.error}'),
           ),
         );
-      } else if (state is AsyncData) {
+      } else if (state is AsyncData && prev is AsyncLoading) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Menu saved successfully'),
@@ -86,35 +87,60 @@ class _MenuPageState extends ConsumerState<MenuPage> {
       },
       child: Theme(
         data: context.theme.copyWith(colorScheme: colorScheme),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(widget.restaurantMenu?.name ?? 'New Menu'),
-            actions: [
-              IconButton(
-                onPressed: menuController.hasValue
-                    ? () async {
-                        await ref.read(saveMenuControllerProvider.notifier).saveMenu(
-                              menuController.requireValue,
-                            );
-                      }
-                    : null,
-                icon: ref.watch(saveMenuControllerProvider).isLoading ? const CircularProgressIndicator() : const Icon(Icons.save),
+        child: GestureDetector(
+          onTap: () {
+            // TODO: Figure out why this changes the color scheme back
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: TextField(
+                textCapitalization: TextCapitalization.words,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: context.theme.colorScheme.onSurface),
+                decoration: InputDecoration(
+                  hintText: 'Menu Name',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer),
+                ),
+                onChanged: (value) {
+                  ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                        menuController.requireValue.copyWith(name: value),
+                      );
+                },
+                onSubmitted: (value) {
+                  ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                        menuController.requireValue.copyWith(name: value),
+                      );
+                },
               ),
-            ],
-          ),
-          body: menuController.when(
-            data: (menu) {
-              return MenuList(
-                menuItems: menu.menuItems,
-              );
-            },
-            loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            error: (e, _) => Center(
-              child: Text('Error: $e'),
+              actions: [
+                IconButton(
+                  onPressed: menuController.hasValue
+                      ? () async {
+                          await ref.read(saveMenuControllerProvider.notifier).saveMenu(
+                                menuController.requireValue,
+                              );
+                        }
+                      : null,
+                  icon: ref.watch(saveMenuControllerProvider).isLoading ? const CircularProgressIndicator() : const Icon(Icons.save),
+                ),
+              ],
+            ),
+            body: menuController.when(
+              data: (menu) {
+                return MenuList(
+                  menuItems: menu.menuItems,
+                );
+              },
+              loading: () {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              error: (e, _) => Center(
+                child: Text('Error: $e'),
+              ),
             ),
           ),
         ),
