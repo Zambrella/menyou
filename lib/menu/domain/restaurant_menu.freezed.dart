@@ -117,7 +117,8 @@ class __$$RestaurantMenuImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$RestaurantMenuImpl extends _RestaurantMenu {
   const _$RestaurantMenuImpl(
       {required this.id, final List<MenuItem>? menuItems, this.name})

@@ -11,7 +11,7 @@ class MenuPageController extends _$MenuPageController {
   @override
   FutureOr<RestaurantMenu> build(String menuId, RestaurantMenu? restaurantMenu) async {
     if (restaurantMenu == null) {
-      return await loadMenu(menuId);
+      return await _loadMenu(menuId);
     } else {
       return restaurantMenu;
     }
@@ -19,16 +19,11 @@ class MenuPageController extends _$MenuPageController {
 
   /// This method loads a menu from the repository.
   /// Only needed to be called if the user navigates to the menu page directly.
-  Future<RestaurantMenu> loadMenu(String menuId) {
+  Future<RestaurantMenu> _loadMenu(String menuId) {
     return ref.read(menuRepositoryProvider).getMenuById(menuId);
   }
 
   void updateMenu(RestaurantMenu restaurantMenu) {
     state = AsyncData(restaurantMenu);
-  }
-
-  // TODO: Put this in it's own controller
-  Future<void> saveMenu(RestaurantMenu restaurantMenu) async {
-    // TODO: Save to menu repository
   }
 }

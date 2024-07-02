@@ -7,7 +7,7 @@ part of 'get_photo_controller.dart';
 // **************************************************************************
 
 String _$getPhotoControllerHash() =>
-    r'693a38a27d84616b097eb914b2578c43e3604396';
+    r'd93d291d49c389979d0ca9efd0f5f2135e1a3a29';
 
 /// See also [GetPhotoController].
 @ProviderFor(GetPhotoController)

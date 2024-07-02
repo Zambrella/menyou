@@ -19,6 +19,6 @@ Map<String, dynamic> _$$RestaurantMenuImplToJson(
         _$RestaurantMenuImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'menuItems': instance.menuItems,
+      'menuItems': instance.menuItems?.map((e) => e.toJson()).toList(),
       'name': instance.name,
     };

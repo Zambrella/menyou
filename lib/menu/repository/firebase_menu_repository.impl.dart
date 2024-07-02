@@ -139,8 +139,8 @@ ${MenuItem.getProcessedSchema()}
   }
 
   @override
-  Future<void> updateMenu(RestaurantMenu menu) {
-    // TODO: implement updateMenu
-    throw UnimplementedError();
+  Future<void> updateMenu(RestaurantMenu menu) async {
+    await _firestore.collection(_userCollection).doc(_auth.currentUser!.uid).collection(_menuCollection).doc(menu.id).set(menu.toJson());
+    return;
   }
 }
