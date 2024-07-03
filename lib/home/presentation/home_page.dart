@@ -52,6 +52,14 @@ class _HomePageState extends ConsumerState<HomePage> {
               },
               child: const Text('New Menu'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                context.goNamed(
+                  AppRoute.allergens.name,
+                );
+              },
+              child: const Text('Allergens'),
+            ),
           ],
         ),
       ),

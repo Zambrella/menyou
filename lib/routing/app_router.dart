@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:men_you/allergens/presentation/pages/allergens_page.dart';
 import 'package:men_you/authentication/providers/authentication_providers.dart';
 import 'package:men_you/home/presentation/home_page.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
@@ -18,6 +19,7 @@ enum AppRoute {
   welcome,
   home,
   menu,
+  allergens,
 }
 
 @Riverpod(keepAlive: true)
@@ -68,8 +70,9 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/home',
         name: AppRoute.home.name,
-        pageBuilder: (context, state) => const MaterialPage<void>(
-          child: HomePage(),
+        pageBuilder: (context, state) => MaterialPage<void>(
+          key: state.pageKey,
+          child: const HomePage(),
         ),
         routes: [
           GoRoute(
@@ -84,10 +87,21 @@ GoRouter goRouter(GoRouterRef ref) {
               }
               final restaurantMenu = state.extra as RestaurantMenu?;
               return MaterialPage<void>(
+                key: state.pageKey,
                 child: MenuPage(
                   menuId: menuId,
                   restaurantMenu: restaurantMenu,
                 ),
+              );
+            },
+          ),
+          GoRoute(
+            path: 'allergens',
+            name: AppRoute.allergens.name,
+            pageBuilder: (context, state) {
+              return MaterialPage<void>(
+                key: state.pageKey,
+                child: const AllergensPage(),
               );
             },
           ),
