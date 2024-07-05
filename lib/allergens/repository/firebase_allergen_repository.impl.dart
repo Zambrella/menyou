@@ -16,7 +16,7 @@ class FirebaseAllergenRepository implements AllergenRepository {
   final Logger _logger;
 
   static const _allergyField = 'allergies';
-  static const _intolleranceField = 'users';
+  static const _intolleranceField = 'intollerances';
 
   @override
   Future<List<Allergen>> getAllAllergens() async {
@@ -107,11 +107,11 @@ class FirebaseAllergenRepository implements AllergenRepository {
     try {
       final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
       final doc = await docRef.get();
-      if (!doc.exists || doc.data() == null) {
+      if (!doc.exists || doc.data()?[_allergyField] == null) {
         _logger.d('No allergies found for user');
         return [];
       }
-      final data = doc.data()![_allergyField] as List<String>;
+      final data = (doc.data()![_allergyField] as List<dynamic>).map((e) => e.toString()).toList();
       _logger.d('User allergies: $data');
       return data;
     } catch (e) {
@@ -124,11 +124,11 @@ class FirebaseAllergenRepository implements AllergenRepository {
     try {
       final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
       final doc = await docRef.get();
-      if (!doc.exists || doc.data() == null) {
+      if (!doc.exists || doc.data()?[_intolleranceField] == null) {
         _logger.d('No intollerances found for user');
         return [];
       }
-      final data = doc.data()![_intolleranceField] as List<String>;
+      final data = (doc.data()![_intolleranceField] as List<dynamic>).map((e) => e.toString()).toList();
       _logger.d('User intollerances: $data');
       return data;
     } catch (e) {
@@ -137,26 +137,50 @@ class FirebaseAllergenRepository implements AllergenRepository {
   }
 
   @override
-  Future<void> addUserAllergy(String allergenId) {
-    // TODO: implement addUserAllergen
-    throw UnimplementedError();
+  Future<void> addUserAllergy(String allergenId) async {
+    try {
+      final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
+      await docRef.update({
+        _allergyField: FieldValue.arrayUnion([allergenId]),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> addUserIntolerance(String allergenId) {
-    // TODO: implement addUserIntolerance
-    throw UnimplementedError();
+  Future<void> addUserIntolerance(String allergenId) async {
+    try {
+      final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
+      await docRef.update({
+        _intolleranceField: FieldValue.arrayUnion([allergenId]),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> removeUserAllergy(String allergenId) {
-    // TODO: implement removeUserAllergen
-    throw UnimplementedError();
+  Future<void> removeUserAllergy(String allergenId) async {
+    try {
+      final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
+      await docRef.update({
+        _allergyField: FieldValue.arrayRemove([allergenId]),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> removeUserIntolerance(String allergenId) {
-    // TODO: implement removeUserIntolerance
-    throw UnimplementedError();
+  Future<void> removeUserIntolerance(String allergenId) async {
+    try {
+      final docRef = _firestore.collection('users').doc(_auth.currentUser!.uid);
+      await docRef.update({
+        _intolleranceField: FieldValue.arrayRemove([allergenId]),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 }

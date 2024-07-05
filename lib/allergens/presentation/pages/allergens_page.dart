@@ -42,12 +42,14 @@ class _AllergensPageState extends ConsumerState<AllergensPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  // TODO: Update icon
                                   const Icon(Icons.food_bank),
                                   const SizedBox(width: 4),
                                   Text(
                                     allergen.name,
                                     style: context.theme.textTheme.headlineSmall,
                                   ),
+                                  const SizedBox(width: 4 + 26),
                                 ],
                               ),
                               Text(allergen.description),
@@ -55,8 +57,22 @@ class _AllergensPageState extends ConsumerState<AllergensPage> {
                           ),
                           SizedBox(height: 8),
                           SegmentedButton<AllergenStates>(
+                            showSelectedIcon: false,
                             selected: {allergenState},
-                            onSelectionChanged: (allergenState) {},
+                            onSelectionChanged: (allergenStateSelected) async {
+                              if (allergenStateSelected.first == AllergenStates.allergic) {
+                                await ref.read(allergensPageControllerProvider.notifier).addAllergy(allergen);
+                              } else if (allergenStateSelected.first == AllergenStates.intolerant) {
+                                await ref.read(allergensPageControllerProvider.notifier).addIntolerance(allergen);
+                              } else {
+                                if (allergenState == AllergenStates.intolerant) {
+                                  await ref.read(allergensPageControllerProvider.notifier).removeIntolerance(allergen);
+                                }
+                                if (allergenState == AllergenStates.allergic) {
+                                  await ref.read(allergensPageControllerProvider.notifier).removeAllergy(allergen);
+                                }
+                              }
+                            },
                             segments: AllergenStates.values
                                 .map(
                                   (allergenState) => ButtonSegment(
