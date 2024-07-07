@@ -7,6 +7,8 @@ import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/pages/menu_page.dart';
 import 'package:men_you/routing/go_router_refresh_stream.dart';
 import 'package:men_you/routing/not_found_screen.dart';
+import 'package:men_you/routing/scaffold_with_nested_navigation.dart';
+import 'package:men_you/settings/presentation/pages/settings_page.dart';
 import 'package:men_you/welcome/presentation/pages/welcome_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,18 +16,22 @@ part 'app_router.g.dart';
 
 // private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'rootNavigator');
+final _allergensNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'allergensNavigator');
+final _menuNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'menuNavigator');
+final _settingsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'settingsNavigator');
 
 enum AppRoute {
   welcome,
-  home,
+  menus,
   menu,
   allergens,
+  settings,
 }
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/menus',
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     refreshListenable: GoRouterRefreshStream(ref.watch(authStateChangesProvider.stream)),
@@ -36,7 +42,7 @@ GoRouter goRouter(GoRouterRef ref) {
       // Redirect to home page if navigating to login pages while logged in
       if (isLoggedIn) {
         if (path.startsWith('/welcome')) {
-          return '/home';
+          return '/menus';
         }
       }
 
@@ -67,43 +73,77 @@ GoRouter goRouter(GoRouterRef ref) {
           child: const WelcomePage(),
         ),
       ),
-      GoRoute(
-        path: '/home',
-        name: AppRoute.home.name,
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: const HomePage(),
-        ),
-        routes: [
-          GoRoute(
-            path: 'menus/:menuId',
-            name: AppRoute.menu.name,
-            pageBuilder: (context, state) {
-              final menuId = state.pathParameters['menuId'];
-              if (menuId == null) {
-                return const NoTransitionPage(
-                  child: NotFoundScreen(),
-                );
-              }
-              final restaurantMenu = state.extra as RestaurantMenu?;
-              return MaterialPage<void>(
-                key: state.pageKey,
-                child: MenuPage(
-                  menuId: menuId,
-                  restaurantMenu: restaurantMenu,
-                ),
-              );
-            },
+      // Don't use .indexedStack if you want to create a custom page navigation between shell routes.
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: _allergensNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/allergens',
+                name: AppRoute.allergens.name,
+                pageBuilder: (context, state) {
+                  return MaterialPage<void>(
+                    key: state.pageKey,
+                    child: const AllergensPage(),
+                  );
+                },
+              ),
+            ],
           ),
-          GoRoute(
-            path: 'allergens',
-            name: AppRoute.allergens.name,
-            pageBuilder: (context, state) {
-              return MaterialPage<void>(
-                key: state.pageKey,
-                child: const AllergensPage(),
-              );
-            },
+          StatefulShellBranch(
+            navigatorKey: _menuNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/menus',
+                name: AppRoute.menus.name,
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: const HomePage(),
+                ),
+                routes: [
+                  GoRoute(
+                    path: ':menuId',
+                    name: AppRoute.menu.name,
+                    // parentNavigatorKey: _rootNavigatorKey,
+                    pageBuilder: (context, state) {
+                      final menuId = state.pathParameters['menuId'];
+                      if (menuId == null) {
+                        return const NoTransitionPage(
+                          child: NotFoundScreen(),
+                        );
+                      }
+                      final restaurantMenu = state.extra as RestaurantMenu?;
+                      return MaterialPage<void>(
+                        key: state.pageKey,
+                        child: MenuPage(
+                          menuId: menuId,
+                          restaurantMenu: restaurantMenu,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _settingsNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/settings',
+                name: AppRoute.settings.name,
+                pageBuilder: (context, state) {
+                  return MaterialPage<void>(
+                    key: state.pageKey,
+                    child: const SettingsPage(),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
