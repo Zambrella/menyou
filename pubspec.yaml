@@ -23,6 +23,7 @@ dependencies:
   data_privacy:
     path: ../../packages/data_privacy
   device_info_plus: ^10.1.0
+  dynamic_color: ^1.7.0
   error_logging_core:
     path: ../../packages/error_logging_core
   firebase_auth: ^4.20.0

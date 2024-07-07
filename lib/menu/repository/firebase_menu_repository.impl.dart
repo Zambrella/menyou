@@ -103,6 +103,7 @@ Do not include the price.
 Given the following information about an item on a restaurant menu, provide a description and list of potential allergens.
 Return the information as a JSON object with the following schema:
 ${MenuItem.getProcessedSchema()}
+The list of allergens should be zero or more of the following: celery, gluten, crustacean, egg, fish, lupin, milk, molluscs, mustard, nuts, peanuts, sesame, soya, and sulphur dioxide.
 ## Menu Item
 - Title: ${menuItem.title}
 - Subtitle: ${menuItem.subtitle}

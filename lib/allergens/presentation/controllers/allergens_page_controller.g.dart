@@ -7,7 +7,7 @@ part of 'allergens_page_controller.dart';
 // **************************************************************************
 
 String _$allergensPageControllerHash() =>
-    r'c71eef211b9393805cb36a603e3521aae006a4e8';
+    r'f39f0a219b13b1a15d1f5cf5304786d03ff21eb7';
 
 /// See also [AllergensPageController].
 @ProviderFor(AllergensPageController)
