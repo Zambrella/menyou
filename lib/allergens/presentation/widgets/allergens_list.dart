@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/domain/allergen_states.dart';
 import 'package:men_you/allergens/presentation/controllers/allergens_page_controller.dart';
+import 'package:men_you/allergens/utils/allergen_icon_extension.dart';
 import 'package:men_you/allergens/utils/allergen_states_extension.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
@@ -31,12 +33,17 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
       duration: _animationDuration,
     );
     _animations = [];
+    const overlapFraction = 0.5;
+
     for (var i = 0; i < allergensAndStates.length; i++) {
+      final start = (i * (1 - overlapFraction)) / allergensAndStates.length;
+      final end = ((i + 1) * (1 - overlapFraction) + overlapFraction) / allergensAndStates.length;
+
       final curvedAnimation = CurvedAnimation(
         parent: _animationController,
         curve: Interval(
-          i / allergensAndStates.length,
-          (i + 1.5) / allergensAndStates.length,
+          start,
+          end.clamp(0.0, 1.0), // Ensure the end value does not exceed 1.0
           curve: Curves.easeIn,
         ),
       );
@@ -60,6 +67,7 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
         final allergen = allergensAndStates[index].$1;
         final allergenState = allergensAndStates[index].$2;
         return AnimatedBuilder(
+          key: ValueKey(allergen.id),
           animation: _animations[index],
           builder: (context, _) {
             final animationValue = _animations[index].value;
@@ -80,20 +88,27 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // TODO: Update icon
-                                const Icon(Icons.food_bank),
-                                const SizedBox(width: 4),
+                                SvgPicture.asset(
+                                  allergen.svgIcon,
+                                  height: 24 *
+                                      MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
+                                      context.theme.textTheme.headlineSmall!.fontSize!,
+                                ),
+                                const SizedBox(width: 8),
                                 Text(
                                   allergen.name,
-                                  style: context.theme.textTheme.headlineSmall,
+                                  style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
                                 ),
-                                const SizedBox(width: 4 + 26),
+                                const SizedBox(width: 8 + 24),
                               ],
                             ),
-                            Text(allergen.description),
+                            Text(
+                              allergen.description,
+                              style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
+                            ),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         SegmentedButton<AllergenStates>(
                           showSelectedIcon: false,
                           selected: {allergenState},
