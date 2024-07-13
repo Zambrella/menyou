@@ -22,19 +22,19 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menus'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final menu = RestaurantMenu.empty();
-          context.goNamed(
-            AppRoute.menu.name,
-            pathParameters: {'menuId': menu.id},
-            extra: menu,
-          );
-        },
-        child: Icon(
-          Icons.add,
-        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              final menu = RestaurantMenu.empty();
+              context.goNamed(
+                AppRoute.menu.name,
+                pathParameters: {'menuId': menu.id},
+                extra: menu,
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
