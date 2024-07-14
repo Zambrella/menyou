@@ -1,4 +1,5 @@
 import 'package:men_you/menu/domain/restaurant_menu.dart';
+import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
 import 'package:men_you/menu/repository/menu_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,6 +16,7 @@ class SaveMenuController extends _$SaveMenuController {
     try {
       state = const AsyncLoading();
       await ref.read(menuRepositoryProvider).updateMenu(restaurantMenu);
+      ref.invalidate(menusPageControllerProvider);
       state = const AsyncData(null);
     } catch (e, st) {
       state = AsyncError(e, st);

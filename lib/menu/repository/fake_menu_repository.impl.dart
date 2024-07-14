@@ -37,7 +37,7 @@ class FakeMenuRepository implements MenuRepository {
   }
 
   @override
-  Future<void> deleteMenu(RestaurantMenu id) async {
+  Future<void> deleteMenu(String menuId) async {
     await Future<void>.delayed(const Duration(seconds: 2));
     return;
   }

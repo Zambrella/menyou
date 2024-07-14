@@ -183,7 +183,7 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
                             const SizedBox(width: 4),
                             Text(
                               (widget.menuItem as ProcessedMenuItem).isVegetarian ? 'Vegetarian' : 'Vegan',
-                              style: context.theme.textTheme.bodyMedium,
+                              style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
                             ),
                           ],
                         ),

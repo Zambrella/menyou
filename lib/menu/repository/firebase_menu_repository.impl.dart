@@ -79,15 +79,25 @@ Do not include the price.
   }
 
   @override
-  Future<void> deleteMenu(RestaurantMenu id) {
-    // TODO: implement deleteMenu
-    throw UnimplementedError();
+  Future<void> deleteMenu(String menuId) async {
+    try {
+      final docRef = _firestore.collection(_userCollection).doc(_auth.currentUser!.uid).collection(_menuCollection).doc(menuId);
+      await docRef.delete();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<List<RestaurantMenu>> getAllMenus() {
-    // TODO: implement getAllMenus
-    throw UnimplementedError();
+  Future<List<RestaurantMenu>> getAllMenus() async {
+    try {
+      final collectionRef = _firestore.collection(_userCollection).doc(_auth.currentUser!.uid).collection(_menuCollection);
+      final snapshot = await collectionRef.get();
+      final menus = snapshot.docs.map((doc) => RestaurantMenu.fromJson(doc.data())).toList();
+      return menus;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -134,7 +144,6 @@ The list of allergens should be zero or more of the following: celery, gluten, c
       _logger.d('Processed menu item: $processedMenuItem');
       return processedMenuItem;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

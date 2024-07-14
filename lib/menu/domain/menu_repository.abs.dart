@@ -7,7 +7,7 @@ abstract class MenuRepository {
   Future<RestaurantMenu> getMenuById(String id);
   Future<void> addMenu(RestaurantMenu menu);
   Future<void> updateMenu(RestaurantMenu menu);
-  Future<void> deleteMenu(RestaurantMenu id);
+  Future<void> deleteMenu(String menuId);
   Future<List<MenuItem>> analysePhoto(Photo photo);
   Future<MenuItem> processMenuItem(MenuItem menuItem);
 }
