@@ -105,7 +105,6 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
   @override
   void dispose() {
     _controller.dispose();
-    GoRouter.of(context).routerDelegate.removeListener(_onRouteChange);
     super.dispose();
   }
 
