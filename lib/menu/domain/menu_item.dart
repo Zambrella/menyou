@@ -19,6 +19,8 @@ class MenuItem with _$MenuItem {
     required String? subtitle,
     required String description,
     required List<String> allergens,
+    @Default(false) bool isVegetarian,
+    @Default(false) bool isVegan,
   }) = ProcessedMenuItem;
 
   factory MenuItem.fromJson(Map<String, dynamic> json) => _$MenuItemFromJson(json);
@@ -56,6 +58,14 @@ class MenuItem with _$MenuItem {
           'type': 'array',
           'items': {'type': 'string'},
           'description': 'The potential allergens in the menu item',
+        },
+        'isVegetarian': {
+          'type': 'boolean',
+          'description': 'True if the menu item is likely vegetarian',
+        },
+        'isVegan': {
+          'type': 'boolean',
+          'description': 'True if the menu item is likely vegan',
         },
       },
       'required': [

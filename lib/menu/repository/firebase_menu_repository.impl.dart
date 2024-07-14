@@ -108,7 +108,7 @@ The list of allergens should be zero or more of the following: celery, gluten, c
 - Title: ${menuItem.title}
 - Subtitle: ${menuItem.subtitle}
 ''');
-      _logger.d('Text content: $textContent');
+      _logger.d('Text content: ${textContent.toJson()}');
       final response = await _aiModel.generateContent(
         [textContent],
         generationConfig: GenerationConfig(

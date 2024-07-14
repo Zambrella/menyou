@@ -170,6 +170,24 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: context.theme.appSpacing.small),
+                      if ((widget.menuItem as ProcessedMenuItem).isVegetarian || (widget.menuItem as ProcessedMenuItem).isVegan)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/vegetarian.svg',
+                              height: 24 *
+                                  MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
+                                  context.theme.textTheme.headlineSmall!.fontSize!,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              (widget.menuItem as ProcessedMenuItem).isVegetarian ? 'Vegetarian' : 'Vegan',
+                              style: context.theme.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      SizedBox(height: context.theme.appSpacing.small),
                       const Divider(),
                       Text(
                         'Potential Allergens',

@@ -112,7 +112,9 @@ class FakeMenuRepository implements MenuRepository {
       subtitle: menuItem.subtitle,
       description:
           'Spaghetti Carbonara is a classic Italian pasta dish from Rome, renowned for its rich and creamy texture. It traditionally consists of spaghetti tossed with a savory sauce made from beaten eggs, grated Pecorino Romano cheese, crispy guanciale (cured pork cheek), and freshly ground black pepper.',
-      allergens: ['Allergen 1', 'Allergen 2', 'Allergen 3', 'Allergen 4', 'Allergen 5'],
+      allergens: ['Milk', 'Gluten', 'Peanuts', 'Sesame', 'Soya'],
+      isVegan: Random().nextBool(),
+      isVegetarian: Random().nextBool(),
     );
   }
 }

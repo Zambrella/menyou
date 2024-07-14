@@ -1,5 +1,7 @@
 import 'package:men_you/app_dependencies.dart';
 import 'package:men_you/menu/domain/menu_repository.abs.dart';
+// ignore: unused_import
+import 'package:men_you/menu/repository/fake_menu_repository.impl.dart';
 import 'package:men_you/menu/repository/firebase_menu_repository.impl.dart';
 import 'package:men_you/repository_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,4 +16,5 @@ MenuRepository menuRepository(MenuRepositoryRef ref) {
     ref.watch(firebaseAuthProvider),
     ref.watch(loggerProvider),
   );
+  // return FakeMenuRepository();
 }

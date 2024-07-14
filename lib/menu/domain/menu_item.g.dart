@@ -33,6 +33,8 @@ _$ProcessedMenuItemImpl _$$ProcessedMenuItemImplFromJson(
       description: json['description'] as String,
       allergens:
           (json['allergens'] as List<dynamic>).map((e) => e as String).toList(),
+      isVegetarian: json['isVegetarian'] as bool? ?? false,
+      isVegan: json['isVegan'] as bool? ?? false,
       $type: json['runtimeType'] as String?,
     );
 
@@ -44,5 +46,7 @@ Map<String, dynamic> _$$ProcessedMenuItemImplToJson(
       'subtitle': instance.subtitle,
       'description': instance.description,
       'allergens': instance.allergens,
+      'isVegetarian': instance.isVegetarian,
+      'isVegan': instance.isVegan,
       'runtimeType': instance.$type,
     };
