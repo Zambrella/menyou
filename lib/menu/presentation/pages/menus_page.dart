@@ -69,7 +69,20 @@ class _MenusPageState extends ConsumerState<MenusPage> {
                   return Card(
                     clipBehavior: Clip.antiAlias,
                     child: Dismissible(
-                      background: ColoredBox(color: Colors.red),
+                      direction: DismissDirection.startToEnd,
+                      background: ColoredBox(
+                        color: context.theme.colorScheme.error,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Icon(
+                              Icons.delete,
+                              color: context.theme.colorScheme.onError,
+                            ),
+                          ),
+                        ),
+                      ),
                       onDismissed: (_) async {
                         await ref.read(menusPageControllerProvider.notifier).removeMenu(menu.id);
                       },
