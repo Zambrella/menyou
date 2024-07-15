@@ -12,6 +12,7 @@ dependencies:
     path: ../../packages/analytics_core
   # analytics_firebase:
   #   path: ../../packages/analytics_firebase
+  animated_list_plus: ^0.5.2
   auth_core:
     path: ../../packages/auth_core
   auth_firebase:

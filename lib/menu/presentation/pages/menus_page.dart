@@ -1,5 +1,7 @@
+import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
@@ -21,7 +23,6 @@ class _MenusPageState extends ConsumerState<MenusPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menus'),
@@ -61,66 +62,91 @@ class _MenusPageState extends ConsumerState<MenusPage> {
                   ],
                 );
               }
-              return ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: menus.length,
-                itemBuilder: (context, index) {
-                  final menu = menus[index];
-                  return Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Dismissible(
-                      direction: DismissDirection.startToEnd,
-                      background: ColoredBox(
-                        color: context.theme.colorScheme.error,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Icon(
-                              Icons.delete,
-                              color: context.theme.colorScheme.onError,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onDismissed: (_) async {
-                        await ref.read(menusPageControllerProvider.notifier).removeMenu(menu.id);
-                      },
-                      key: ValueKey(menu.id),
-                      child: InkWell(
-                        onTap: () {
-                          context.goNamed(
-                            AppRoute.menu.name,
-                            pathParameters: {'menuId': menu.id},
-                            extra: menu,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                menu.name ?? 'Menu ${menu.id}',
-                                style: theme.textTheme.headlineSmall!.copyWith(color: theme.colorScheme.onSurface),
-                              ),
-                              Text(
-                                '${menu.menuItems?.length ?? 0} items on the menu',
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  color: theme.colorScheme.onSurface,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+              return MenusListView(
+                menus: menus,
               );
             },
           ),
+    );
+  }
+}
+
+class MenusListView extends ConsumerStatefulWidget {
+  const MenusListView({
+    required this.menus,
+    super.key,
+  });
+
+  final List<RestaurantMenu> menus;
+
+  @override
+  ConsumerState<MenusListView> createState() => _MenusListViewState();
+}
+
+class _MenusListViewState extends ConsumerState<MenusListView> {
+  @override
+  Widget build(BuildContext context) {
+    // https://pub.dev/packages/animated_list_plus
+    return ImplicitlyAnimatedList(
+      items: widget.menus,
+      padding: const EdgeInsets.all(8),
+      areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
+      itemBuilder: (context, animation, item, _) {
+        final menu = item;
+        return FadeTransition(
+          opacity: animation,
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Slidable(
+              key: ValueKey(menu.id),
+              startActionPane: ActionPane(
+                motion: const BehindMotion(),
+                extentRatio: 0.33,
+                children: [
+                  SlidableAction(
+                    onPressed: (_) async {
+                      await ref.read(menusPageControllerProvider.notifier).removeMenu(menu.id);
+                    },
+                    backgroundColor: context.theme.colorScheme.error,
+                    foregroundColor: context.theme.colorScheme.onError,
+                    spacing: 0,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+              child: InkWell(
+                onTap: () {
+                  context.goNamed(
+                    AppRoute.menu.name,
+                    pathParameters: {'menuId': menu.id},
+                    extra: menu,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        menu.name ?? 'Menu ${menu.id}',
+                        style: context.theme.textTheme.headlineSmall!.copyWith(color: context.theme.colorScheme.onSurface),
+                      ),
+                      Text(
+                        '${menu.menuItems?.length ?? 0} items on the menu',
+                        style: context.theme.textTheme.bodyMedium!.copyWith(
+                          color: context.theme.colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
