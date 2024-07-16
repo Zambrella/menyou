@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
+const kBottomNavBarHeight = 80;
+
 class ScaffoldWithNestedNavigation extends ConsumerStatefulWidget {
   const ScaffoldWithNestedNavigation({
     required this.navigationShell,
@@ -38,7 +40,7 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _animation = Tween<double>(begin: 0, end: 80 + MediaQuery.of(context).padding.bottom).animate(
+    _animation = Tween<double>(begin: 0, end: kBottomNavBarHeight + MediaQuery.of(context).padding.bottom).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
