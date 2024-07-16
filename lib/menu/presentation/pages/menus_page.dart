@@ -7,6 +7,7 @@ import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
 import 'package:men_you/routing/app_router.dart';
 import 'package:men_you/theme/theme_extensions.dart';
+import 'package:animated_list_plus/transitions.dart';
 
 class MenusPage extends ConsumerStatefulWidget {
   const MenusPage({super.key});
@@ -93,8 +94,10 @@ class _MenusListViewState extends ConsumerState<MenusListView> {
       areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
       itemBuilder: (context, animation, item, _) {
         final menu = item;
-        return FadeTransition(
-          opacity: animation,
+        return SizeFadeTransition(
+          sizeFraction: 0.7,
+          curve: Curves.easeInOut,
+          animation: animation,
           child: Card(
             clipBehavior: Clip.antiAlias,
             child: Slidable(
