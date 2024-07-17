@@ -117,48 +117,50 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
       child: Scaffold(
         extendBody: true,
         body: widget.navigationShell,
-        bottomNavigationBar: AnimatedBuilder(
-          animation: _animation,
-          builder: (context, _) {
-            return Transform.translate(
-              offset: Offset(0, _animation.value),
-              child: NavigationBar(
-                selectedIndex: navigationShell.currentIndex,
-                destinations: const [
-                  NavigationDestination(
-                    label: 'Allergens',
-                    icon: NavbarIcon.unselected(
-                      iconPath: 'assets/icons/allergens.svg',
+        bottomNavigationBar: navbarIsHidden
+            ? null
+            : AnimatedBuilder(
+                animation: _animation,
+                builder: (context, _) {
+                  return Transform.translate(
+                    offset: Offset(0, _animation.value),
+                    child: NavigationBar(
+                      selectedIndex: navigationShell.currentIndex,
+                      destinations: const [
+                        NavigationDestination(
+                          label: 'Allergens',
+                          icon: NavbarIcon.unselected(
+                            iconPath: 'assets/icons/allergens.svg',
+                          ),
+                          selectedIcon: NavbarIcon.selected(
+                            iconPath: 'assets/icons/allergens_selected.svg',
+                          ),
+                        ),
+                        NavigationDestination(
+                          label: 'Menus',
+                          icon: NavbarIcon.unselected(
+                            iconPath: 'assets/icons/menu.svg',
+                          ),
+                          selectedIcon: NavbarIcon.selected(
+                            iconPath: 'assets/icons/menu_selected.svg',
+                          ),
+                        ),
+                        NavigationDestination(
+                          label: 'Settings',
+                          icon: NavbarIcon.unselected(
+                            iconPath: 'assets/icons/settings.svg',
+                          ),
+                          selectedIcon: NavbarIcon.selected(
+                            iconPath: 'assets/icons/settings_selected.svg',
+                          ),
+                        ),
+                      ],
+                      onDestinationSelected: _goBranch,
+                      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
                     ),
-                    selectedIcon: NavbarIcon.selected(
-                      iconPath: 'assets/icons/allergens_selected.svg',
-                    ),
-                  ),
-                  NavigationDestination(
-                    label: 'Menus',
-                    icon: NavbarIcon.unselected(
-                      iconPath: 'assets/icons/menu.svg',
-                    ),
-                    selectedIcon: NavbarIcon.selected(
-                      iconPath: 'assets/icons/menu_selected.svg',
-                    ),
-                  ),
-                  NavigationDestination(
-                    label: 'Settings',
-                    icon: NavbarIcon.unselected(
-                      iconPath: 'assets/icons/settings.svg',
-                    ),
-                    selectedIcon: NavbarIcon.selected(
-                      iconPath: 'assets/icons/settings_selected.svg',
-                    ),
-                  ),
-                ],
-                onDestinationSelected: _goBranch,
-                labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }

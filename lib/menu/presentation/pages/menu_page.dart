@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
@@ -7,6 +8,7 @@ import 'package:men_you/menu/presentation/controllers/save_menu_controller.dart'
 import 'package:men_you/menu/presentation/widgets/menu_list.dart';
 import 'package:men_you/photos/presentation/controllers/get_photo_controller.dart';
 import 'package:men_you/theme/theme_extensions.dart';
+import 'package:toastification/toastification.dart';
 
 class MenuPage extends ConsumerStatefulWidget {
   const MenuPage({
@@ -63,16 +65,14 @@ class _MenuPageState extends ConsumerState<MenuPage> {
     // ignore: cascade_invocations
     ref.listen(saveMenuControllerProvider, (prev, state) {
       if (state is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving menu: ${state.error}'),
-          ),
+        toastification.showError(
+          context: context, // optional if you use ToastificationWrapper
+          message: 'Error saving menu: ${state.error}',
         );
       } else if (state is AsyncData && prev is AsyncLoading) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Menu saved successfully'),
-          ),
+        toastification.showSuccess(
+          context: context, // optional if you use ToastificationWrapper
+          message: 'Menu saved successfully',
         );
       }
     });
@@ -141,6 +141,42 @@ class _MenuPageState extends ConsumerState<MenuPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+extension ToastificationX on Toastification {
+  ToastificationItem showSuccess({required BuildContext context, required String message}) {
+    return show(
+      context: context,
+      title: Text(message),
+      type: ToastificationType.success,
+      style: ToastificationStyle.flatColored,
+      primaryColor: Colors.green.harmonizeWith(context.theme.colorScheme.primary),
+      backgroundColor: HSLColor.fromColor(Colors.green).withLightness(0.9).toColor().harmonizeWith(context.theme.colorScheme.primary),
+      foregroundColor: context.theme.colorScheme.onSurface,
+      autoCloseDuration: const Duration(seconds: 5),
+      borderRadius: BorderRadius.circular(10),
+      closeOnClick: true,
+      pauseOnHover: true,
+      dismissDirection: DismissDirection.vertical,
+    );
+  }
+
+  ToastificationItem showError({required BuildContext context, required String message}) {
+    return show(
+      context: context,
+      title: Text(message),
+      type: ToastificationType.error,
+      style: ToastificationStyle.flatColored,
+      primaryColor: Colors.red.harmonizeWith(context.theme.colorScheme.primary),
+      backgroundColor: HSLColor.fromColor(Colors.red).withLightness(0.9).toColor().harmonizeWith(context.theme.colorScheme.primary),
+      foregroundColor: context.theme.colorScheme.onSurface,
+      borderRadius: BorderRadius.circular(10),
+      closeOnClick: true,
+      pauseOnHover: true,
+      dismissDirection: DismissDirection.vertical,
+      showProgressBar: false,
     );
   }
 }

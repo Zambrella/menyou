@@ -10,6 +10,7 @@ import 'package:men_you/theme/dark_theme.dart';
 import 'package:men_you/theme/light_theme.dart';
 import 'package:men_you/theme/selected_theme.dart';
 import 'package:men_you/theme/text_scale_factor_clamper.dart';
+import 'package:toastification/toastification.dart';
 
 class App extends ConsumerStatefulWidget {
   const App({super.key});
@@ -58,8 +59,13 @@ class _AppState extends ConsumerState<App> {
         // Wrap with InheritedWidgets here if needed. E.g. One that overrides the text scale factor
         return initDependencies.when(
           skipLoadingOnRefresh: false,
-          data: (_) => TextScaleFactorClamper(
-            child: child!,
+          data: (_) => ToastificationConfigProvider(
+            config: const ToastificationConfig(
+              alignment: Alignment.topCenter,
+            ),
+            child: TextScaleFactorClamper(
+              child: child!,
+            ),
           ),
           // Loading screen is handled by the native splash screen on the first load.
           // If there's an error and the user refreshes, the loading screen will be shown.

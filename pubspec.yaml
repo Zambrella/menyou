@@ -53,6 +53,7 @@ dependencies:
     path: ../../packages/purchases_core
   riverpod_annotation: ^2.3.5
   shared_preferences: ^2.2.3
+  toastification: ^2.0.0
   url_strategy: ^0.2.0
   uuid: ^4.4.0
   vibration: ^1.9.0
