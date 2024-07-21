@@ -8,10 +8,11 @@ part 'restaurant_menu.g.dart';
 part 'restaurant_menu.freezed.dart';
 
 @freezed
-class RestaurantMenu with _$RestaurantMenu {
+class RestaurantMenu with _$RestaurantMenu implements Comparable<RestaurantMenu> {
   @JsonSerializable(explicitToJson: true)
   const factory RestaurantMenu({
     required String id,
+    required DateTime createdAt,
     List<MenuItem>? menuItems,
     String? name,
   }) = _RestaurantMenu;
@@ -20,6 +21,7 @@ class RestaurantMenu with _$RestaurantMenu {
   factory RestaurantMenu.empty() {
     return RestaurantMenu(
       id: const Uuid().v4(),
+      createdAt: DateTime.now(),
     );
   }
 
@@ -35,5 +37,10 @@ class RestaurantMenu with _$RestaurantMenu {
 
   RestaurantMenu updateName(String name) {
     return copyWith(name: name);
+  }
+
+  @override
+  int compareTo(RestaurantMenu other) {
+    return -createdAt.compareTo(other.createdAt);
   }
 }

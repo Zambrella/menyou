@@ -21,6 +21,7 @@ RestaurantMenu _$RestaurantMenuFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RestaurantMenu {
   String get id => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   List<MenuItem>? get menuItems => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
 
@@ -36,7 +37,8 @@ abstract class $RestaurantMenuCopyWith<$Res> {
           RestaurantMenu value, $Res Function(RestaurantMenu) then) =
       _$RestaurantMenuCopyWithImpl<$Res, RestaurantMenu>;
   @useResult
-  $Res call({String id, List<MenuItem>? menuItems, String? name});
+  $Res call(
+      {String id, DateTime createdAt, List<MenuItem>? menuItems, String? name});
 }
 
 /// @nodoc
@@ -53,6 +55,7 @@ class _$RestaurantMenuCopyWithImpl<$Res, $Val extends RestaurantMenu>
   @override
   $Res call({
     Object? id = null,
+    Object? createdAt = null,
     Object? menuItems = freezed,
     Object? name = freezed,
   }) {
@@ -61,6 +64,10 @@ class _$RestaurantMenuCopyWithImpl<$Res, $Val extends RestaurantMenu>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       menuItems: freezed == menuItems
           ? _value.menuItems
           : menuItems // ignore: cast_nullable_to_non_nullable
@@ -81,7 +88,8 @@ abstract class _$$RestaurantMenuImplCopyWith<$Res>
       __$$RestaurantMenuImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, List<MenuItem>? menuItems, String? name});
+  $Res call(
+      {String id, DateTime createdAt, List<MenuItem>? menuItems, String? name});
 }
 
 /// @nodoc
@@ -96,6 +104,7 @@ class __$$RestaurantMenuImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? createdAt = null,
     Object? menuItems = freezed,
     Object? name = freezed,
   }) {
@@ -104,6 +113,10 @@ class __$$RestaurantMenuImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       menuItems: freezed == menuItems
           ? _value._menuItems
           : menuItems // ignore: cast_nullable_to_non_nullable
@@ -121,7 +134,10 @@ class __$$RestaurantMenuImplCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$RestaurantMenuImpl extends _RestaurantMenu {
   const _$RestaurantMenuImpl(
-      {required this.id, final List<MenuItem>? menuItems, this.name})
+      {required this.id,
+      required this.createdAt,
+      final List<MenuItem>? menuItems,
+      this.name})
       : _menuItems = menuItems,
         super._();
 
@@ -130,6 +146,8 @@ class _$RestaurantMenuImpl extends _RestaurantMenu {
 
   @override
   final String id;
+  @override
+  final DateTime createdAt;
   final List<MenuItem>? _menuItems;
   @override
   List<MenuItem>? get menuItems {
@@ -145,7 +163,7 @@ class _$RestaurantMenuImpl extends _RestaurantMenu {
 
   @override
   String toString() {
-    return 'RestaurantMenu(id: $id, menuItems: $menuItems, name: $name)';
+    return 'RestaurantMenu(id: $id, createdAt: $createdAt, menuItems: $menuItems, name: $name)';
   }
 
   @override
@@ -154,6 +172,8 @@ class _$RestaurantMenuImpl extends _RestaurantMenu {
         (other.runtimeType == runtimeType &&
             other is _$RestaurantMenuImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             const DeepCollectionEquality()
                 .equals(other._menuItems, _menuItems) &&
             (identical(other.name, name) || other.name == name));
@@ -161,8 +181,8 @@ class _$RestaurantMenuImpl extends _RestaurantMenu {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, const DeepCollectionEquality().hash(_menuItems), name);
+  int get hashCode => Object.hash(runtimeType, id, createdAt,
+      const DeepCollectionEquality().hash(_menuItems), name);
 
   @JsonKey(ignore: true)
   @override
@@ -182,6 +202,7 @@ class _$RestaurantMenuImpl extends _RestaurantMenu {
 abstract class _RestaurantMenu extends RestaurantMenu {
   const factory _RestaurantMenu(
       {required final String id,
+      required final DateTime createdAt,
       final List<MenuItem>? menuItems,
       final String? name}) = _$RestaurantMenuImpl;
   const _RestaurantMenu._() : super._();
@@ -191,6 +212,8 @@ abstract class _RestaurantMenu extends RestaurantMenu {
 
   @override
   String get id;
+  @override
+  DateTime get createdAt;
   @override
   List<MenuItem>? get menuItems;
   @override

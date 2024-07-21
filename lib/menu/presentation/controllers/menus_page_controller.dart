@@ -8,8 +8,10 @@ part 'menus_page_controller.g.dart';
 @Riverpod(keepAlive: true)
 class MenusPageController extends _$MenusPageController {
   @override
-  FutureOr<List<RestaurantMenu>> build() {
-    return ref.watch(menuRepositoryProvider).getAllMenus();
+  FutureOr<List<RestaurantMenu>> build() async {
+    final allMenus = await ref.watch(menuRepositoryProvider).getAllMenus();
+    allMenus.sort();
+    return allMenus;
   }
 
   Future<void> removeMenu(String menuId) async {

@@ -45,11 +45,12 @@ class FakeMenuRepository implements MenuRepository {
   @override
   Future<List<RestaurantMenu>> getAllMenus() async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    return const [
+    return [
       RestaurantMenu(
         id: '1',
+        createdAt: DateTime.now(),
         name: 'Fake Menu',
-        menuItems: [
+        menuItems: const [
           MenuItem.unprocessed(
             id: '1',
             title: 'Spaghetti Carbonara',
@@ -73,10 +74,11 @@ class FakeMenuRepository implements MenuRepository {
   @override
   Future<RestaurantMenu> getMenuById(String id) async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    return const RestaurantMenu(
+    return RestaurantMenu(
       id: '1',
+      createdAt: DateTime.now(),
       name: 'Fake Menu',
-      menuItems: [
+      menuItems: const [
         MenuItem.unprocessed(
           id: '1',
           title: 'Spaghetti Carbonara',

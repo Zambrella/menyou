@@ -9,6 +9,7 @@ part of 'restaurant_menu.dart';
 _$RestaurantMenuImpl _$$RestaurantMenuImplFromJson(Map<String, dynamic> json) =>
     _$RestaurantMenuImpl(
       id: json['id'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
       menuItems: (json['menuItems'] as List<dynamic>?)
           ?.map((e) => MenuItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,6 +20,7 @@ Map<String, dynamic> _$$RestaurantMenuImplToJson(
         _$RestaurantMenuImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'createdAt': instance.createdAt.toIso8601String(),
       'menuItems': instance.menuItems?.map((e) => e.toJson()).toList(),
       'name': instance.name,
     };
