@@ -5,10 +5,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/common/extensions/toastification_extensions.dart';
 import 'package:men_you/common/widgets/multi_colored_progress_indicator.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/photo_analyser_controller.dart';
-import 'package:men_you/menu/presentation/pages/menu_page.dart';
 import 'package:men_you/photos/domain/photo.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 import 'package:toastification/toastification.dart';

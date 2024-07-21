@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_processing_controller.dart';
@@ -187,7 +188,15 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
                   : () {
                       ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.camera);
                     },
-              icon: const Icon(Icons.camera_alt),
+              icon: SvgPicture.asset(
+                context.theme.brightness == Brightness.light ? 'assets/icons/photo-camera.svg' : 'assets/icons/photo-camera-outlined.svg',
+                width: context.theme.textTheme.titleLarge!.fontSize,
+                height: context.theme.textTheme.titleLarge!.fontSize,
+                colorFilter: ColorFilter.mode(
+                  context.theme.colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: const Text('Take Photo'),
             ),
           ),
@@ -199,7 +208,15 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
                   : () {
                       ref.read(getPhotoControllerProvider.notifier).getPhoto(ImageSource.gallery);
                     },
-              icon: const Icon(Icons.photo),
+              icon: SvgPicture.asset(
+                context.theme.brightness == Brightness.light ? 'assets/icons/image.svg' : 'assets/icons/image-outlined.svg',
+                width: context.theme.textTheme.titleLarge!.fontSize,
+                height: context.theme.textTheme.titleLarge!.fontSize,
+                colorFilter: ColorFilter.mode(
+                  context.theme.colorScheme.primary,
+                  BlendMode.srcIn,
+                ),
+              ),
               label: const Text('Select Photo'),
             ),
           ),

@@ -1,6 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:men_you/common/extensions/toastification_extensions.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/menu_page_controller.dart';
@@ -97,7 +99,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
             textCapitalization: TextCapitalization.words,
             controller: _menuNameController,
             textAlign: TextAlign.center,
-            style: TextStyle(color: context.theme.colorScheme.onSurface),
+            style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
             decoration: InputDecoration(
               hintText: 'Menu Name',
               border: InputBorder.none,
@@ -131,7 +133,15 @@ class _MenuPageState extends ConsumerState<MenuPage> {
                         width: 24,
                         child: CircularProgressIndicator(),
                       )
-                    : const Icon(Icons.save),
+                    : SvgPicture.asset(
+                        context.theme.brightness == Brightness.light ? 'assets/icons/save.svg' : 'assets/icons/save-outlined.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: ColorFilter.mode(
+                          context.theme.colorScheme.primary,
+                          BlendMode.srcIn,
+                        ),
+                      ),
               ),
             ),
           ],
@@ -152,42 +162,6 @@ class _MenuPageState extends ConsumerState<MenuPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-extension ToastificationX on Toastification {
-  ToastificationItem showSuccess({required BuildContext context, required String message}) {
-    return show(
-      context: context,
-      title: Text(message),
-      type: ToastificationType.success,
-      style: ToastificationStyle.flatColored,
-      primaryColor: Colors.green.harmonizeWith(context.theme.colorScheme.primary),
-      backgroundColor: HSLColor.fromColor(Colors.green).withLightness(0.9).toColor().harmonizeWith(context.theme.colorScheme.primary),
-      foregroundColor: context.theme.colorScheme.onSurface,
-      autoCloseDuration: const Duration(seconds: 5),
-      borderRadius: BorderRadius.circular(10),
-      closeOnClick: true,
-      pauseOnHover: true,
-      dismissDirection: DismissDirection.vertical,
-    );
-  }
-
-  ToastificationItem showError({required BuildContext context, required String message}) {
-    return show(
-      context: context,
-      title: Text(message),
-      type: ToastificationType.error,
-      style: ToastificationStyle.flatColored,
-      primaryColor: Colors.red.harmonizeWith(context.theme.colorScheme.primary),
-      backgroundColor: HSLColor.fromColor(Colors.red).withLightness(0.9).toColor().harmonizeWith(context.theme.colorScheme.primary),
-      foregroundColor: context.theme.colorScheme.onSurface,
-      borderRadius: BorderRadius.circular(10),
-      closeOnClick: true,
-      pauseOnHover: true,
-      dismissDirection: DismissDirection.vertical,
-      showProgressBar: false,
     );
   }
 }

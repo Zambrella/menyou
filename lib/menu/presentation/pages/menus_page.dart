@@ -29,7 +29,10 @@ class _MenusPageState extends ConsumerState<MenusPage> {
         title: const Text('Menus'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: Icon(
+              Icons.add_circle,
+              color: context.theme.colorScheme.primary,
+            ),
             onPressed: () {
               final menu = RestaurantMenu.empty();
               context.goNamed(
