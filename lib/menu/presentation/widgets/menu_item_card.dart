@@ -55,7 +55,11 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
       parent: _loadingCompleteAnimationController,
       curve: Curves.easeInOut,
     );
-    _loadingAnimationController.repeat();
+    if (widget.menuItem is UnprocessedMenuItem) {
+      _loadingAnimationController.repeat();
+    } else {
+      _loadingCompleteAnimationController.value = _loadingAnimationController.upperBound;
+    }
   }
 
   Future<void> loadingComplete() async {

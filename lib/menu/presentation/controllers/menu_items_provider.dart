@@ -16,7 +16,7 @@ class CurrentMenuItems extends _$CurrentMenuItems {
   /// These new [MenuItem]s are sent for processing by the [MenuItemsProcessingController].
   void addNewMenuItems(List<MenuItem> menuItems) {
     // Only add items that are not already in the list.
-    // Comparing by equality of id instead of the object itself so that we can replace unprocessed items with processed ones.
+    // Comparing by id instead of the object itself so that we can replace unprocessed items with processed ones.
     final toAdd = menuItems.where((item) => state.none((menuItem) => menuItem.id == item.id)).toList();
     state = List<MenuItem>.from([...state, ...toAdd]);
 

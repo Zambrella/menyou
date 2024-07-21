@@ -25,16 +25,26 @@ class MenuPage extends ConsumerStatefulWidget {
 }
 
 class _MenuPageState extends ConsumerState<MenuPage> {
+  late final TextEditingController _menuNameController;
+
   late ColorScheme colorScheme;
+
   @override
   void initState() {
     super.initState();
+    _menuNameController = TextEditingController(text: widget.restaurantMenu?.name);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     colorScheme = context.theme.colorScheme;
+  }
+
+  @override
+  void dispose() {
+    _menuNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -85,6 +95,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
         appBar: AppBar(
           title: TextField(
             textCapitalization: TextCapitalization.words,
+            controller: _menuNameController,
             textAlign: TextAlign.center,
             style: TextStyle(color: context.theme.colorScheme.onSurface),
             decoration: InputDecoration(
