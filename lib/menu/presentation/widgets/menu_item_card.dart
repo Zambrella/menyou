@@ -1,15 +1,19 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:animations/animations.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/domain/allergen_states.dart';
 import 'package:men_you/allergens/providers/user_allergies_and_intolerances_provider.dart';
 import 'package:men_you/allergens/utils/allergen_icon_extension.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
+import 'package:men_you/menu/presentation/pages/menu_item_details_page.dart';
+import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 class MenuItemCard extends ConsumerStatefulWidget {
@@ -90,9 +94,6 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
       data: ChipThemeData(
         backgroundColor: context.theme.colorScheme.secondaryContainer,
         brightness: context.theme.brightness,
-        labelStyle: context.theme.textTheme.bodySmall?.copyWith(
-          color: context.theme.colorScheme.onSecondaryContainer,
-        ),
       ),
       child: Stack(
         children: [
@@ -140,110 +141,113 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
               ),
             ),
           ),
-          AnimatedSize(
-            duration: _animatedSizeDuration,
-            child: Card(
-              margin: const EdgeInsets.all(8),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      widget.menuItem.title,
-                      style: context.theme.textTheme.titleLarge?.copyWith(
-                        color: context.theme.colorScheme.onSurface,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    if (widget.menuItem.subtitle != null)
-                      Text(
-                        widget.menuItem.subtitle!,
-                        style: context.theme.textTheme.titleSmall?.copyWith(
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    if (widget.menuItem is ProcessedMenuItem) ...[
-                      SizedBox(height: context.theme.appSpacing.small),
-                      Text(
-                        (widget.menuItem as ProcessedMenuItem).description,
-                        style: context.theme.textTheme.bodySmall?.copyWith(
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: context.theme.appSpacing.small),
-                      if ((widget.menuItem as ProcessedMenuItem).isVegetarian || (widget.menuItem as ProcessedMenuItem).isVegan)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/vegetarian.svg',
-                              height: 24 *
-                                  MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
-                                  context.theme.textTheme.headlineSmall!.fontSize!,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              (widget.menuItem as ProcessedMenuItem).isVegetarian ? 'Vegetarian' : 'Vegan',
-                              style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
-                            ),
-                          ],
-                        ),
-                      SizedBox(height: context.theme.appSpacing.small),
-                      const Divider(),
-                      Text(
-                        'Potential Allergens',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: context.theme.colorScheme.onSurface),
-                        textAlign: TextAlign.center,
-                      ),
-                      ref.watch(userAllergiesAndIntolerancesProvider).maybeWhen(
-                            orElse: () => const SizedBox.shrink(),
-                            data: (data) {
-                              return Wrap(
-                                spacing: context.theme.appSpacing.small,
-                                alignment: WrapAlignment.center,
-                                children: (widget.menuItem as ProcessedMenuItem).allergens.map(Allergen.fromName).map(
-                                  (allergen) {
-                                    final isAllergic = data[AllergenStates.allergic]!.contains(allergen);
-                                    final isIntolerant = data[AllergenStates.intolerant]!.contains(allergen);
-                                    final color = isAllergic
-                                        ? Colors.red.harmonizeWith(context.theme.colorScheme.secondaryContainer)
-                                        : isIntolerant
-                                            ? Colors.orange.harmonizeWith(context.theme.colorScheme.secondaryContainer)
-                                            : context.theme.colorScheme.secondaryContainer;
-                                    return Chip(
-                                      backgroundColor: color,
-                                      side: BorderSide(
-                                        color: HSLColor.fromColor(color).withLightness(0.3).toColor(),
-                                      ),
-                                      label: Text(
-                                        allergen.name,
-                                        style: TextStyle(
-                                          fontWeight: isAllergic || isIntolerant ? FontWeight.bold : FontWeight.normal,
-                                          color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
-                                        ),
-                                      ),
-                                      avatar: SvgPicture.asset(
-                                        allergen.svgIcon,
-                                        height: 24 *
-                                            MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
-                                            context.theme.textTheme.headlineSmall!.fontSize!,
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              );
-                            },
-                          ),
-                    ],
-                  ],
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            // Close and open programatically - https://stackoverflow.com/a/73005357
+            child: OpenContainer(
+              routeSettings: RouteSettings(name: widget.menuItem.id),
+              closedColor: context.theme.colorScheme.surfaceContainer,
+              closedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              openColor: context.theme.colorScheme.surfaceContainer,
+              tappable: false,
+              closedBuilder: (context, closedBuilder) {
+                return MenuItemClosedCard(
+                  menuItem: widget.menuItem,
+                  animatedSizeDuration: _animatedSizeDuration,
+                  onOpen: closedBuilder,
+                );
+              },
+              openBuilder: (context, openBuilder) {
+                return MenuItemDetailsPage(
+                  menuItem: widget.menuItem,
+                );
+              },
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MenuItemClosedCard extends ConsumerWidget {
+  const MenuItemClosedCard({
+    required this.menuItem,
+    required this.animatedSizeDuration,
+    required this.onOpen,
+    super.key,
+  });
+
+  final MenuItem menuItem;
+  final Duration animatedSizeDuration;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return AnimatedSize(
+      duration: animatedSizeDuration,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              menuItem.title,
+              style: context.theme.textTheme.titleLarge?.copyWith(
+                color: context.theme.colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            if (menuItem.subtitle != null)
+              Text(
+                menuItem.subtitle!,
+                style: context.theme.textTheme.titleSmall?.copyWith(
+                  color: context.theme.colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            if (menuItem is ProcessedMenuItem) ...[
+              SizedBox(height: context.theme.appSpacing.small),
+              Text(
+                (menuItem as ProcessedMenuItem).description,
+                style: context.theme.textTheme.bodySmall?.copyWith(
+                  color: context.theme.colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: context.theme.appSpacing.small),
+              if ((menuItem as ProcessedMenuItem).isVegetarian || (menuItem as ProcessedMenuItem).isVegan)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/vegetarian.svg',
+                      height: 24 *
+                          MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
+                          context.theme.textTheme.headlineSmall!.fontSize!,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      (menuItem as ProcessedMenuItem).isVegetarian ? 'Vegetarian' : 'Vegan',
+                      style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
+                    ),
+                  ],
+                ),
+              SizedBox(height: context.theme.appSpacing.small),
+              const Divider(),
+              Text(
+                'Potential Allergens',
+                style: TextStyle(fontWeight: FontWeight.bold, color: context.theme.colorScheme.onSurface),
+                textAlign: TextAlign.center,
+              ),
+              MenuItemAllergens(menuItem: menuItem as ProcessedMenuItem),
+              TextButton(
+                onPressed: onOpen.call,
+                child: const Text('Learn more'),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
