@@ -2,15 +2,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:men_you/allergens/domain/allergen.dart';
-import 'package:men_you/allergens/domain/allergen_states.dart';
-import 'package:men_you/allergens/providers/user_allergies_and_intolerances_provider.dart';
-import 'package:men_you/allergens/utils/allergen_icon_extension.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/pages/menu_item_details_page.dart';
 import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';

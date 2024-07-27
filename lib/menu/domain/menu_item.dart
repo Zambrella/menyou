@@ -6,7 +6,7 @@ part 'menu_item.g.dart';
 part 'menu_item.freezed.dart';
 
 @freezed
-class MenuItem with _$MenuItem {
+sealed class MenuItem with _$MenuItem {
   const factory MenuItem.unprocessed({
     required String id,
     required String title,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
+import 'package:men_you/menu/presentation/pages/menu_item_chat_page.dart';
 import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
@@ -24,7 +24,11 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
     return Scaffold(
       backgroundColor: context.theme.colorScheme.surfaceContainer,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (context) => MenuItemChatPage(menuItem: widget.menuItem as ProcessedMenuItem),
+          ),
+        ),
         label: Text('Ask a question'),
         icon: Icon(Icons.chat),
       ),

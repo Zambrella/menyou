@@ -7,7 +7,7 @@ part of 'menus_page_controller.dart';
 // **************************************************************************
 
 String _$menusPageControllerHash() =>
-    r'6430923a786dc276414fe42cb0dc2617bb7cefdd';
+    r'dea9a53b38bbd37e79bb17e8e18d4a39c2208f76';
 
 /// See also [MenusPageController].
 @ProviderFor(MenusPageController)
