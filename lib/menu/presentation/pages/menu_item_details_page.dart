@@ -29,8 +29,8 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
             builder: (context) => MenuItemChatPage(menuItem: widget.menuItem as ProcessedMenuItem),
           ),
         ),
-        label: Text('Ask a question'),
-        icon: Icon(Icons.chat),
+        label: const Text('Ask a question'),
+        icon: const Icon(Icons.question_answer),
       ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200),
