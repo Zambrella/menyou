@@ -1,6 +1,7 @@
 import 'package:animated_list_plus/transitions.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/common/extensions/toastification_extensions.dart';
@@ -114,9 +115,42 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
             AnimatedContainer(
               duration: const Duration(milliseconds: 350),
               height: menuItemChatController.isLoading ? 48 : 0,
-              child: Text(
-                'Bot is typing...',
-                style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...Iterable.generate(
+                    3,
+                    (index) => Container(
+                      width: 8,
+                      height: 8,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: context.theme.colorScheme.primary.withOpacity(0.5),
+                      ),
+                    ),
+                  )
+                      .toList()
+                      .animate(
+                        interval: 400.ms,
+                        onPlay: (controller) => controller.repeat(reverse: true),
+                      )
+                      .fade(
+                        duration: 1200.ms,
+                        begin: 0.2,
+                        end: 1,
+                      )
+                      .moveY(
+                        begin: -2,
+                        end: 2,
+                        duration: 1200.ms,
+                      ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Bot is typing...',
+                    style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+                  ),
+                ],
               ),
             ),
             ColoredBox(

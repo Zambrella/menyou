@@ -20,7 +20,6 @@ class MenuItemChatController extends _$MenuItemChatController {
       // Update UI straight away
       final updatedState = state.requireValue.addMessage(ChatMessage.user(text: text));
       state = AsyncData(updatedState);
-
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       // Mark the bot as typing
