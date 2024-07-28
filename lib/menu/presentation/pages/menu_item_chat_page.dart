@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/common/extensions/toastification_extensions.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
@@ -25,6 +26,8 @@ class MenuItemChatPage extends ConsumerStatefulWidget {
 class _MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
   late final TextEditingController _textController = TextEditingController();
   late final ScrollController _scrollController = ScrollController();
+
+  static const double _largeChatBubblePadding = 52;
 
   @override
   void initState() {
@@ -70,6 +73,7 @@ class _MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
     final messages = menuItemChatController.requireValue.messages;
 
     final keyboardHeight = MediaQuery.of(Scaffold.of(context).context).viewInsets.bottom;
+    final textDirection = Directionality.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -87,16 +91,28 @@ class _MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
               child: Builder(
                 builder: (context) {
                   if (messages.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'Ask me something about ${widget.menuItem.title}',
-                        style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.question_answer_outlined,
+                            size: 36,
+                            color: context.theme.colorScheme.onSurface,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Ask me something about ${widget.menuItem.title}',
+                            style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     );
                   } else {
                     return ListView.builder(
                       controller: _scrollController,
-                      padding: EdgeInsets.only(bottom: max(keyboardHeight - 18, 0)),
                       reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
@@ -104,24 +120,54 @@ class _MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                         final message = messages[index];
                         switch (message.participant) {
                           case ChatParticipant.user:
-                            return ListTile(
-                              title: Text(
-                                message.text,
-                                textAlign: TextAlign.end,
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: textDirection == TextDirection.ltr ? _largeChatBubblePadding : 8,
+                                top: 8,
+                                right: textDirection == TextDirection.ltr ? 8 : _largeChatBubblePadding,
+                                bottom: 8,
                               ),
-                              subtitle: const Text(
-                                'You',
-                                textAlign: TextAlign.end,
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                tileColor: context.theme.colorScheme.surfaceContainer,
+                                title: Text(
+                                  message.text,
+                                  textAlign: TextAlign.end,
+                                ),
+                                subtitle: const Text(
+                                  'You',
+                                  textAlign: TextAlign.end,
+                                ),
                               ),
                             );
                           case ChatParticipant.bot:
-                            return ListTile(
-                              title: Text(
-                                message.text,
-                                style: TextStyle(fontSize: 20),
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: textDirection == TextDirection.ltr ? 8 : _largeChatBubblePadding,
+                                top: 8,
+                                right: textDirection == TextDirection.ltr ? _largeChatBubblePadding : 8,
+                                bottom: 8,
                               ),
-                              subtitle: const Text(
-                                'Bot',
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                tileColor: context.theme.colorScheme.surfaceContainerHigh,
+                                title: Markdown(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  data: message.text,
+                                  selectable: true,
+                                  styleSheet: MarkdownStyleSheet(
+                                    p: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+                                    listBullet: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+                                  ),
+                                ),
+                                subtitle: const Text(
+                                  'Bot',
+                                ),
                               ),
                             );
                         }
@@ -156,7 +202,7 @@ class _MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                         maxLines: 3,
                         minLines: 1,
                         decoration: InputDecoration(
-                          hintText: 'Type a message',
+                          hintText: 'Ask a question',
                           hintStyle: TextStyle(color: context.theme.colorScheme.onSurfaceVariant),
                         ),
                         onSubmitted: (_) {
