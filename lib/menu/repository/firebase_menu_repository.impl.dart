@@ -73,7 +73,6 @@ Do not include the price.
       _logger.d('Unprocessed menu items: $items');
       return items;
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -102,7 +101,6 @@ Do not include the price.
 
   @override
   Future<RestaurantMenu> getMenuById(String id) {
-    // TODO: implement getMenuById
     throw UnimplementedError();
   }
 
@@ -161,42 +159,11 @@ The list of allergens should be zero or more of the following: celery, gluten, c
 
   @override
   Future<String> sendMessageAboutMenuItem(ProcessedMenuItem menuItem, String message) async {
-    try {
-      final chat = _aiModel.startChat(
-          // // Apparently having the first message as a model doesn't work - https://stackoverflow.com/a/78403270
-//         history: [
-//           Content.model(
-//             [
-//               TextPart(
-//                 '''
-// You are an expert about restaurant food. Answer questions about the following menu item:\n
-// - Title: ${menuItem.title}
-// - Subtitle: ${menuItem.subtitle}
-// ''',
-//               ),
-//             ],
-//           ),
-//         ],
-          );
-      final initialMessage = Content.text('''
-You are an expert about restaurant food. Answer questions about the following menu item:
-## Menu Item
-- Title: ${menuItem.title}
-- Subtitle: ${menuItem.subtitle}
+    throw UnimplementedError();
+  }
 
-## Question
-$message
-''');
-      final response = await chat.sendMessage(initialMessage);
-      final responseText = response.text;
-      _logger.d('Response text: $responseText');
-      if (responseText == null) {
-        throw Exception('No text found in the response');
-      }
-      return responseText;
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+  Future<ChatSession> startChat() async {
+    final chat = _aiModel.startChat();
+    return chat;
   }
 }

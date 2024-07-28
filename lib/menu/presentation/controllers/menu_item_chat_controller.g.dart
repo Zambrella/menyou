@@ -7,7 +7,7 @@ part of 'menu_item_chat_controller.dart';
 // **************************************************************************
 
 String _$menuItemChatControllerHash() =>
-    r'73c0aca7d70829ce3b7e0721c916a511f27a2317';
+    r'9c1e7a7eb37ce58f5d7646322fe58e54504997a6';
 
 /// Copied from Dart SDK
 class _SystemHash {

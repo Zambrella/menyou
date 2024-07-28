@@ -1,6 +1,6 @@
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/domain/menu_item_chat.dart';
-import 'package:men_you/menu/repository/menu_repository_provider.dart';
+import 'package:men_you/menu/service/menu_chat_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'menu_item_chat_controller.g.dart';
@@ -26,7 +26,7 @@ class MenuItemChatController extends _$MenuItemChatController {
       state = const AsyncLoading();
 
       // Send the message
-      final result = await ref.read(menuRepositoryProvider).sendMessageAboutMenuItem(state.requireValue.menuItem, text);
+      final result = await ref.read(menuChatServiceProvider).sendMessage(state.requireValue.menuItem, text);
 
       // Update the UI with the result
       state = AsyncData(state.requireValue.addMessage(ChatMessage.bot(text: result)));
