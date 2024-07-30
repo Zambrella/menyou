@@ -10,6 +10,7 @@ import 'package:men_you/common/widgets/multi_colored_progress_indicator.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/photo_analyser_controller.dart';
 import 'package:men_you/photos/domain/photo.dart';
+import 'package:men_you/theme/common_theme.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 import 'package:toastification/toastification.dart';
 
@@ -39,7 +40,7 @@ class _PhotoOverlayState extends ConsumerState<PhotoOverlay> with TickerProvider
   static const _flashDuration = Duration(milliseconds: 1000);
   static const _unblurDuration = Duration(milliseconds: 10000);
   static const _movementFactor = 0.20;
-  static const _potentialColors = [Colors.blue, Colors.green, Colors.yellow, Colors.red];
+  static const _potentialColors = kAiColors;
 
   //* Variables
   late final AnimationController _pointAnimationController;

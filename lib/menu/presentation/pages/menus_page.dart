@@ -7,6 +7,7 @@ import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
 import 'package:men_you/menu/presentation/widgets/restaurant_menu_card.dart';
 import 'package:men_you/routing/app_router.dart';
+import 'package:men_you/theme/common_theme.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 class MenusPage extends ConsumerStatefulWidget {
@@ -90,19 +91,6 @@ class MenusListView extends ConsumerStatefulWidget {
 class _MenusListViewState extends ConsumerState<MenusListView> with SingleTickerProviderStateMixin {
   List<RestaurantMenu> get menus => widget.menus;
 
-  final List<Color> _highlightColors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple,
-    Colors.teal,
-    Colors.pink,
-    Colors.indigo,
-    Colors.amber,
-    Colors.cyan,
-  ];
-
   late final Duration _animationDuration = Duration(milliseconds: menus.length * 350);
 
   late final AnimationController _animationController;
@@ -166,7 +154,7 @@ class _MenusListViewState extends ConsumerState<MenusListView> with SingleTicker
                   opacity: animationValue,
                   child: RestaurantMenuCard(
                     menu: menu,
-                    highlightColor: _highlightColors[itemIndex % _highlightColors.length],
+                    highlightColor: kAiColors[itemIndex % kAiColors.length],
                     // highlightColor: context.theme.colorScheme.primary,
                   ),
                 ),

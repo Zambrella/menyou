@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/pages/menu_item_details_page.dart';
 import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';
+import 'package:men_you/theme/common_theme.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 class MenuItemCard extends ConsumerStatefulWidget {
@@ -106,13 +107,8 @@ class _MenuItemCardState extends ConsumerState<MenuItemCard> with TickerProvider
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             gradient: LinearGradient(
-                              colors: const [
-                                Colors.blue,
-                                Colors.green,
-                                Colors.yellow,
-                                Colors.red,
-                              ],
-                              stops: const [0.0, 0.25, 0.5, 1.0],
+                              colors: kAiColors,
+                              stops: List.generate(kAiColors.length, (index) => index / (kAiColors.length - 1)),
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                               transform: GradientRotation(_loadingAnimation.value * pi),

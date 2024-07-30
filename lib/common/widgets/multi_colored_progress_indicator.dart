@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:men_you/theme/common_theme.dart';
 
 enum ProgressType {
   linear,
@@ -28,24 +29,16 @@ class _MultiColoredProgressIndicatorState extends State<MultiColoredProgressIndi
     )..repeat();
     _colorAnimation = _controller.drive(
       TweenSequence<Color?>(
-        [
-          TweenSequenceItem(
-            tween: ColorTween(begin: Colors.red, end: Colors.yellow),
+        List.generate(
+          kAiColors.length,
+          (index) => TweenSequenceItem(
+            tween: ColorTween(
+              begin: kAiColors[index],
+              end: kAiColors[(index + 1) % kAiColors.length],
+            ),
             weight: 1,
           ),
-          TweenSequenceItem(
-            tween: ColorTween(begin: Colors.yellow, end: Colors.green),
-            weight: 1,
-          ),
-          TweenSequenceItem(
-            tween: ColorTween(begin: Colors.green, end: Colors.blue),
-            weight: 1,
-          ),
-          TweenSequenceItem(
-            tween: ColorTween(begin: Colors.blue, end: Colors.red),
-            weight: 1,
-          ),
-        ],
+        ).toList(),
       ),
     );
   }

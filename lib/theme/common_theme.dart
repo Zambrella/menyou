@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:men_you/theme/page_transitions.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
-const Color primaryColor = Color(0xFF9544AE);
+const Color primaryColor = Color.fromARGB(255, 0, 187, 6);
 
 final commonTheme = ThemeData(
   useMaterial3: true,
@@ -19,3 +19,9 @@ final commonTheme = ThemeData(
     },
   ),
 );
+
+const List<Color> kAiColors = [
+  Colors.green,
+  Colors.orange,
+  Colors.red,
+];
