@@ -147,7 +147,7 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                       ),
                   const SizedBox(width: 8),
                   Text(
-                    'Bot is typing...',
+                    'Chef Bot is typing...',
                     style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
                   ),
                 ],
@@ -317,7 +317,7 @@ class _AnimatedChatListState extends State<AnimatedChatList> {
                         ),
                       ),
                       Text(
-                        'Bot',
+                        'Chef Bot',
                         textAlign: TextAlign.start,
                         style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
                       ),

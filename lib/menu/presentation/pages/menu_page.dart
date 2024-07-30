@@ -7,7 +7,6 @@ import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/menu_page_controller.dart';
 import 'package:men_you/menu/presentation/controllers/save_menu_controller.dart';
 import 'package:men_you/menu/presentation/widgets/menu_list.dart';
-import 'package:men_you/photos/presentation/controllers/get_photo_controller.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 import 'package:toastification/toastification.dart';
 
@@ -28,18 +27,10 @@ class MenuPage extends ConsumerStatefulWidget {
 class _MenuPageState extends ConsumerState<MenuPage> {
   late final TextEditingController _menuNameController;
 
-  late ColorScheme colorScheme;
-
   @override
   void initState() {
     super.initState();
     _menuNameController = TextEditingController(text: widget.restaurantMenu?.name);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    colorScheme = context.theme.colorScheme;
   }
 
   @override
@@ -50,22 +41,6 @@ class _MenuPageState extends ConsumerState<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(getPhotoControllerProvider, (prev, state) {
-      state.whenOrNull(
-        data: (data) async {
-          if (data != null) {
-            final pictureColorScheme = await ColorScheme.fromImageProvider(
-              provider: Image.memory(data.photoData).image,
-              brightness: context.theme.brightness,
-            );
-            setState(() {
-              colorScheme = pictureColorScheme;
-            });
-          }
-        },
-      );
-    });
-
     // ignore: cascade_invocations
     ref.listen(currentMenuItemsProvider, (prev, state) {
       ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
@@ -90,75 +65,72 @@ class _MenuPageState extends ConsumerState<MenuPage> {
 
     final menuController = ref.watch(menuPageControllerProvider(widget.menuId, widget.restaurantMenu));
 
-    return Theme(
-      data: context.theme.copyWith(colorScheme: colorScheme),
-      child: Scaffold(
-        appBar: AppBar(
-          title: TextField(
-            textCapitalization: TextCapitalization.words,
-            controller: _menuNameController,
-            textAlign: TextAlign.center,
-            style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
-            decoration: InputDecoration(
-              hintText: 'Menu Name',
-              border: InputBorder.none,
-              hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
-            ),
-            onChanged: (value) {
-              ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
-                    menuController.requireValue.copyWith(name: value),
-                  );
-            },
-            onSubmitted: (value) {
-              ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
-                    menuController.requireValue.copyWith(name: value),
-                  );
-            },
+    return Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          textCapitalization: TextCapitalization.words,
+          controller: _menuNameController,
+          textAlign: TextAlign.center,
+          style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
+          decoration: InputDecoration(
+            hintText: 'Menu Name',
+            border: InputBorder.none,
+            hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
           ),
-          actions: [
-            IconButton(
-              onPressed: menuController.hasValue
-                  ? () async {
-                      await ref.read(saveMenuControllerProvider.notifier).saveMenu(
-                            menuController.requireValue,
-                          );
-                    }
-                  : null,
-              icon: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: ref.watch(saveMenuControllerProvider).isLoading
-                    ? const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(),
-                      )
-                    : SvgPicture.asset(
-                        context.theme.brightness == Brightness.light ? 'assets/icons/save.svg' : 'assets/icons/save-outlined.svg',
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          context.theme.colorScheme.primary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-              ),
-            ),
-          ],
+          onChanged: (value) {
+            ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                  menuController.requireValue.copyWith(name: value),
+                );
+          },
+          onSubmitted: (value) {
+            ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                  menuController.requireValue.copyWith(name: value),
+                );
+          },
         ),
-        body: menuController.when(
-          data: (menu) {
-            return MenuList(
-              menuItems: menu.menuItems,
-            );
-          },
-          loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-          error: (e, _) => Center(
-            child: Text('Error: $e'),
+        actions: [
+          IconButton(
+            onPressed: menuController.hasValue
+                ? () async {
+                    await ref.read(saveMenuControllerProvider.notifier).saveMenu(
+                          menuController.requireValue,
+                        );
+                  }
+                : null,
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: ref.watch(saveMenuControllerProvider).isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(),
+                    )
+                  : SvgPicture.asset(
+                      context.theme.brightness == Brightness.light ? 'assets/icons/save.svg' : 'assets/icons/save-outlined.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                        context.theme.colorScheme.primary,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+            ),
           ),
+        ],
+      ),
+      body: menuController.when(
+        data: (menu) {
+          return MenuList(
+            menuItems: menu.menuItems,
+          );
+        },
+        loading: () {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+        error: (e, _) => Center(
+          child: Text('Error: $e'),
         ),
       ),
     );

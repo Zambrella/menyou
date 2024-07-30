@@ -90,6 +90,19 @@ class MenusListView extends ConsumerStatefulWidget {
 class _MenusListViewState extends ConsumerState<MenusListView> with SingleTickerProviderStateMixin {
   List<RestaurantMenu> get menus => widget.menus;
 
+  final List<Color> _highlightColors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.teal,
+    Colors.pink,
+    Colors.indigo,
+    Colors.amber,
+    Colors.cyan,
+  ];
+
   late final Duration _animationDuration = Duration(milliseconds: menus.length * 350);
 
   late final AnimationController _animationController;
@@ -143,7 +156,6 @@ class _MenusListViewState extends ConsumerState<MenusListView> with SingleTicker
           curve: Curves.easeInOut,
           animation: animation,
           child: AnimatedBuilder(
-            // key: ValueKey(menu.id),
             animation: _animationController,
             builder: (context, _) {
               final itemIndex = menus.indexOf(menu);
@@ -152,7 +164,11 @@ class _MenusListViewState extends ConsumerState<MenusListView> with SingleTicker
                 offset: Offset(0, -50 * (1 - animationValue)),
                 child: Opacity(
                   opacity: animationValue,
-                  child: RestaurantMenuCard(menu: menu),
+                  child: RestaurantMenuCard(
+                    menu: menu,
+                    highlightColor: _highlightColors[itemIndex % _highlightColors.length],
+                    // highlightColor: context.theme.colorScheme.primary,
+                  ),
                 ),
               );
             },

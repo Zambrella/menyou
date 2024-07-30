@@ -10,7 +10,7 @@ class MenuItemDetailsPage extends ConsumerStatefulWidget {
   const MenuItemDetailsPage({
     required this.menuItem,
     super.key,
-  });
+  }) : assert(menuItem is ProcessedMenuItem, 'Only processed menu items are supported');
 
   final MenuItem menuItem;
 
@@ -19,6 +19,7 @@ class MenuItemDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
+  ProcessedMenuItem get menuItem => widget.menuItem as ProcessedMenuItem;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,7 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (context) => MenuItemChatPage(menuItem: widget.menuItem as ProcessedMenuItem),
+            builder: (context) => MenuItemChatPage(menuItem: menuItem),
           ),
         ),
         label: const Text('Ask a question'),
@@ -56,7 +57,7 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
@@ -67,36 +68,50 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             if (widget.menuItem.subtitle != null) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Text(
-                  widget.menuItem.subtitle ?? '',
+                  widget.menuItem.subtitle!,
                   style: context.theme.textTheme.titleMedium?.copyWith(
                     color: context.theme.colorScheme.onSurface,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
             ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: MenuItemAllergens(menuItem: widget.menuItem as ProcessedMenuItem),
+              child: MenuItemAllergens(menuItem: menuItem),
             ),
-            SizedBox(height: 6),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut ex et tellus varius pellentesque. Vivamus lacinia justo nec mi posuere, ut consequat nulla hendrerit. Suspendisse pretium faucibus urna non scelerisque. Nullam in maximus lectus. Ut vitae vulputate velit. In sollicitudin libero turpis, sit amet ornare risus interdum eu. Duis sodales in sem at sollicitudin. Curabitur scelerisque, massa in hendrerit aliquam, ligula leo molestie lorem, blandit luctus tellus nunc et tortor. Integer vel maximus nunc. Suspendisse potenti. Duis vel lacus leo. Curabitur sit amet enim pharetra, elementum neque et, sollicitudin dolor.
-            
-            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut pharetra dignissim accumsan. Etiam sit amet ipsum non ex condimentum convallis. Etiam commodo sed enim quis tempus. Nulla congue sapien arcu, at accumsan lorem egestas et. Maecenas tincidunt scelerisque auctor. Quisque varius placerat sem dapibus dapibus. Vestibulum in egestas quam.
-            
-            Sed congue mattis dictum. Suspendisse iaculis accumsan enim eget vestibulum. Phasellus iaculis iaculis sapien a luctus. Quisque vitae odio iaculis, sollicitudin nibh eu, rhoncus massa. Quisque porta ullamcorper risus a viverra. Etiam non interdum massa. Integer vel libero leo. Praesent ut mauris accumsan, mattis neque et, ultrices ante. Donec id imperdiet tortor. Vivamus elementum, mi vehicula consequat vulputate, elit mauris aliquet diam, ac lobortis nisl lorem eget risus. Mauris venenatis auctor nulla, tempus consectetur ex. Vestibulum in quam placerat, sodales sem vel, blandit metus. Maecenas pulvinar tortor ac luctus commodo. Phasellus nisi enim, porttitor eget mi et, vestibulum suscipit dolor.''',
-                style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
+            const SizedBox(height: 6),
+            ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  menuItem.description,
+                  style: context.theme.textTheme.bodyLarge?.copyWith(
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
               ),
-            ),
+              const SizedBox(height: 4),
+            ],
+            const SizedBox(height: 6),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 8),
+            //   child: Text(
+            //     '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut ex et tellus varius pellentesque. Vivamus lacinia justo nec mi posuere, ut consequat nulla hendrerit. Suspendisse pretium faucibus urna non scelerisque. Nullam in maximus lectus. Ut vitae vulputate velit. In sollicitudin libero turpis, sit amet ornare risus interdum eu. Duis sodales in sem at sollicitudin. Curabitur scelerisque, massa in hendrerit aliquam, ligula leo molestie lorem, blandit luctus tellus nunc et tortor. Integer vel maximus nunc. Suspendisse potenti. Duis vel lacus leo. Curabitur sit amet enim pharetra, elementum neque et, sollicitudin dolor.
+
+            // Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut pharetra dignissim accumsan. Etiam sit amet ipsum non ex condimentum convallis. Etiam commodo sed enim quis tempus. Nulla congue sapien arcu, at accumsan lorem egestas et. Maecenas tincidunt scelerisque auctor. Quisque varius placerat sem dapibus dapibus. Vestibulum in egestas quam.
+
+            // Sed congue mattis dictum. Suspendisse iaculis accumsan enim eget vestibulum. Phasellus iaculis iaculis sapien a luctus. Quisque vitae odio iaculis, sollicitudin nibh eu, rhoncus massa. Quisque porta ullamcorper risus a viverra. Etiam non interdum massa. Integer vel libero leo. Praesent ut mauris accumsan, mattis neque et, ultrices ante. Donec id imperdiet tortor. Vivamus elementum, mi vehicula consequat vulputate, elit mauris aliquet diam, ac lobortis nisl lorem eget risus. Mauris venenatis auctor nulla, tempus consectetur ex. Vestibulum in quam placerat, sodales sem vel, blandit metus. Maecenas pulvinar tortor ac luctus commodo. Phasellus nisi enim, porttitor eget mi et, vestibulum suscipit dolor.''',
+            //     style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
+            //   ),
+            // ),
             SizedBox(height: MediaQuery.of(context).padding.bottom + 16 + 64),
           ],
         ),
