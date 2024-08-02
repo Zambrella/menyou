@@ -335,8 +335,8 @@ class ImageProcessingPainter extends CustomPainter {
     canvas.restore();
 
     final linePaint = Paint()
-      ..color = Colors.white60
-      ..strokeWidth = 0.5;
+      ..color = Colors.grey.shade400
+      ..strokeWidth = 1;
 
     // Draw the connecting lines
     for (final pairing in pairings.entries) {
@@ -352,9 +352,9 @@ class ImageProcessingPainter extends CustomPainter {
         canvas.drawLine(point1Offset, point2Offset, linePaint);
         if (idxsToFlash.contains(pairing.key)) {
           final flashLinePaint = Paint()
-            ..color = Colors.white
+            ..color = Colors.green
             ..maskFilter = const MaskFilter.blur(BlurStyle.solid, 5)
-            ..strokeWidth = 1;
+            ..strokeWidth = 1.5;
           if (brightnessValue < 0.5) {
             canvas.drawLine(
               point1Offset,

@@ -1,5 +1,7 @@
 # Flutter Starter Template
 
+## Android will only work when running as PROD
+
 ![coverage][coverage_badge]
 This template is meant as a good starting point for any app. It includes:
 - routing

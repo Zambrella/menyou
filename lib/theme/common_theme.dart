@@ -3,6 +3,7 @@ import 'package:men_you/theme/page_transitions.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 const Color primaryColor = Color.fromARGB(255, 0, 187, 6);
+// const Color primaryColor = Color(0xffEAAD28);
 
 final commonTheme = ThemeData(
   useMaterial3: true,
