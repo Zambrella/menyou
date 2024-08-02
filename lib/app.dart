@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,38 +46,42 @@ class _AppState extends ConsumerState<App> {
 
     final initDependencies = ref.watch(serviceInitialisationProvider);
     final goRouter = ref.watch(goRouterProvider);
-    return MaterialApp.router(
-      routerConfig: goRouter,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ref.watch(selectedThemeProvider).maybeWhen(
-            orElse: () => ThemeMode.system,
-            data: (themeMode) => themeMode,
-          ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      builder: (context, child) {
-        // Wrap with InheritedWidgets here if needed. E.g. One that overrides the text scale factor
-        return initDependencies.when(
-          skipLoadingOnRefresh: false,
-          data: (_) => ToastificationConfigProvider(
-            config: const ToastificationConfig(
-              alignment: Alignment.topCenter,
-            ),
-            child: TextScaleFactorClamper(
-              child: child!,
-            ),
-          ),
-          // Loading screen is handled by the native splash screen on the first load.
-          // If there's an error and the user refreshes, the loading screen will be shown.
-          loading: () => const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-          error: (_, __) {
-            // Logging the error is handled by the provider observer.
-            return const AppStartupErrorWidget();
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        return MaterialApp.router(
+          routerConfig: goRouter,
+          theme: lightTheme.copyWith(colorScheme: lightDynamic?.harmonized()),
+          darkTheme: darkTheme.copyWith(colorScheme: darkDynamic?.harmonized()),
+          themeMode: ref.watch(selectedThemeProvider).maybeWhen(
+                orElse: () => ThemeMode.system,
+                data: (themeMode) => themeMode,
+              ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          builder: (context, child) {
+            // Wrap with InheritedWidgets here if needed. E.g. One that overrides the text scale factor
+            return initDependencies.when(
+              skipLoadingOnRefresh: false,
+              data: (_) => ToastificationConfigProvider(
+                config: const ToastificationConfig(
+                  alignment: Alignment.topCenter,
+                ),
+                child: TextScaleFactorClamper(
+                  child: child!,
+                ),
+              ),
+              // Loading screen is handled by the native splash screen on the first load.
+              // If there's an error and the user refreshes, the loading screen will be shown.
+              loading: () => const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              error: (_, __) {
+                // Logging the error is handled by the provider observer.
+                return const AppStartupErrorWidget();
+              },
+            );
           },
         );
       },
