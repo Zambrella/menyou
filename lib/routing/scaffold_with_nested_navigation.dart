@@ -50,18 +50,16 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
   }
 
   void _onRouteChange() {
-    if (context.mounted) {
-      if (GoRouter.of(context).routerDelegate.currentConfiguration.pathParameters.containsKey('menuId')) {
-        navbarIsHidden = true;
-      } else {
-        navbarIsHidden = false;
-      }
+    if (GoRouter.of(context).routerDelegate.currentConfiguration.pathParameters.containsKey('menuId')) {
+      navbarIsHidden = true;
+    } else {
+      navbarIsHidden = false;
+    }
 
-      if (navbarIsHidden) {
-        if (_controller.status == AnimationStatus.dismissed) _controller.forward();
-      } else {
-        if (_controller.status == AnimationStatus.completed) _controller.reverse();
-      }
+    if (navbarIsHidden) {
+      if (_controller.status == AnimationStatus.dismissed) _controller.forward();
+    } else {
+      if (_controller.status == AnimationStatus.completed) _controller.reverse();
     }
   }
 

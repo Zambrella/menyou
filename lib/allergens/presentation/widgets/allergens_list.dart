@@ -89,6 +89,7 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
+                                  semanticsLabel: allergen.name,
                                   allergen.svgIcon,
                                   height: 24 *
                                       MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /

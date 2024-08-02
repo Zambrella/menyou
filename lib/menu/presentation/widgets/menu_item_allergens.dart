@@ -20,6 +20,9 @@ class MenuItemAllergens extends ConsumerWidget {
     return ref.watch(userAllergiesAndIntolerancesProvider).maybeWhen(
           orElse: () => const SizedBox.shrink(),
           data: (data) {
+            if (menuItem.allergens.isEmpty) {
+              return const SizedBox.shrink();
+            }
             return Wrap(
               spacing: context.theme.appSpacing.small,
               alignment: WrapAlignment.center,
@@ -34,23 +37,32 @@ class MenuItemAllergens extends ConsumerWidget {
                           : isIntolerant
                               ? Colors.orange.harmonizeWith(context.theme.colorScheme.secondaryContainer)
                               : context.theme.colorScheme.secondaryContainer;
-                      return Chip(
-                        backgroundColor: color,
-                        side: BorderSide(
-                          color: HSLColor.fromColor(color).withLightness(0.3).toColor(),
-                        ),
-                        label: Text(
-                          allergen.name,
-                          style: context.theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: isAllergic || isIntolerant ? FontWeight.bold : FontWeight.normal,
-                            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                      return Semantics(
+                        label: allergen.name +
+                            (isAllergic
+                                ? ' (allergic)'
+                                : isIntolerant
+                                    ? ' (intolerant)'
+                                    : ''),
+                        child: Chip(
+                          backgroundColor: color,
+                          side: BorderSide(
+                            color: HSLColor.fromColor(color).withLightness(0.3).toColor(),
                           ),
-                        ),
-                        avatar: SvgPicture.asset(
-                          allergen.svgIcon,
-                          height: 24 *
-                              MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
-                              context.theme.textTheme.headlineSmall!.fontSize!,
+                          label: Text(
+                            allergen.name,
+                            style: context.theme.textTheme.bodySmall?.copyWith(
+                              fontWeight: isAllergic || isIntolerant ? FontWeight.bold : FontWeight.normal,
+                              color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                            ),
+                          ),
+                          avatar: SvgPicture.asset(
+                            semanticsLabel: 'Icon of ${allergen.name}',
+                            allergen.svgIcon,
+                            height: 24 *
+                                MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
+                                context.theme.textTheme.headlineSmall!.fontSize!,
+                          ),
                         ),
                       );
                     },

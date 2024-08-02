@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:men_you/common/extensions/toastification_extensions.dart';
@@ -56,6 +57,10 @@ class _MenuPageState extends ConsumerState<MenuPage> {
           message: 'Error saving menu: ${state.error}',
         );
       } else if (state is AsyncData && prev is AsyncLoading) {
+        SemanticsService.announce(
+          'Menu saved successfully',
+          TextDirection.ltr,
+        );
         toastification.showSuccess(
           context: context, // optional if you use ToastificationWrapper
           message: 'Menu saved successfully',
@@ -76,7 +81,6 @@ class _MenuPageState extends ConsumerState<MenuPage> {
             textAlign: TextAlign.center,
             style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
             decoration: InputDecoration(
-              // labelText: 'Menu Name',
               hintText: 'Menu Name',
               border: InputBorder.none,
               hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
@@ -112,7 +116,6 @@ class _MenuPageState extends ConsumerState<MenuPage> {
                       child: CircularProgressIndicator(),
                     )
                   : SvgPicture.asset(
-                      semanticsLabel: 'Save menu icon',
                       context.theme.brightness == Brightness.light ? 'assets/icons/save.svg' : 'assets/icons/save-outlined.svg',
                       width: 24,
                       height: 24,

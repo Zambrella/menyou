@@ -51,7 +51,7 @@ class _AppState extends ConsumerState<App> {
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          showSemanticsDebugger: true,
+          // showSemanticsDebugger: true,
           routerConfig: goRouter,
           theme: lightTheme.copyWith(colorScheme: lightDynamic?.harmonized()),
           darkTheme: darkTheme.copyWith(colorScheme: darkDynamic?.harmonized()),
