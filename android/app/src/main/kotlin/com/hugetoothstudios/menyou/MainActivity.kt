@@ -1,4 +1,4 @@
-package com.dougtodd.flutter_starter_template
+package com.hugetoothstudios.menyou
 
 import io.flutter.embedding.android.FlutterActivity
 
