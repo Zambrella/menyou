@@ -8,6 +8,7 @@ environment:
   flutter: "^3.22.0"
 
 dependencies:
+  accessibility_tools: ^2.2.1
   analytics_core:
     path: ../../packages/analytics_core
   # analytics_firebase:

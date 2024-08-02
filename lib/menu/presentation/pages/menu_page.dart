@@ -67,29 +67,35 @@ class _MenuPageState extends ConsumerState<MenuPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          textCapitalization: TextCapitalization.words,
-          controller: _menuNameController,
-          textAlign: TextAlign.center,
-          style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
-          decoration: InputDecoration(
-            hintText: 'Menu Name',
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
+        title: Semantics(
+          textField: true,
+          label: 'Menu Name',
+          child: TextField(
+            textCapitalization: TextCapitalization.words,
+            controller: _menuNameController,
+            textAlign: TextAlign.center,
+            style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
+            decoration: InputDecoration(
+              // labelText: 'Menu Name',
+              hintText: 'Menu Name',
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
+            ),
+            onChanged: (value) {
+              ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                    menuController.requireValue.copyWith(name: value),
+                  );
+            },
+            onSubmitted: (value) {
+              ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
+                    menuController.requireValue.copyWith(name: value),
+                  );
+            },
           ),
-          onChanged: (value) {
-            ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
-                  menuController.requireValue.copyWith(name: value),
-                );
-          },
-          onSubmitted: (value) {
-            ref.read(menuPageControllerProvider(widget.menuId, widget.restaurantMenu).notifier).updateMenu(
-                  menuController.requireValue.copyWith(name: value),
-                );
-          },
         ),
         actions: [
           IconButton(
+            tooltip: 'Save menu',
             onPressed: menuController.hasValue
                 ? () async {
                     await ref.read(saveMenuControllerProvider.notifier).saveMenu(
@@ -106,6 +112,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
                       child: CircularProgressIndicator(),
                     )
                   : SvgPicture.asset(
+                      semanticsLabel: 'Save menu icon',
                       context.theme.brightness == Brightness.light ? 'assets/icons/save.svg' : 'assets/icons/save-outlined.svg',
                       width: 24,
                       height: 24,

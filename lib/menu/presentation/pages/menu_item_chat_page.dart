@@ -180,6 +180,7 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                     ),
                     const SizedBox(width: 8),
                     IconButton(
+                      tooltip: 'Send message',
                       onPressed: _sendMessage,
                       icon: ValueListenableBuilder(
                         valueListenable: _textController,

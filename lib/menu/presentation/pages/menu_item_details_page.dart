@@ -39,12 +39,14 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
           systemOverlayStyle: SystemUiOverlayStyle.light,
           backgroundColor: context.theme.colorScheme.surfaceContainer,
           flexibleSpace: Image.network(
+            semanticLabel: 'Image of ${widget.menuItem.title}',
             'https://images.unsplash.com/photo-1512152272829-e3139592d56f?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
             fit: BoxFit.cover,
             colorBlendMode: BlendMode.darken,
             color: Colors.black.withOpacity(0.3),
           ),
           leading: IconButton(
+            tooltip: 'Close',
             icon: const Icon(
               Icons.close,
               color: Colors.white,

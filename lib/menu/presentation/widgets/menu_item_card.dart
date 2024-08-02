@@ -211,6 +211,7 @@ class MenuItemClosedCard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
+                      semanticsLabel: 'Vegetarian icon',
                       'assets/icons/vegetarian.svg',
                       height: 24 *
                           MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
