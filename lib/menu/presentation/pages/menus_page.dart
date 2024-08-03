@@ -3,8 +3,10 @@ import 'package:animated_list_plus/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:men_you/account/providers/account_repository_provider.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
+import 'package:men_you/menu/presentation/widgets/consent_dialog.dart';
 import 'package:men_you/menu/presentation/widgets/restaurant_menu_card.dart';
 import 'package:men_you/routing/app_router.dart';
 import 'package:men_you/theme/common_theme.dart';
@@ -21,6 +23,24 @@ class _MenusPageState extends ConsumerState<MenusPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showConsentDialog(context);
+    });
+  }
+
+  Future<void> showConsentDialog(BuildContext context) async {
+    final doNotShowAiWarningAgain = await ref.read(accountRepositoryProvider).getDoNotShowAiWarningAgain();
+    if (!doNotShowAiWarningAgain && context.mounted) {
+      final answer = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return const ConsentDialog();
+        },
+      );
+      if (answer ?? false) {
+        await ref.read(accountRepositoryProvider).saveDoNotShowAiWarningAgain();
+      }
+    }
   }
 
   @override
