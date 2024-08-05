@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:men_you/allergens/presentation/pages/allergens_page.dart';
 import 'package:men_you/authentication/providers/authentication_providers.dart';
-import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
-import 'package:men_you/menu/presentation/pages/menu_item_details_page.dart';
 import 'package:men_you/menu/presentation/pages/menu_page.dart';
 import 'package:men_you/menu/presentation/pages/menus_page.dart';
 import 'package:men_you/routing/go_router_refresh_stream.dart';
@@ -70,15 +68,41 @@ GoRouter goRouter(GoRouterRef ref) {
       GoRoute(
         path: '/welcome',
         name: AppRoute.welcome.name,
-        pageBuilder: (context, state) => MaterialPage<void>(
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
           key: state.pageKey,
           child: const WelcomePage(),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            // animation is the animation shown when the page is being built (0 -> 1)
+            // secondaryAnimation is the animation shown when the page is being dismissed (0 -> 1)
+            // However, with secondary, it's unlikely to be viewed because the new page is being built on top of it.
+            return FadeTransition(
+              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 1, end: 2).animate(secondaryAnimation),
+                child: child,
+              ),
+            );
+          },
         ),
       ),
       // Don't use .indexedStack if you want to create a custom page navigation between shell routes.
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
+        pageBuilder: (context, state, navigationShell) {
+          return CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: ScaffoldWithNestedNavigation(navigationShell: navigationShell),
+            transitionDuration: const Duration(milliseconds: 500),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: Tween<double>(begin: 0, end: 1).animate(animation),
+                child: FadeTransition(
+                  opacity: Tween<double>(begin: 1, end: 0).animate(secondaryAnimation),
+                  child: child,
+                ),
+              );
+            },
+          );
         },
         branches: [
           StatefulShellBranch(

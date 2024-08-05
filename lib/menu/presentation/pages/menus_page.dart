@@ -30,6 +30,8 @@ class _MenusPageState extends ConsumerState<MenusPage> {
 
   Future<void> showConsentDialog(BuildContext context) async {
     final doNotShowAiWarningAgain = await ref.read(accountRepositoryProvider).getDoNotShowAiWarningAgain();
+    // Wait for the page to be fully loaded before showing the dialog
+    await Future<void>.delayed(const Duration(milliseconds: 800));
     if (!doNotShowAiWarningAgain && context.mounted) {
       final answer = await showDialog<bool>(
         context: context,
