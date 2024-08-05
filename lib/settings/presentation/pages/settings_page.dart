@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/app_dependencies.dart';
 import 'package:men_you/authentication/presentation/controllers/logout_controller.dart';
 import 'package:men_you/theme/selected_theme.dart';
+import 'package:men_you/theme/theme_extensions.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -18,20 +20,50 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: const Text('Settings'),
       ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          ElevatedButton(
+          ListTile(
+            iconColor: context.theme.colorScheme.primary,
+            leading: const Icon(Icons.color_lens_outlined),
+            title: const Text('Theme'),
+            trailing: DropdownButton<ThemeMode>(
+              underline: const SizedBox.shrink(),
+              dropdownColor: context.theme.colorScheme.surfaceContainer,
+              value: ref.watch(selectedThemeProvider).requireValue,
+              style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
+              items: ThemeMode.values
+                  .map(
+                    (mode) => DropdownMenuItem<ThemeMode>(
+                      value: mode,
+                      child: Text(mode.name),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (themeMode) {
+                if (themeMode != null) {
+                  ref.read(selectedThemeProvider.notifier).setThemeMode(themeMode);
+                }
+              },
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Divider(),
+          ),
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: context.theme.colorScheme.primary),
+            ),
             onPressed: () async {
               await ref.read(logoutControllerProvider.notifier).logout();
             },
             child: const Text('Logout'),
           ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(selectedThemeProvider.notifier).setThemeMode(
-                    ref.read(selectedThemeProvider).requireValue == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
-                  );
-            },
-            child: const Text('Switch theme'),
+          const SizedBox(height: 4),
+          Text(
+            'Version: ${ref.read(appDependenciesProvider).requireValue.packageInfo.version} | Build: ${ref.read(appDependenciesProvider).requireValue.packageInfo.buildNumber}',
+            style: context.theme.textTheme.bodySmall?.copyWith(color: context.theme.colorScheme.onSurface),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

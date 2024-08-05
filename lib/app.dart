@@ -1,4 +1,3 @@
-import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -65,15 +64,12 @@ class _AppState extends ConsumerState<App> {
             // Wrap with InheritedWidgets here if needed. E.g. One that overrides the text scale factor
             return initDependencies.when(
               skipLoadingOnRefresh: false,
-              data: (_) => AccessibilityTools(
-                logLevel: LogLevel.none,
-                child: ToastificationConfigProvider(
-                  config: const ToastificationConfig(
-                    alignment: Alignment.topCenter,
-                  ),
-                  child: TextScaleFactorClamper(
-                    child: child!,
-                  ),
+              data: (_) => ToastificationConfigProvider(
+                config: const ToastificationConfig(
+                  alignment: Alignment.topCenter,
+                ),
+                child: TextScaleFactorClamper(
+                  child: child!,
                 ),
               ),
               // Loading screen is handled by the native splash screen on the first load.

@@ -10,8 +10,8 @@ part 'register_controller.g.dart';
 @riverpod
 class RegisterController extends _$RegisterController {
   @override
-  FutureOr<void> build() async {
-    return null;
+  Future<void> build() async {
+    return;
   }
 
   Future<void> register() async {
