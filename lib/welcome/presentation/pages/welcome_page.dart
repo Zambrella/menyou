@@ -139,8 +139,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
                       const Spacer(flex: 2),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
                           children: [
                             Text(
                               'Eat out with ',
@@ -159,7 +159,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
                           ],
                         ).animate(delay: 1000.ms).fadeIn(),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 16),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(

@@ -10,26 +10,37 @@ environment:
 dependencies:
   accessibility_tools: ^2.2.1
   analytics_core:
-    path: ../../packages/analytics_core
-  # analytics_firebase:
-  #   path: ../../packages/analytics_firebase
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/analytics_core
   animated_list_plus: ^0.5.2
   animations: ^2.0.11
   auth_core:
-    path: ../../packages/auth_core
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/auth_core
   auth_firebase:
-    path: ../../packages/auth_firebase
-  # error_logging_crashlytics:
-  #   path: ../../packages/error_logging_crashlytics
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/auth_firebase
   cloud_firestore: ^5.1.0
   collection: ^1.18.0
   colorful_safe_area: ^1.0.0
   data_privacy:
-    path: ../../packages/data_privacy
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/data_privacy
   device_info_plus: ^10.1.0
   dynamic_color: ^1.7.0
   error_logging_core:
-    path: ../../packages/error_logging_core
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/error_logging_core
   firebase_auth: ^5.1.2
   firebase_core: ^3.2.0
   firebase_vertexai: ^0.2.2+2
@@ -55,7 +66,10 @@ dependencies:
   package_info_plus: ^8.0.0
   pub_semver: ^2.1.4
   purchases_core:
-    path: ../../packages/purchases_core
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/purchases_core
   riverpod_annotation: ^2.3.5
   shared_preferences: ^2.2.3
   toastification: ^2.0.0
