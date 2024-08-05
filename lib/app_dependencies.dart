@@ -48,13 +48,23 @@ Future<AppDependencies> appDependencies(
   final deviceInfo = await DeviceInfoPlugin().deviceInfo;
   final prefs = await SharedPreferences.getInstance();
   final appVersion = Version.parse(pInfo.version);
-  await dotenv.load(
-    fileName: switch (flavor) {
-      Flavor.dev => 'env/.development.env',
-      Flavor.staging => 'env/.staging.env',
-      Flavor.prod => 'env/.production.env',
-    },
-  );
+  try {
+    await dotenv.load(
+      isOptional: true,
+      fileName: switch (flavor) {
+        Flavor.dev => 'env/.development.env',
+        Flavor.staging => 'env/.staging.env',
+        Flavor.prod => 'env/.production.env',
+      },
+    );
+  } catch (e) {
+    if (e.runtimeType.toString() == 'EmptyEnvFileError') {
+      logger.w('.env file is empty');
+    } else {
+      rethrow;
+    }
+  }
+
   // Other examples: database connection, sound pool, vibration service, session storage.
 
   logger.i('Dependency initialization successful.');

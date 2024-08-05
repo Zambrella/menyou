@@ -1,43 +1,17 @@
-# Flutter Starter Template
+<img src="assets/icons/men-you-app-icon.png" width="150">
 
-## Android will only work when running as PROD
+# MenYou
+Watch the demo video [here](https://youtu.be/eOVe7t-xohY).
 
-![coverage][coverage_badge]
-This template is meant as a good starting point for any app. It includes:
-- routing
-- initialization
-- authentication
-- logging
-- exception reporting
-- analytics
-- purchases
-- flavors
-- tests
+"Have you ever struggled deciding what to eat at a restaurant? How about when you have intolerances or allergies? Eating out becomes such a nightmare, it would be easier to stay at home! This is where MenYou comes in. A new mobile app, powered by AI, to revolutionise eating out for those with intolerances and allergies."
 
-It makes use of other packages defined in this mono-repo.
-
-
-## Deep Links 🔗
-Just follow [this](https://codewithandrea.com/articles/flutter-deep-links/) awesome guide. 
-
-Template app has been tested and works with deep links.
-
----
-
-## App Icon 📱
-TODO: Update this documentation with learnings and any pitfalls.
-
-Use [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) package (which supports flavors).
-
-Other options:
-- https://pub.dev/packages/icons_launcher
-
----
-
-## Splash Screen 💦
-TODO: Update this documentation with learnings and any pitfalls.
-
-Use [flutter_native_splash](https://pub.dev/packages/flutter_native_splash) package (which supports flavors).
+## Running the app
+> [!WARNING]  
+> Android will only work when running in PROD as I have not set up multiple Firebase projects.
+> See [Flavors](#flavors) for more info.
+1. Clone the repo
+2. Run `flutter run --flavor production --target lib/main_production.dart`
+3. Explore
 
 ---
 
@@ -48,47 +22,6 @@ It is expected that there are 3 `.env` files:
 - `.production.env`
 
 These are not checked into source control.
-
-[flutter_dotenv](https://pub.dev/packages/flutter_dotenv) package is used to load the relevant file during initialization. Variables can be accessed like so:
-```dart
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-dotenv.env['VAR_NAME'];
-```
-
-Secrets and API keys should ideally **not** be stored in envrionment variables. Although better than coding them into a `String` they can still be accessed by someone with access to the compiled app. It is better to never give the client access to the keys and handle any code that requires the keys in a trusted environement (e.g. a server).
-
----
-
-## Theming 🌈
-Theming is all handled in the `lib/theme` directory.
-
-A common theme is defined in `common_theme.dart` which handles all theming that isn't related to colours.
-
-There is then `light_theme.dart` and `dark_theme.dart` which copies the `common_theme` and adds the relevant colours and brightness. The `MaterialApp` then uses these themes.
-
-NOTE: This might not be the best way to do it so it might change in the future
-
-### Extensions
-Theme extensions provide a robust mechanism to extend and customize the default theming capabilities. Currently implemented are:
-- `SpacingTheme` - Sizes that will mostly be used for padding and gap spacing. These could probably just be constants.
-- `DurationTheme` - Different durations that can be used by animations so the app uses consistent timings throughout.
-- `ModalTheme` - ???
-
-### Text scale factor clamper
-This widget wraps the entire app and prevents the font from getting too big or small when the user has adjusted the font size in the OS settings. Although it would be ideal to not have to do this, some apps just can't handle it if the font gets too large.
-
-
----
-
-## CI/CD 🚝
-
----
-
-## Exceptions ⚠️
-There is an extension for `AsyncError` which will loop through all known `Exception` types and create a helpful error message for the user.
-When creating new exceptions, you should add a suitable error message to the relevant `.arb` files and add it as an option in `app_exceptions.dart`.
-
-There is also a helpful function that will take a plain `Exception` type and remove the `Exception: ` prefix and return it as a `String`.
 
 ---
 
@@ -104,28 +37,20 @@ $ flutter run --flavor staging --target lib/main_staging.dart
 # Production
 $ flutter run --flavor production --target lib/main_production.dart
 ```
-
-_\*Flutter Starter Template works on iOS, Android, Web, and Windows._
-
 ---
 
-## Running Tests 🧪
-
-To run all unit and widget tests use the following command:
-
-```sh
-$ flutter test --coverage --test-randomize-ordering-seed random
-```
-
-To view the generated coverage report you can use [lcov](https://github.com/linux-test-project/lcov).
-
-```sh
-# Generate Coverage Report
-$ genhtml coverage/lcov.info -o coverage/
-
-# Open Coverage Report
-$ open coverage/index.html
-```
+## TODO
+- [ ] Extract photo loading custom painter to its own useful widget
+- [ ] Shader that affects background image as circle points move through it
+- [ ] Shader that slowly un-blurs (or something similar) the picture
+- [ ] Split menu items into courses
+- [ ] Fix the bottom nav edge cases not showing/hiding correctly when scrolling
+- [ ] Ask the user if they want to save the menu if they haven’t already when navigating away
+- [ ] Add location to menu
+- [ ] Generate an image of the menu item. Will require using vertex api - https://console.cloud.google.com/vertex-ai/publishers/google/model-garden/imagegeneration?project=stash-hub
+- [ ] Animate app bar title when changing location
+- [ ] Add support for using on-device LLMs
+- [ ] Add support for tablets
 
 ---
 
@@ -242,9 +167,6 @@ flutter gen-l10n --arb-dir="lib/l10n/arb"
 
 Alternatively, run `flutter run` and code generation will take place automatically.
 
-## Notes 📝
 
-
-[coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html
 [internationalization_link]: https://flutter.dev/docs/development/accessibility-and-localization/internationalization
