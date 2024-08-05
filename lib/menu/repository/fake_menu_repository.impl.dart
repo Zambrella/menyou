@@ -128,7 +128,6 @@ class FakeMenuRepository implements MenuRepository {
 
   @override
   Future<String> sendMessageAboutMenuItem(ProcessedMenuItem menuItem, String message) {
-    // TODO: implement sendMessageAboutMenuItem
     throw UnimplementedError();
   }
 }

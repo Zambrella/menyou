@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:error_logging_core/error_logging_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:men_you/flavors.dart';
 import 'package:logger/logger.dart';
+import 'package:men_you/flavors.dart';
 
 class AppLogFilter extends LogFilter {
   AppLogFilter(this._flavor);

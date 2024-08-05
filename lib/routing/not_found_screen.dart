@@ -11,7 +11,6 @@ class NotFoundScreen extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Text(AppLocalizations.of(context).pageNotFound),
-        // TODO: Add a button to go back to the previous page (or home?)
       ),
     );
   }

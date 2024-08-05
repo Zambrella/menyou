@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/domain/allergen_states.dart';
 import 'package:men_you/allergens/providers/user_allergies_and_intolerances_provider.dart';
 import 'package:men_you/allergens/utils/allergen_icon_extension.dart';
+import 'package:men_you/allergens/utils/allergen_name_extension.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
@@ -27,7 +27,7 @@ class MenuItemAllergens extends ConsumerWidget {
               spacing: context.theme.appSpacing.small,
               alignment: WrapAlignment.center,
               children: menuItem.allergens
-                  .map(Allergen.fromName)
+                  .map((e) => e.toAllergen())
                   .map(
                     (allergen) {
                       final isAllergic = data[AllergenStates.allergic]!.contains(allergen);

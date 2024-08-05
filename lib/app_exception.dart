@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 
-// TODO: I think this needs to be an extension on Object, not AsyncError
-
 extension ExceptionX<T> on AsyncError<T> {
   /// Returns a helpful, translated, error message for the exception attached to the [AsyncError].
   /// This is intended to be used for messages that will be shown to the user.

@@ -27,7 +27,6 @@ class CurrentMenuItems extends _$CurrentMenuItems {
 
   /// Add processed menu items to the current list of menu items.
   /// Any unprocessed items are replaced with the new processed items.
-  // TODO: Try setting the type from List<MenuItem> to List<ProcessedMenuItem> and see if it works.
   void addProcessedMenuItems(List<MenuItem> menuItems) {
     final newList = state.map((item) {
       final processed = menuItems.firstWhereOrNull((menuItem) => menuItem.id == item.id);

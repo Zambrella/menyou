@@ -5,5 +5,8 @@ linter:
     lines_longer_than_80_chars: false
 
 analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "lib/l10n/**"
   plugins:
     - custom_lint

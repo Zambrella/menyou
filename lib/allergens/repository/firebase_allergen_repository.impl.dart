@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/domain/allergen_repository.abs.dart';
+import 'package:men_you/allergens/utils/allergen_name_extension.dart';
 
 class FirebaseAllergenRepository implements AllergenRepository {
   const FirebaseAllergenRepository(
@@ -37,7 +38,7 @@ class FirebaseAllergenRepository implements AllergenRepository {
         'Sesame',
         'Soya',
         'Sulphur dioxide',
-      ].map(Allergen.fromName).toList(),
+      ].map((e) => e.toAllergen()).toList(),
     );
   }
 

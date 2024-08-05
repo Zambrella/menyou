@@ -173,7 +173,6 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // TODO: Animate entrance of menu items.
           for (final menuItem in ref.watch(currentMenuItemsProvider))
             MenuItemCard(
               key: ValueKey(menuItem.id),

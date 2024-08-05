@@ -7,14 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore:depend_on_referenced_packages
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:logger/logger.dart';
 import 'package:men_you/app.dart';
 import 'package:men_you/app_dependencies.dart';
 import 'package:men_you/flavors.dart';
 import 'package:men_you/logging/app_logging/logger_config.dart';
 import 'package:men_you/logging/app_logging/provider_logger.dart';
-// ignore:depend_on_referenced_packages
-import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Runs any necessary Flutter or Platform specific initialization code before calling `runApp`.
@@ -44,8 +44,7 @@ Future<void> bootstrap(Flavor flavor, WidgetsBinding widgetsBinding) async {
   registerErrorHandlers(logger);
 
   //* Set all the shared preferences to be prefixed with app name
-  // TODO: Change this to your app's name
-  SharedPreferences.setPrefix('templateApp.');
+  SharedPreferences.setPrefix('menyou.');
 
   //* Android specific settings
   if (defaultTargetPlatform == TargetPlatform.android) {
