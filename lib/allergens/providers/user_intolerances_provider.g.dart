@@ -23,7 +23,7 @@ final userIntollerancesIdsProvider =
 );
 
 typedef UserIntollerancesIdsRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$userIntolerancesHash() => r'832e29f1a28100dd62920511adf6f6c00906fcd8';
+String _$userIntolerancesHash() => r'722e718f4f0b6783f9c42bf3363f7111a7a24cad';
 
 /// See also [userIntolerances].
 @ProviderFor(userIntolerances)

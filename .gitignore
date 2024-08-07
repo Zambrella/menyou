@@ -113,3 +113,6 @@ app.*.map.json
 
 # Environment variables
 env/*
+
+# Firebase keys
+menyou-firebase-key.json

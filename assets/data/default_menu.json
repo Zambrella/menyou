@@ -1,0 +1,155 @@
+{
+	"createdAt": "2024-07-21T12:09:59.582659",
+	"id": "6416d771-2850-46fb-9174-95376c6890db",
+	"menuItems": [
+		{
+			"allergens": [
+				"Gluten",
+				"Crustacean",
+				"Egg",
+				"Fish",
+				"Molluscs",
+				"Nuts",
+				"Peanuts",
+				"Sesame",
+				"Soya"
+			],
+			"description": "These are Chinese lettuce wraps filled with spiced minced pork, chilli, spring onion, and ginger.",
+			"id": "92f5ccf9-79a8-4515-b6b0-afe23c961ce6",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Pork san choy bow, chilli, spring onion, ginger (Chinese spiced minced pork lettuce wraps)."
+		},
+		{
+			"allergens": [
+				"Gluten",
+				"Milk",
+				"Nuts",
+				"Sesame"
+			],
+			"description": "A Moroccan-spiced lamb filling baked in a crispy filo pastry shell, served with houmous, tomato chutney, and a drizzle of pomegranate molasses.",
+			"id": "219437d5-ecae-4e70-b8b4-f068a897a278",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Moroccan lamb filo tartlet, houmous, tomato chutney, pomegranate molasses."
+		},
+		{
+			"allergens": [
+				"Mustard",
+				"Milk"
+			],
+			"description": "A dish of pressed and smoked ham hock served with remoulade sauce, petit pois (small peas), mint, and gem lettuce.",
+			"id": "742b09fc-e1c4-489b-ab39-c2e9cc25b159",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Pressed smoked ham hock, remoulade, petit pois, mint, gem lettuce."
+		},
+		{
+			"allergens": [
+				"Gluten",
+				"Celery",
+				"Mustard"
+			],
+			"description": "Panelle con frittella is a Sicilian dish consisting of two parts: panelle, which are chickpea fritters, and frittella, a savory casserole made with artichokes, peas, and broad beans.",
+			"id": "9d21459a-1b87-458a-ac3a-2f295ef52723",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Panelle con frittella (Sicilian chick pea fritters, artichoke, pea and broad bean casserole)."
+		},
+		{
+			"allergens": [
+				"Crustacean",
+				"Fish",
+				"Milk",
+				"Molluscs",
+				"Mustard"
+			],
+			"description": "A Caesar salad served with monkfish scampi. Monkfish is a type of fish with a firm, meaty texture. Scampi typically refers to a dish where the fish is cooked in butter, garlic, and white wine.",
+			"id": "bd38e78c-d061-4834-9853-df43f70e85c5",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Monkfish scampi, Caesar salad."
+		},
+		{
+			"allergens": [
+				"Gluten",
+				"Milk",
+				"Mustard"
+			],
+			"description": "Pan-seared beef fillet served with dauphine potatoes (potatoes mixed with choux pastry and deep-fried), hispi cabbage, roasted tomato, and a peppercorn sauce.",
+			"id": "754b115b-452b-4fb5-b865-3424c31ab3a6",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Pan roasted fillet of beef, dauphine potatoes, hispi cabbage, roasted tomato, peppercorn sauce."
+		},
+		{
+			"allergens": [
+				"Gluten",
+				"Milk",
+				"Nuts"
+			],
+			"description": "Roasted chicken breast seasoned with herbs, served with crispy potato rösti cooked in olive oil, grilled courgette, gem lettuce, roasted tomato, and a dollop of pistou (a Provençal sauce made with olive oil, basil, garlic, and Parmesan cheese).",
+			"id": "c99118b8-6c69-4ec2-a760-385a23226293",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Herby roast chicken breast, olive oil rösti, grilled courgette and gem lettuce, roasted tomato, pistou."
+		},
+		{
+			"allergens": [
+				"Gluten",
+				"Mustard",
+				"Sulphur Dioxide"
+			],
+			"description": "Grilled Hampshire pork chop marinated in spices, served with crushed new potatoes, braised peppers, hispi cabbage, and a smoked paprika sauce.",
+			"id": "a81056a1-226c-45ee-94e5-d63369e6d4ac",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Grilled marinated Hampshire pork chop, crushed new potatoes, braised peppers, hispi cabbage, smoked paprika sauce."
+		},
+		{
+			"allergens": [
+				"Fish",
+				"Sesame",
+				"Nuts",
+				"Sulphur Dioxide"
+			],
+			"description": "Grilled cod loin marinated in chermoula, a North African marinade made from herbs, spices, and preserved lemons. Served with crushed new potatoes, courgettes (zucchini), roasted tomato, and a lemon and tahini sauce.",
+			"id": "ff954e16-a2c8-4776-9a8c-c9e517f1e99c",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Chermoula marinated cod loin, crushed new potatoes, courgettes, roasted tomato, lemon and tahini sauce."
+		},
+		{
+			"allergens": [
+				"Milk",
+				"Nuts"
+			],
+			"description": "Olive oil rösti is a Swiss dish made of potatoes. It is served with a ragout made of tomatoes, basil, and black olives, along with grilled courgette (zucchini), smoked mozzarella cheese, and pistou, a sauce made with olive oil, basil, garlic, and Parmesan cheese.",
+			"id": "0c5aa4a0-9430-4215-85b2-12b2c41368c8",
+			"isVegan": false,
+			"isVegetarian": false,
+			"runtimeType": "processed",
+			"subtitle": null,
+			"title": "Olive oil rösti, tomato, basil and black olive ragout, grilled courgette, smoked mozzarella, pistou."
+		}
+	],
+	"name": "Example Menu"
+}
