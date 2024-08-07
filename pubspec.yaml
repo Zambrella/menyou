@@ -91,6 +91,13 @@ dev_dependencies:
   riverpod_lint: ^2.3.10
   very_good_analysis: ^5.1.0
 
+dependency_overrides:
+  auth_core:
+    git:
+      url: https://github.com/Zambrella/hugetooth.git
+      ref: main
+      path: packages/auth_core
+
 flutter:
   uses-material-design: true
   generate: true
