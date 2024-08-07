@@ -6,9 +6,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'user_intolerances_provider.g.dart';
 
 @riverpod
+FutureOr<List<String>> userIntollerancesIds(UserIntollerancesIdsRef ref) {
+  return ref.watch(allergenRepositoryProvider).getUserIntollerances();
+}
+
+@riverpod
 FutureOr<List<Allergen>> userIntolerances(UserIntolerancesRef ref) async {
   final allAllergens = await ref.watch(allAllergensProvider.future);
-  final userAllergenIds = await ref.watch(allergenRepositoryProvider).getUserIntollerances();
+  final userAllergenIds = await ref.watch(userIntollerancesIdsProvider.future);
   final userAllergens = allAllergens.where((allergen) => userAllergenIds.contains(allergen.id)).toList();
   return userAllergens;
 }

@@ -6,7 +6,24 @@ part of 'user_intolerances_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userIntolerancesHash() => r'fbb24914e19ee91d3ed71d44290072c0b857b1c1';
+String _$userIntollerancesIdsHash() =>
+    r'8b942e18d0e3a59aaeab6851ac1049c7a1bfcc21';
+
+/// See also [userIntollerancesIds].
+@ProviderFor(userIntollerancesIds)
+final userIntollerancesIdsProvider =
+    AutoDisposeFutureProvider<List<String>>.internal(
+  userIntollerancesIds,
+  name: r'userIntollerancesIdsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userIntollerancesIdsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef UserIntollerancesIdsRef = AutoDisposeFutureProviderRef<List<String>>;
+String _$userIntolerancesHash() => r'832e29f1a28100dd62920511adf6f6c00906fcd8';
 
 /// See also [userIntolerances].
 @ProviderFor(userIntolerances)

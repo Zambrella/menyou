@@ -38,6 +38,9 @@ class AllergensPageController extends _$AllergensPageController {
     );
     await ref.read(allergenRepositoryProvider).addUserAllergy(allergen.id);
     await ref.read(allergenRepositoryProvider).removeUserIntolerance(allergen.id);
+    ref
+      ..invalidate(userAllergenIdsProvider)
+      ..invalidate(userIntollerancesIdsProvider);
   }
 
   Future<void> removeAllergy(Allergen allergen) async {
@@ -50,6 +53,9 @@ class AllergensPageController extends _$AllergensPageController {
       }).toList(),
     );
     await ref.read(allergenRepositoryProvider).removeUserAllergy(allergen.id);
+    ref
+      ..invalidate(userAllergenIdsProvider)
+      ..invalidate(userIntollerancesIdsProvider);
   }
 
   Future<void> addIntolerance(Allergen allergen) async {
@@ -63,6 +69,9 @@ class AllergensPageController extends _$AllergensPageController {
     );
     await ref.read(allergenRepositoryProvider).addUserIntolerance(allergen.id);
     await ref.read(allergenRepositoryProvider).removeUserAllergy(allergen.id);
+    ref
+      ..invalidate(userAllergenIdsProvider)
+      ..invalidate(userIntollerancesIdsProvider);
   }
 
   Future<void> removeIntolerance(Allergen allergen) async {
@@ -75,5 +84,8 @@ class AllergensPageController extends _$AllergensPageController {
       }).toList(),
     );
     await ref.read(allergenRepositoryProvider).removeUserIntolerance(allergen.id);
+    ref
+      ..invalidate(userAllergenIdsProvider)
+      ..invalidate(userIntollerancesIdsProvider);
   }
 }

@@ -21,7 +21,7 @@ class _AllergensPageState extends ConsumerState<AllergensPage> {
         title: Text(l10n.navigationAllergens),
       ),
       body: ref.watch(allergensPageControllerProvider).when(
-            skipLoadingOnRefresh: false,
+            skipLoadingOnReload: true,
             data: (allergensAndStates) {
               return AllergensList(allergensAndStates: allergensAndStates);
             },
