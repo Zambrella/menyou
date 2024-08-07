@@ -92,5 +92,8 @@
     "processing": "Processing",
     "logout": "Logout",
     "version": "Version",
-    "build": "Build"
+    "build": "Build",
+    "menuName": "Menu name",
+    "enterMenuName": "Enter menu name",
+    "saveMenu": "Save menu"
 }

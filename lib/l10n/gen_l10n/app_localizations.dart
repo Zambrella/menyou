@@ -648,6 +648,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Build'**
   String get build;
+
+  /// No description provided for @menuName.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu name'**
+  String get menuName;
+
+  /// No description provided for @enterMenuName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter menu name'**
+  String get enterMenuName;
+
+  /// No description provided for @saveMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Save menu'**
+  String get saveMenu;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

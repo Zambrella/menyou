@@ -3,6 +3,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:men_you/common/extensions/toastification_extensions.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
 import 'package:men_you/menu/presentation/controllers/menu_page_controller.dart';
@@ -69,19 +70,20 @@ class _MenuPageState extends ConsumerState<MenuPage> {
     });
 
     final menuController = ref.watch(menuPageControllerProvider(widget.menuId, widget.restaurantMenu));
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
           textField: true,
-          label: 'Menu Name',
+          label: l10n.menuName,
           child: TextField(
             textCapitalization: TextCapitalization.words,
             controller: _menuNameController,
             textAlign: TextAlign.center,
             style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
             decoration: InputDecoration(
-              hintText: 'Menu Name',
+              hintText: l10n.enterMenuName,
               border: InputBorder.none,
               hintStyle: TextStyle(color: context.theme.colorScheme.onSecondaryContainer.withOpacity(0.5)),
             ),
@@ -99,7 +101,7 @@ class _MenuPageState extends ConsumerState<MenuPage> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Save menu',
+            tooltip: l10n.saveMenu,
             onPressed: menuController.hasValue
                 ? () async {
                     await ref.read(saveMenuControllerProvider.notifier).saveMenu(

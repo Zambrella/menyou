@@ -36,7 +36,7 @@ class MenuItemAllergens extends ConsumerWidget {
                           ? Colors.red.harmonizeWith(context.theme.colorScheme.secondaryContainer)
                           : isIntolerant
                               ? Colors.orange.harmonizeWith(context.theme.colorScheme.secondaryContainer)
-                              : context.theme.colorScheme.secondaryContainer;
+                              : context.theme.colorScheme.surface;
                       final translatedAllergen = allergen.toLocale(context);
                       return Semantics(
                         label: translatedAllergen.name +
@@ -54,7 +54,13 @@ class MenuItemAllergens extends ConsumerWidget {
                             translatedAllergen.name,
                             style: context.theme.textTheme.bodySmall?.copyWith(
                               fontWeight: isAllergic || isIntolerant ? FontWeight.bold : FontWeight.normal,
-                              color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                              color: isAllergic || isIntolerant
+                                  ? color.computeLuminance() > 0.5
+                                      ? Colors.black
+                                      : Colors.white
+                                  : color.computeLuminance() > 0.5
+                                      ? Colors.black.withOpacity(0.7)
+                                      : Colors.white.withOpacity(0.7),
                             ),
                           ),
                           avatar: SvgPicture.asset(

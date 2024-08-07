@@ -282,4 +282,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get build => 'Build';
+
+  @override
+  String get menuName => 'Menu name';
+
+  @override
+  String get enterMenuName => 'Enter menu name';
+
+  @override
+  String get saveMenu => 'Save menu';
 }
