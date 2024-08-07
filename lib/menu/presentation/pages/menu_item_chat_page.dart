@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:animated_list_plus/transitions.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
