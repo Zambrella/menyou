@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/app_dependencies.dart';
 import 'package:men_you/authentication/presentation/controllers/logout_controller.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
+import 'package:men_you/settings/utils/theme_mode_extensions.dart';
 import 'package:men_you/theme/selected_theme.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
@@ -15,9 +17,10 @@ class SettingsPage extends ConsumerStatefulWidget {
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(l10n.navigationSettings),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -25,7 +28,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           ListTile(
             iconColor: context.theme.colorScheme.primary,
             leading: const Icon(Icons.color_lens_outlined),
-            title: const Text('Theme'),
+            title: Text(l10n.theme),
             trailing: DropdownButton<ThemeMode>(
               underline: const SizedBox.shrink(),
               dropdownColor: context.theme.colorScheme.surfaceContainer,
@@ -35,7 +38,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   .map(
                     (mode) => DropdownMenuItem<ThemeMode>(
                       value: mode,
-                      child: Text(mode.name),
+                      child: Text(mode.prettyPrint(context)),
                     ),
                   )
                   .toList(),
@@ -57,11 +60,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             onPressed: () async {
               await ref.read(logoutControllerProvider.notifier).logout();
             },
-            child: const Text('Logout'),
+            child: Text(l10n.logout),
           ),
           const SizedBox(height: 4),
           Text(
-            'Version: ${ref.read(appDependenciesProvider).requireValue.packageInfo.version} | Build: ${ref.read(appDependenciesProvider).requireValue.packageInfo.buildNumber}',
+            '${l10n.version}: ${ref.read(appDependenciesProvider).requireValue.packageInfo.version} | ${l10n.build}: ${ref.read(appDependenciesProvider).requireValue.packageInfo.buildNumber}',
             style: context.theme.textTheme.bodySmall?.copyWith(color: context.theme.colorScheme.onSurface),
             textAlign: TextAlign.center,
           ),

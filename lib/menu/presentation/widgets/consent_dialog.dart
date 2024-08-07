@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 class ConsentDialog extends ConsumerStatefulWidget {
@@ -15,17 +16,18 @@ class _ConsentDialogState extends ConsumerState<ConsentDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
       backgroundColor: context.theme.colorScheme.surface,
       title: Text(
-        'Warning',
+        l10n.aiWarningTitle,
         style: TextStyle(color: Colors.orange.harmonizeWith(context.theme.colorScheme.error)),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'MenYou uses AI and can sometimes generate incorrect or incomplete information. If you are not sure about the results, please make sure to ask the kitchen.',
+            l10n.aiWarningMessage,
             style: context.theme.textTheme.bodyLarge?.copyWith(
               color: context.theme.colorScheme.onSurface,
             ),
@@ -34,7 +36,7 @@ class _ConsentDialogState extends ConsumerState<ConsentDialog> {
           CheckboxListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
-              'Do not show this message again',
+              l10n.aiWarningDontShowAgain,
               style: context.theme.textTheme.bodyLarge?.copyWith(
                 color: context.theme.colorScheme.onSurface,
               ),
@@ -55,7 +57,7 @@ class _ConsentDialogState extends ConsumerState<ConsentDialog> {
           onPressed: () {
             Navigator.of(context).pop(consentStatus);
           },
-          child: const Text('Close'),
+          child: Text(l10n.aiWarningCTA),
         ),
       ],
     );

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:men_you/allergens/domain/allergen.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 
 extension AllergenNameX on String {
   Allergen toAllergen() {
@@ -78,6 +80,29 @@ extension AllergenNameX on String {
           description:
               'This is used as a preservative in dried fruit, meat products, soft drinks and vegetables as well as in wine and beer.',
         ),
+      _ => throw Exception('Unknown allergen name: $this'),
+    };
+  }
+}
+
+extension LocalizedAllergenX on Allergen {
+  Allergen toLocale(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return switch (name.toLowerCase()) {
+      'celery' => copyWith(name: l10n.celery, description: l10n.celeryDescription),
+      'gluten' => copyWith(name: l10n.gluten, description: l10n.glutenDescription),
+      'crustacean' => copyWith(name: l10n.crustacean, description: l10n.crustaceanDescription),
+      'egg' => copyWith(name: l10n.egg, description: l10n.eggDescription),
+      'fish' => copyWith(name: l10n.fish, description: l10n.fishDescription),
+      'lupin' => copyWith(name: l10n.lupin, description: l10n.lupinDescription),
+      'milk' => copyWith(name: l10n.milk, description: l10n.milkDescription),
+      'molluscs' => copyWith(name: l10n.mollusc, description: l10n.molluscDescription),
+      'mustard' => copyWith(name: l10n.mustard, description: l10n.mustardDescription),
+      'nuts' => copyWith(name: l10n.nuts, description: l10n.nutsDescription),
+      'peanuts' => copyWith(name: l10n.peanuts, description: l10n.peanutsDescription),
+      'sesame' => copyWith(name: l10n.sesame, description: l10n.sesameDescription),
+      'soya' => copyWith(name: l10n.soya, description: l10n.soyaDescription),
+      'sulphur dioxide' => copyWith(name: l10n.sulphurDioxide, description: l10n.sulphurDioxideDescription),
       _ => throw Exception('Unknown allergen name: $this'),
     };
   }

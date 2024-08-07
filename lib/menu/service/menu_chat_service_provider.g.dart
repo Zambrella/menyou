@@ -6,7 +6,7 @@ part of 'menu_chat_service_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$menuChatServiceHash() => r'd0d3be03a463d0203a8d8655ab04c53f55b58395';
+String _$menuChatServiceHash() => r'cde02c5b94b0941e88ca007ee54db4fb6a868d2c';
 
 /// See also [menuChatService].
 @ProviderFor(menuChatService)

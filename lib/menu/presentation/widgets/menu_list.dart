@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_processing_controller.dart';
 import 'package:men_you/menu/presentation/controllers/menu_items_provider.dart';
@@ -169,6 +170,8 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
       }
     });
 
+    final l10n = AppLocalizations.of(context);
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -196,7 +199,7 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
                   BlendMode.srcIn,
                 ),
               ),
-              label: const Text('Take Photo'),
+              label: Text(l10n.takePhoto),
             ),
           ),
           Padding(
@@ -216,7 +219,7 @@ class _MenuListState extends ConsumerState<MenuList> with TickerProviderStateMix
                   BlendMode.srcIn,
                 ),
               ),
-              label: const Text('Select Photo'),
+              label: Text(l10n.selectPhoto),
             ),
           ),
           SizedBox(height: MediaQuery.of(context).padding.bottom),

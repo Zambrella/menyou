@@ -5,6 +5,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/pages/menu_item_details_page.dart';
 import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';
@@ -174,6 +175,7 @@ class MenuItemClosedCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     return AnimatedSize(
       duration: animatedSizeDuration,
       child: Padding(
@@ -211,7 +213,7 @@ class MenuItemClosedCard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      semanticsLabel: 'Vegetarian icon',
+                      semanticsLabel: '${l10n.vegetarian} icon',
                       'assets/icons/vegetarian.svg',
                       height: 24 *
                           MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
@@ -219,7 +221,7 @@ class MenuItemClosedCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      (menuItem as ProcessedMenuItem).isVegetarian ? 'Vegetarian' : 'Vegan',
+                      (menuItem as ProcessedMenuItem).isVegetarian ? l10n.vegetarian : l10n.vegan,
                       style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
                     ),
                   ],
@@ -227,14 +229,14 @@ class MenuItemClosedCard extends ConsumerWidget {
               SizedBox(height: context.theme.appSpacing.small),
               const Divider(),
               Text(
-                'Potential Allergens',
+                l10n.potentialAllergens,
                 style: TextStyle(fontWeight: FontWeight.bold, color: context.theme.colorScheme.onSurface),
                 textAlign: TextAlign.center,
               ),
               MenuItemAllergens(menuItem: menuItem as ProcessedMenuItem),
               TextButton(
                 onPressed: onOpen.call,
-                child: const Text('Learn more'),
+                child: Text(l10n.learnMore),
               ),
             ],
           ],

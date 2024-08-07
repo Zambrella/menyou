@@ -37,8 +37,9 @@ class MenuItemAllergens extends ConsumerWidget {
                           : isIntolerant
                               ? Colors.orange.harmonizeWith(context.theme.colorScheme.secondaryContainer)
                               : context.theme.colorScheme.secondaryContainer;
+                      final translatedAllergen = allergen.toLocale(context);
                       return Semantics(
-                        label: allergen.name +
+                        label: translatedAllergen.name +
                             (isAllergic
                                 ? ' (allergic)'
                                 : isIntolerant
@@ -50,14 +51,14 @@ class MenuItemAllergens extends ConsumerWidget {
                             color: HSLColor.fromColor(color).withLightness(0.3).toColor(),
                           ),
                           label: Text(
-                            allergen.name,
+                            translatedAllergen.name,
                             style: context.theme.textTheme.bodySmall?.copyWith(
                               fontWeight: isAllergic || isIntolerant ? FontWeight.bold : FontWeight.normal,
                               color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
                             ),
                           ),
                           avatar: SvgPicture.asset(
-                            semanticsLabel: 'Icon of ${allergen.name}',
+                            semanticsLabel: 'Icon of ${translatedAllergen.name}',
                             allergen.svgIcon,
                             height: 24 *
                                 MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /

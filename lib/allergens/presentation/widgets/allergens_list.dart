@@ -5,6 +5,7 @@ import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/domain/allergen_states.dart';
 import 'package:men_you/allergens/presentation/controllers/allergens_page_controller.dart';
 import 'package:men_you/allergens/utils/allergen_icon_extension.dart';
+import 'package:men_you/allergens/utils/allergen_name_extension.dart';
 import 'package:men_you/allergens/utils/allergen_states_extension.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
@@ -66,6 +67,7 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
       itemBuilder: (context, index) {
         final allergen = allergensAndStates[index].$1;
         final allergenState = allergensAndStates[index].$2;
+        final translatedAllergen = allergen.toLocale(context);
         return AnimatedBuilder(
           key: ValueKey(allergen.id),
           animation: _animations[index],
@@ -89,7 +91,7 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
-                                  semanticsLabel: allergen.name,
+                                  semanticsLabel: translatedAllergen.name,
                                   allergen.svgIcon,
                                   height: 24 *
                                       MediaQuery.textScalerOf(context).scale(context.theme.textTheme.headlineSmall!.fontSize!) /
@@ -97,14 +99,14 @@ class _AllergensListState extends ConsumerState<AllergensList> with SingleTicker
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  allergen.name,
+                                  translatedAllergen.name,
                                   style: context.theme.textTheme.headlineSmall?.copyWith(color: context.theme.colorScheme.onSurface),
                                 ),
                                 const SizedBox(width: 8 + 24),
                               ],
                             ),
                             Text(
-                              allergen.description,
+                              translatedAllergen.description,
                               style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
                             ),
                           ],

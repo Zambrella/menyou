@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:men_you/allergens/domain/allergen.dart';
 import 'package:men_you/allergens/repository/allergen_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

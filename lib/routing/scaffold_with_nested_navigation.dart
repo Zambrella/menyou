@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/theme/theme_extensions.dart';
 
 const kBottomNavBarHeight = 80;
@@ -112,6 +113,7 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return NotificationListener<ScrollNotification>(
       onNotification: _onScroll,
       child: Scaffold(
@@ -126,31 +128,31 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
                     offset: Offset(0, _animation.value),
                     child: NavigationBar(
                       selectedIndex: navigationShell.currentIndex,
-                      destinations: const [
+                      destinations: [
                         NavigationDestination(
-                          label: 'Allergens',
-                          icon: NavbarIcon.unselected(
+                          label: l10n.navigationAllergens,
+                          icon: const NavbarIcon.unselected(
                             iconPath: 'assets/icons/allergens.svg',
                           ),
-                          selectedIcon: NavbarIcon.selected(
+                          selectedIcon: const NavbarIcon.selected(
                             iconPath: 'assets/icons/allergens_selected.svg',
                           ),
                         ),
                         NavigationDestination(
-                          label: 'Menus',
-                          icon: NavbarIcon.unselected(
+                          label: l10n.navigationMenus,
+                          icon: const NavbarIcon.unselected(
                             iconPath: 'assets/icons/menu.svg',
                           ),
-                          selectedIcon: NavbarIcon.selected(
+                          selectedIcon: const NavbarIcon.selected(
                             iconPath: 'assets/icons/menu_selected.svg',
                           ),
                         ),
                         NavigationDestination(
-                          label: 'Settings',
-                          icon: NavbarIcon.unselected(
+                          label: l10n.navigationSettings,
+                          icon: const NavbarIcon.unselected(
                             iconPath: 'assets/icons/settings.svg',
                           ),
-                          selectedIcon: NavbarIcon.selected(
+                          selectedIcon: const NavbarIcon.selected(
                             iconPath: 'assets/icons/settings_selected.svg',
                           ),
                         ),

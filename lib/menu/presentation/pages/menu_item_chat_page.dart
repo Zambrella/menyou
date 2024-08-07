@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animated_list_plus/transitions.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/common/extensions/toastification_extensions.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/domain/menu_item_chat.dart';
 import 'package:men_you/menu/presentation/controllers/menu_item_chat_controller.dart';
@@ -71,6 +74,8 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
     // Initial value should be AsyncData with empty messages
     final messages = menuItemChatController.requireValue.messages;
 
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -99,7 +104,7 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Ask me something about ${widget.menuItem.title}',
+                              '${l10n.askMeSomething} ${widget.menuItem.title}',
                               style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
                               textAlign: TextAlign.center,
                             ),
@@ -147,7 +152,7 @@ class MenuItemChatPageState extends ConsumerState<MenuItemChatPage> {
                       ),
                   const SizedBox(width: 8),
                   Text(
-                    'Chef Bot is typing...',
+                    l10n.chefBotIsTyping,
                     style: context.theme.textTheme.bodyLarge?.copyWith(color: context.theme.colorScheme.onSurface),
                   ),
                 ],
@@ -238,6 +243,7 @@ class _AnimatedChatListState extends State<AnimatedChatList> {
   @override
   Widget build(BuildContext context) {
     final textDirection = Directionality.of(context);
+    final l10n = AppLocalizations.of(context);
     return AnimatedList(
       key: _listKey,
       controller: widget.scrollController,
@@ -278,7 +284,7 @@ class _AnimatedChatListState extends State<AnimatedChatList> {
                         ),
                       ),
                       Text(
-                        'You',
+                        l10n.you,
                         textAlign: TextAlign.end,
                         style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
                       ),
@@ -318,7 +324,7 @@ class _AnimatedChatListState extends State<AnimatedChatList> {
                         ),
                       ),
                       Text(
-                        'Chef Bot',
+                        l10n.chefBot,
                         textAlign: TextAlign.start,
                         style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
                       ),

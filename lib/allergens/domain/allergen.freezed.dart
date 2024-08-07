@@ -117,9 +117,10 @@ class __$$AllergenImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AllergenImpl implements _Allergen {
+class _$AllergenImpl extends _Allergen {
   const _$AllergenImpl(
-      {required this.id, required this.name, required this.description});
+      {required this.id, required this.name, required this.description})
+      : super._();
 
   factory _$AllergenImpl.fromJson(Map<String, dynamic> json) =>
       _$$AllergenImplFromJson(json);
@@ -130,26 +131,6 @@ class _$AllergenImpl implements _Allergen {
   final String name;
   @override
   final String description;
-
-  @override
-  String toString() {
-    return 'Allergen(id: $id, name: $name, description: $description)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AllergenImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.description, description) ||
-                other.description == description));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, name, description);
 
   @JsonKey(ignore: true)
   @override
@@ -165,11 +146,12 @@ class _$AllergenImpl implements _Allergen {
   }
 }
 
-abstract class _Allergen implements Allergen {
+abstract class _Allergen extends Allergen {
   const factory _Allergen(
       {required final String id,
       required final String name,
       required final String description}) = _$AllergenImpl;
+  const _Allergen._() : super._();
 
   factory _Allergen.fromJson(Map<String, dynamic> json) =
       _$AllergenImpl.fromJson;

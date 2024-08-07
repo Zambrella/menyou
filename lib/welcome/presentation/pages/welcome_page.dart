@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:men_you/authentication/presentation/controllers/register_controller.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/theme/common_theme.dart';
 import 'package:men_you/theme/dark_theme.dart';
 import 'package:men_you/theme/theme_extensions.dart';
@@ -57,6 +58,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
       ),
     );
 
+    final l10n = AppLocalizations.of(context);
     return Theme(
       data: darkTheme,
       child: Builder(
@@ -143,14 +145,14 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
                           alignment: WrapAlignment.center,
                           children: [
                             Text(
-                              'Eat out with ',
+                              l10n.welcomeHeaderPart1,
                               style: context.theme.textTheme.headlineLarge?.copyWith(
                                 color: context.theme.colorScheme.onSurface,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             Text(
-                              'confidence',
+                              l10n.welcomeHeaderPart2,
                               style: context.theme.textTheme.headlineLarge?.copyWith(
                                 color: primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -163,7 +165,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'Take a photo of a restaurant menu and get allergen information in seconds',
+                          l10n.welcomeSubheader,
                           style: context.theme.textTheme.titleLarge?.copyWith(
                             color: context.theme.colorScheme.onSurface,
                             fontWeight: FontWeight.w500,
@@ -189,7 +191,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
                               : () async {
                                   await submit();
                                 },
-                          child: const Text('Get Started'),
+                          child: Text(l10n.welcomeCTA),
                         ),
                       ).animate(delay: 2000.ms).fadeIn().moveY(begin: 50, end: 0, curve: Curves.easeIn),
                     ],

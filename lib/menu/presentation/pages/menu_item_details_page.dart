@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/menu_item.dart';
 import 'package:men_you/menu/presentation/pages/menu_item_chat_page.dart';
 import 'package:men_you/menu/presentation/widgets/menu_item_allergens.dart';
@@ -22,6 +23,7 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
   ProcessedMenuItem get menuItem => widget.menuItem as ProcessedMenuItem;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.theme.colorScheme.surfaceContainer,
       floatingActionButton: FloatingActionButton.extended(
@@ -30,7 +32,7 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
             builder: (context) => MenuItemChatPage(menuItem: menuItem),
           ),
         ),
-        label: const Text('Ask a question'),
+        label: Text(l10n.askAQuestion),
         icon: const Icon(Icons.question_answer),
       ),
       appBar: PreferredSize(
@@ -46,7 +48,7 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
             color: Colors.black.withOpacity(0.3),
           ),
           leading: IconButton(
-            tooltip: 'Close',
+            tooltip: l10n.close,
             icon: const Icon(
               Icons.close,
               color: Colors.white,
@@ -103,17 +105,6 @@ class _MenuItemDetailsPageState extends ConsumerState<MenuItemDetailsPage> {
               const SizedBox(height: 4),
             ],
             const SizedBox(height: 6),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8),
-            //   child: Text(
-            //     '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut ex et tellus varius pellentesque. Vivamus lacinia justo nec mi posuere, ut consequat nulla hendrerit. Suspendisse pretium faucibus urna non scelerisque. Nullam in maximus lectus. Ut vitae vulputate velit. In sollicitudin libero turpis, sit amet ornare risus interdum eu. Duis sodales in sem at sollicitudin. Curabitur scelerisque, massa in hendrerit aliquam, ligula leo molestie lorem, blandit luctus tellus nunc et tortor. Integer vel maximus nunc. Suspendisse potenti. Duis vel lacus leo. Curabitur sit amet enim pharetra, elementum neque et, sollicitudin dolor.
-
-            // Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut pharetra dignissim accumsan. Etiam sit amet ipsum non ex condimentum convallis. Etiam commodo sed enim quis tempus. Nulla congue sapien arcu, at accumsan lorem egestas et. Maecenas tincidunt scelerisque auctor. Quisque varius placerat sem dapibus dapibus. Vestibulum in egestas quam.
-
-            // Sed congue mattis dictum. Suspendisse iaculis accumsan enim eget vestibulum. Phasellus iaculis iaculis sapien a luctus. Quisque vitae odio iaculis, sollicitudin nibh eu, rhoncus massa. Quisque porta ullamcorper risus a viverra. Etiam non interdum massa. Integer vel libero leo. Praesent ut mauris accumsan, mattis neque et, ultrices ante. Donec id imperdiet tortor. Vivamus elementum, mi vehicula consequat vulputate, elit mauris aliquet diam, ac lobortis nisl lorem eget risus. Mauris venenatis auctor nulla, tempus consectetur ex. Vestibulum in quam placerat, sodales sem vel, blandit metus. Maecenas pulvinar tortor ac luctus commodo. Phasellus nisi enim, porttitor eget mi et, vestibulum suscipit dolor.''',
-            //     style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
-            //   ),
-            // ),
             SizedBox(height: MediaQuery.of(context).padding.bottom + 16 + 64),
           ],
         ),

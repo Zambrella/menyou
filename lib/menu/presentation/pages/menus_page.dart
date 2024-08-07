@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:men_you/account/providers/account_repository_provider.dart';
+import 'package:men_you/l10n/gen_l10n/app_localizations.dart';
 import 'package:men_you/menu/domain/restaurant_menu.dart';
 import 'package:men_you/menu/presentation/controllers/menus_page_controller.dart';
 import 'package:men_you/menu/presentation/widgets/consent_dialog.dart';
@@ -47,12 +48,13 @@ class _MenusPageState extends ConsumerState<MenusPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menus'),
+        title: Text(l10n.navigationMenus),
         actions: [
           IconButton(
-            tooltip: 'Add a new menu',
+            tooltip: l10n.addMenuTooltip,
             icon: Icon(
               Icons.add_circle,
               color: context.theme.colorScheme.primary,
@@ -78,12 +80,12 @@ class _MenusPageState extends ConsumerState<MenusPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'No menus found',
+                      l10n.emptyMenus,
                       style: context.theme.textTheme.headlineMedium?.copyWith(color: context.theme.colorScheme.onSurface),
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'Add a menu by tapping the + button',
+                      l10n.emptyMenusCTA,
                       style: context.theme.textTheme.bodyMedium?.copyWith(color: context.theme.colorScheme.onSurface),
                       textAlign: TextAlign.center,
                     ),
