@@ -37,7 +37,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> with SingleTickerProv
 
   Future<void> submit() async {
     unawaited(_controller.repeat());
-    await ref.read(registerControllerProvider.notifier).register();
+    unawaited(ref.read(registerControllerProvider.notifier).register());
   }
 
   @override
